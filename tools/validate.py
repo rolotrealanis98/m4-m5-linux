@@ -201,6 +201,12 @@ def validate(root=common.ROOT, today=None, rep=None):
             if isinstance(art, dict) and art.get("sha256") is None and not art.get("notes"):
                 rep.err(where, f"output {name}: sha256 is null; say why in notes (prefix only, per unit, ...)")
 
+    # ---- internal links in Markdown (topics, results, top-level docs)
+    md_files = sorted(set((root / "topics").glob("**/*.md")) | set((root / "machines").glob("*/results/*.md")) |
+                      {p for p in (root / "README.md", root / "CONTRIBUTING.md") if p.exists()})
+    for md in md_files:
+        check_links(root, rep, md)
+
     # ---- PR index vs boards, status.json vs index
     for pr in prs_doc.get("prs", []) or []:
         for mb in pr.get("machines", []) or []:
@@ -287,6 +293,32 @@ def check_cell(root, rep, cw, machine_dir, board, c, setups, draft, feature_ids,
     elif state == "not-realistic":
         if not c.get("note"):
             rep.err(cw, "not-realistic needs one sentence of reason in note")
+
+
+LINK_RX = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
+
+
+def check_links(root, rep, md):
+    """Relative links in a Markdown file must point at existing files (and existing headings for .md targets)."""
+    where = _rel(root, md)
+    in_fence = False
+    for n, line in enumerate(md.read_text(encoding="utf-8").splitlines(), 1):
+        if line.lstrip().startswith(("```", "~~~")):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        for m in LINK_RX.finditer(line):
+            target = m.group(1)
+            if re.match(r"^[a-z]+:", target):
+                continue
+            path, _, anchor = target.partition("#")
+            dest = md if not path else (md.parent / path)
+            if not dest.exists():
+                rep.err(f"{where}:{n}", f"link {target}: {path} does not exist")
+                continue
+            if anchor and dest.suffix == ".md" and anchor not in common.anchors(dest.read_text(encoding="utf-8")):
+                rep.err(f"{where}:{n}", f"link {target}: anchor #{anchor} not found")
 
 
 def write_stale_report(rep, out_dir, today):
