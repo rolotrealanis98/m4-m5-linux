@@ -71,14 +71,14 @@ class Data:
         return s
 
 
-def cell_summary(cells, ref_date=None):
+def cell_summary(cells, ref_date=None, owners=None):
     """-> (state, flags) for the matrix: best state across setups, 'R' when reproduced, '*' when stale."""
     if not cells:
         return "untested", ""
     best = common.newest_cell(cells)
     state = best.get("state", "untested")
     flags = ""
-    if common.reproduced(cells):
+    if common.reproduced(cells, owners):
         flags += "R"
     if ref_date is not None and any(common.is_stale(c, ref_date) for c in cells if c.get("state") == state):
         flags += "*"
@@ -101,7 +101,7 @@ def readme_matrix(d, ref_date):
             row = [f"{title} (`{fid}`)"]
             for m in ms:
                 cells = (m.get("features") or {}).get(fid) or []
-                state, flags = cell_summary(cells, ref_date)
+                state, flags = cell_summary(cells, ref_date, common.setup_owners(m))
                 row.append(STATE_LABEL[state] + (f" {flags}" if flags else ""))
             out.append("| " + " | ".join(row) + " |")
         out.append("")
@@ -396,7 +396,7 @@ class Site:
                 body.append(f'<tr><td>{html.escape(f["title"])}<br><code>{fid}</code></td>')
                 for m in ms:
                     cells = (m.get("features") or {}).get(fid) or []
-                    state, flags = cell_summary(cells, d.ref_date)
+                    state, flags = cell_summary(cells, d.ref_date, common.setup_owners(m))
                     tip = html.escape(" / ".join(c.get("note", "") or c.get("claim", "") for c in cells)[:300])
                     body.append(f'<td title="{tip}"><a href="machines/{m["_slug"]}.html#{_fid(fid)}">'
                                 f"{st_badge(state, flags)}</a></td>")

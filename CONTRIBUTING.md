@@ -31,7 +31,7 @@ comes from. Do not copy text or files from repositories that have no licence: li
 ---
 date: 2026-11-07T23:16Z          # UTC, start of the run
 board: J716s
-setup: rolo-aurora73             # a setup id from machine.yaml
+setup: j716s-aurora73             # a setup id from machine.yaml
 kind: native                     # native results only; claims go in machine.yaml as kind: reported
 build: builds/j716s/daily-n1k.yaml
 kernel: 7.3.0-g36845aa5f650      # uname -r

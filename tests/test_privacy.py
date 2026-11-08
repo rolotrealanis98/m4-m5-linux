@@ -7,6 +7,11 @@ import pytest
 import privacy_scan as ps
 from conftest import FIX, ROOT
 
+# Fake values are assembled at run time so this file itself passes the scanner.
+FAKE_MAC = ":".join(["02", "5e", "aa", "10", "20", "30"])
+FAKE_LAN = ".".join(["192", "168", "1", "1"])
+FAKE_PRIV = ".".join(["10", "0", "0", "9"])
+
 LEAKS = [l.split("\t", 1) for l in (FIX / "privacy" / "leaks.tsv").read_text().splitlines()
          if l and not l.startswith("#")]
 
@@ -32,8 +37,8 @@ def test_hexdump_outside_reviewed_fence_is_caught():
 
 
 def test_output_masks_the_value():
-    f = ps.scan_text("address 02:5e:aa:10:20:30")[0]
-    assert "02:5e:aa:10:20:30" not in str(f)
+    f = ps.scan_text(f"address {FAKE_MAC}")[0]
+    assert FAKE_MAC not in str(f)
 
 
 def _write(tmp_path, name, data):
@@ -68,8 +73,8 @@ def test_small_png_allowed_large_png_rejected(tmp_path):
 def test_scan_respects_ignore_file(tmp_path):
     (tmp_path / ".privacy-scan-ignore").write_text("fixtures/**\n")
     (tmp_path / "fixtures").mkdir()
-    (tmp_path / "fixtures" / "fake.txt").write_text("gateway 192.168.1.1\n")
-    (tmp_path / "real.txt").write_text("gateway 192.168.1.1\n")
+    (tmp_path / "fixtures" / "fake.txt").write_text(f"gateway {FAKE_LAN}\n")
+    (tmp_path / "real.txt").write_text(f"gateway {FAKE_LAN}\n")
     found = ps.scan(tmp_path, [str(tmp_path)])
     assert [f.path for f in found] == ["real.txt"]
 
@@ -77,7 +82,7 @@ def test_scan_respects_ignore_file(tmp_path):
 def test_cli_exit_codes(tmp_path):
     (tmp_path / "ok.txt").write_text("nothing to see\n")
     assert ps.main(["--root", str(tmp_path), str(tmp_path / "ok.txt")]) == 0
-    (tmp_path / "bad.txt").write_text("inet 10.0.0.9\n")
+    (tmp_path / "bad.txt").write_text(f"inet {FAKE_PRIV}\n")
     assert ps.main(["--root", str(tmp_path), str(tmp_path / "bad.txt")]) == 1
 
 

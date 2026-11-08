@@ -15,7 +15,7 @@ body:
     validations: {required: true}
   - type: input
     id: setup
-    attributes: {label: Setup id (from machine.yaml), placeholder: rolo-aurora73}
+    attributes: {label: Setup id (from machine.yaml), placeholder: j716s-aurora73}
   - type: input
     id: date
     attributes: {label: Date and time of the run (UTC), placeholder: "2026-11-07T23:16Z"}

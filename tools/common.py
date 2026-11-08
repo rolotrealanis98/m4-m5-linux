@@ -240,10 +240,17 @@ def newest_cell(cells):
     return sorted(cells, key=lambda c: order.get(c.get("state"), 99))[0]
 
 
-def reproduced(cells):
-    """True when two setups have native evidence for a works-* state (computed, never written)."""
+def reproduced(cells, owners=None):
+    """True when two independent setups have native evidence for a works-* state (computed, never written).
+    owners maps setup id -> owner; two setups of the same person count once."""
     setups = {c.get("setup") for c in cells if c.get("kind") == "native" and c.get("state") in WORKS}
+    if owners:
+        return len({owners.get(s, s) for s in setups}) >= 2
     return len(setups) >= 2
+
+
+def setup_owners(machine):
+    return {s.get("id"): s.get("owner") for s in machine.get("setups", []) or []}
 
 
 def is_stale(cell, on=None, days=STALE_DAYS):
