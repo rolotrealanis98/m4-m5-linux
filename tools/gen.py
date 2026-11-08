@@ -155,6 +155,11 @@ def render_readme(d, ref_date):
 
 # ---------------------------------------------------------------- Markdown -> HTML (small subset)
 
+def _emph(s):
+    s = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", s)
+    return re.sub(r"(?<![\w*])\*([^*\s][^*]*)\*(?![\w*])", r"<em>\1</em>", s)
+
+
 def _inline(s, link):
     codes = []
 
@@ -167,15 +172,13 @@ def _inline(s, link):
 
     def keep_link(m):
         text, target = m.group(1), m.group(2)
-        links.append((_inline(text, link), link(target)))
+        links.append((_emph(html.escape(text, quote=False)), link(target)))
         return f"\x01{len(links) - 1}\x01"
 
     s = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", keep_link, s)
-    s = re.sub(r"<(https://[^>\s]+)>", lambda m: (links.append((html.escape(m.group(1)), m.group(1))) or
+    s = re.sub(r"<(https://[^>\s]+)>", lambda m: (links.append((html.escape(m.group(1), quote=False), m.group(1))) or
                                                    f"\x01{len(links) - 1}\x01"), s)
-    s = html.escape(s, quote=False)
-    s = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", s)
-    s = re.sub(r"(?<![\w*])\*([^*\s][^*]*)\*(?![\w*])", r"<em>\1</em>", s)
+    s = _emph(html.escape(s, quote=False))
     s = re.sub(r"\x01(\d+)\x01", lambda m: f'<a href="{html.escape(links[int(m.group(1))][1])}">'
                                            f'{links[int(m.group(1))][0]}</a>', s)
     s = re.sub(r"\x00(\d+)\x00", lambda m: f"<code>{codes[int(m.group(1))]}</code>", s)
@@ -398,7 +401,8 @@ class Site:
                     cells = (m.get("features") or {}).get(fid) or []
                     state, flags = cell_summary(cells, d.ref_date, common.setup_owners(m))
                     tip = html.escape(" / ".join(c.get("note", "") or c.get("claim", "") for c in cells)[:300])
-                    body.append(f'<td title="{tip}"><a href="machines/{m["_slug"]}.html#{_fid(fid)}">'
+                    frag = f"#{_fid(fid)}" if cells else ""
+                    body.append(f'<td title="{tip}"><a href="machines/{m["_slug"]}.html{frag}">'
                                 f"{st_badge(state, flags)}</a></td>")
                 body.append("</tr>")
             body.append("</tbody></table></div>")
