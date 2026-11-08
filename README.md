@@ -56,7 +56,7 @@ and `R` a cell reproduced on two setups. Draft machines (entries written from th
 | Desktop session (`desktop.session`) | reported | reported | works (daily) |
 | Internal panel through the DCP (`display.dcp`) | reported | reported | works (test) |
 | High refresh rate and VRR (`display.refresh`) | untested | untested | works (test) |
-| Panel brightness (`display.brightness`) | reported | reported | attended |
+| Panel brightness (`display.brightness`) | reported | reported | blocked |
 | External displays (`display.external`) | untested | untested | prepared |
 | NVRAM read (`nvram.read`) | untested | untested | works (daily) |
 | NVRAM write (`nvram.write`) | untested | untested | untested |

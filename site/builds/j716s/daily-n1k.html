@@ -88,17 +88,28 @@ chosen: [&quot;chosen.asahi,show-notch=1&quot;, &quot;chosen.m5pro,gpu=1&quot;]
 outputs:
   payload:
     name: daily-n1k-20261107-512a1c00.bin
-    sha256: null
-    sha256_prefix: 512a1c00
-    recorded_in: &quot;m5pro-linux STATE.md and RESULTS.md (prefix only)&quot;
-    notes: &quot;Layout: m1n1 (0x400000 bytes) | chosen lines | Image.gz | DTB | initramfs. The source notes record only the 8-digit prefix; the full hash is on the build host and goes here when copied. The payload contains per-unit firmware (initramfs) and is never published.&quot;
+    sha256: 512a1c0024cb5c8a05cfc72ada48634a594df1150d6869ee082fd92fe1c0490e
+    recorded_in: &quot;the build host&#x27;s payload recipe (daily-n1k-20261107-512a1c00.bin.recipe.txt)&quot;
+    notes: &quot;Layout: m1n1 (0x400000 bytes) | chosen lines | Image.gz | DTB | initramfs. The payload contains per-unit firmware (initramfs) and is never published.&quot;
 rollback:
   name: daily-n1k-test-20261107-5c74c66c.bin
-  sha256: null
-  sha256_prefix: 5c74c66c
-  recorded_in: &quot;m5pro-linux STATE.md (prefix only)&quot;
+  sha256: 5c74c66c6d8394c22a3c10333d400ac5cf6612a6dda77c8716c37f53978a3108
+  recorded_in: &quot;the build host&#x27;s payload recipe&quot;
   notes: &quot;The test twin (same ingredients with the self-test), on the previous slot.&quot;
 ingredients:
+  - name: &quot;m1n1-plain-n1-dt-gpu.bin (stage-2 loader as embedded, 0x400000 bytes)&quot;
+    sha256: 1d05a5060e218b0802ba5f6ac2dbc5aa7b25d834f8e341995b675c5c1a7e246b
+    recorded_in: &quot;the build host&#x27;s payload recipe&quot;
+  - name: &quot;Image.gz, 7.3.0-g36845aa5f650&quot;
+    sha256: 27b8b30a0b051a00e2f9176d11cb500e5805b4919b9dff0c6de774031f3df3f3
+    recorded_in: &quot;the build host&#x27;s payload recipe&quot;
+  - name: &quot;t6050-j716s-daily-n1k.dtb&quot;
+    sha256: 2612e67c9a19b266217d753d04ad719ec7fa425094d4d26f67a319c0ff90692b
+    recorded_in: &quot;the build host&#x27;s payload recipe&quot;
+    notes: &quot;Built from the series&#x27; t6050-j716s.dts; no per-unit values.&quot;
+  - name: &quot;initramfs (self-test and firmware loader)&quot;
+    sha256: null
+    notes: &quot;Carries the unit&#x27;s personalised N1 firmware; not hashed here on purpose.&quot;
   - name: &quot;lineage: m1n1 pipepark-atc stage 2 (R3-SERIES loader; n1-dt-gpu adds the N1 and GPU hand-offs on top)&quot;
     sha256: 28b26ebcf91e11e512ef100aae0b3e66d174ebf8a380c243dea4763ae2459a33
     recorded_in: &quot;STATE.md, R3-V table&quot;

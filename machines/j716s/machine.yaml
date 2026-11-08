@@ -271,7 +271,7 @@ features:
       note: "120 Hz mode set; VRR (opt-in) changes the measured flip interval. Constant swap timestamps fixed the first-swap stall."
   display.brightness:
     - setup: j716s-aurora73
-      state: attended
+      state: blocked
       kind: native
       evidence: [results/2026-11-08-dcp-120-vrr.md#results]
       note: "Writes are accepted but actual_brightness stays 300; the firmware-27 brightness path needs work, then a check by eye."
