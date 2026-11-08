@@ -1,0 +1,21 @@
+# Lines privacy_scan.py must accept (false-positive guards).
+Documentation addresses 192.0.2.10, 198.51.100.7 and 203.0.113.250, and 2001:db8::42.
+Loopback 127.0.0.1 and ::1, unspecified 0.0.0.0.
+Documentation MAC 00:00:5e:00:53:01.
+firmware-version mBoot-20457.60.65.0.1 and kernel 7.3.0-g36845aa5f650, m1n1 v1.6.1-424-gaee8488.
+sha256 28b26ebcf91e11e512ef100aae0b3e66d174ebf8a380c243dea4763ae2459a33
+MMIO 1cb0000000.pcie, 2300000000.gpu, 382280000.usb.
+Timestamps 10:26-11:42 UTC, 16:55:01, 23:16Z.
+C++ std::vector and Rust u8::MAX.
+ssh root@<linux-ip> and ssh <user>@<host>
+/home/<user>/linux and ~/.local/bin and /usr/local/bin
+serial-number = <removed>
+ECID: <removed>
+psk=<passphrase>
+UUID=<uuid>
+The ECID, the serial numbers and the nonces are removed.
+Contact user@example.com for details.
+Serial port ttyS0 at MMIO.
+```hexdump-reviewed
+00000000: 7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00  .ELF............
+```

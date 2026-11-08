@@ -1,0 +1,37 @@
+# rule<TAB>line: every line must be caught by privacy_scan.py with that rule. All values are fake.
+mac	wlan0: link up, address 02:5e:aa:10:20:30
+mac	hci0 BD address 4C-11-22-33-44-55 registered
+ipv4	inet 10.20.30.40/24 brd 10.20.30.255 scope global enu1u2
+ipv4	default via 192.168.1.1 dev wlan0
+ipv4	Tailscale node at 100.101.102.103
+ipv4	ping -I wlan0 8.8.8.8
+ipv6	inet6 fe80::5e:aaff:fe10:2030/64 scope link
+ipv6	resolved to 2a00:1450:4001:82a::200e
+ipv6	ULA fd12:3456:789a::1 assigned
+identifier-property	serial-number: FAKE1234XYZ
+identifier-property	mlb-serial-number = C0FAKE00ABCDEF
+identifier-property	ECID: 0x0011223344556677
+identifier-property	apnonce=deadbeefcafebabe0011
+identifier-property	local-mac-address = <0x02 0x11 0x22 0x33 0x44 0x55>
+ecid	chip ECID 001A2B3C4D5E6F70 read from the ADT
+apple-serial	Serial Number: C02FAKE1MD6T
+apple-serial	serial FVFZ12AB34CD on the label
+home-path	logs in /Users/janedoe/Work/agents/run.log
+home-path	built in /home/builder/linux
+home-path	copied to ~janedoe/.config/hypr
+prompt	janedoe@buildbox:~$ uname -r
+prompt	[root@alarm ~]# dmesg | tail
+ssh-target	ssh root@mbp16 'journalctl -b'
+lan-host	the Studio answers as studio.local
+lan-host	node mbp.tail1234.ts.net went offline
+lan-host	gateway router.lan
+wifi-secret	psk=correcthorsebattery
+wifi-secret	wpa_passphrase MyHomeWifi s3cretpass > /etc/wpa.conf
+wifi-secret	network={ ssid="MyHomeWifi" }
+uuid	root=PARTUUID=0f1e2d3c-4b5a-6978-8796-a5b4c3d2e1f0 rw
+uuid	UUID=1234-ABCD /boot vfat
+token	export GH_TOKEN=ghp_abcdefghijklmnopqrstuvwxyzABCDEFGHIJ
+token	-----BEGIN OPENSSH PRIVATE KEY-----
+adt-dump	    AAPL,phandle = <0x2a>
+hex-run	blob a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5
+hexdump	00000000: 7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00  .ELF............

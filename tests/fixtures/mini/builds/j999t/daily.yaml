@@ -1,0 +1,14 @@
+name: daily
+board: J999t
+setup: test-setup
+status: daily
+date: "2026-11-01"
+kernel:
+  repo: https://github.com/example/linux
+  base: 0123456789ab
+  release: 7.3.0-gexample
+  patches:
+    - {pr: "example/linux#1"}
+outputs:
+  payload: {name: example.bin, sha256: null, sha256_prefix: 0123abcd, notes: "prefix only in the source notes"}
+results: [machines/j999t/results/2026-11-01-boot.md]

@@ -1,0 +1,7 @@
+prs:
+  - repo: example/linux
+    number: 1
+    title: "Example change"
+    area: kernel
+    machines: [J999t]
+    features: [cpu.smp]

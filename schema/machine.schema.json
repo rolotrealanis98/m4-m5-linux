@@ -59,7 +59,7 @@
     "features": {
       "type": "object",
       "patternProperties": {
-        "^[a-z0-9]+(\\.[a-z0-9-]+)?$": {
+        "^[a-z0-9-]+(\\.[a-z0-9-]+)?$": {
           "type": "array",
           "minItems": 1,
           "items": {"$ref": "#/$defs/cell"}

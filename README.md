@@ -15,8 +15,8 @@ notes. **It holds no code and no binaries.**
 ## Status
 
 The matrix is generated from `machines/<board>/machine.yaml` by `tools/gen.py`. Each cell is the state of the newest
-entry for that feature; `*` marks a stale cell (no supporting result in 30 days) and `R` a cell reproduced on two
-setups. Draft machines (entries written from their owners' public posts and not yet confirmed by them) show
+entry for that feature; `*` marks a stale cell (no supporting result in the 30 days before the last upstream refresh)
+and `R` a cell reproduced on two setups. Draft machines (entries written from their owners' public posts and not yet confirmed by them) show
 `reported` cells. The [site](site/index.html) has the same data with evidence links on every cell.
 
 <!-- BEGIN GENERATED: matrix -->

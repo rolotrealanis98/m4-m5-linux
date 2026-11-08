@@ -1,0 +1,63 @@
+# A valid machine file for the validator tests (fictional board J999t).
+board: J999t
+model: "Test Mac (fictional)"
+identifier: Mac99,1
+soc: T9999
+family: M5
+owner: example-owner
+status_repos: [https://github.com/example-owner/status]
+setups:
+  - id: test-setup
+    owner: example-owner
+    firmware: {os: "27.3 beta 1 (26C5035r)", system: "27.3 beta 1 (26C5035r)"}
+    stack: {kernel: "example kernel", loader: "example loader", userspace: "example userspace"}
+    current_build: builds/j999t/daily.yaml
+  - id: second-setup
+    owner: other-owner
+features:
+  cpu.smp:
+    - setup: test-setup
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-01-boot.md#cpu]
+      upstream: ["example/linux#1"]
+      verified: "2026-11-01"
+      note: all cores
+    - setup: second-setup
+      state: works-test
+      kind: native
+      evidence: [results/2026-11-02-second.md]
+      verified: "2026-11-02"
+  storage.nvme:
+    - setup: test-setup
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-01-boot.md#storage]
+      verified: "2026-11-01"
+  audio.jack:
+    - setup: test-setup
+      state: attended
+      kind: native
+      evidence: [results/2026-11-01-boot.md]
+      note: needs headphones plugged in by a person
+  thunderbolt:
+    - setup: test-setup
+      state: blocked
+      kind: native
+      evidence: [results/2026-11-01-boot.md#not-tested]
+  video.decode:
+    - setup: test-setup
+      state: prepared
+      kind: offline
+      upstream: ["example/linux#1"]
+  touchid:
+    - setup: test-setup
+      state: not-realistic
+      kind: native
+      note: behind the Secure Enclave
+  wifi-bt.wifi:
+    - setup: second-setup
+      state: reported
+      kind: reported
+      evidence: ["https://github.com/example/linux/issues/1#issuecomment-1"]
+      claim: works

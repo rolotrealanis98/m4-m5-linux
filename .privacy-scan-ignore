@@ -1,0 +1,3 @@
+# Paths privacy_scan.py skips when it scans the repository. Keep this list short: reviewers check every entry.
+# Fake serials, MAC and IP addresses that the scanner's own tests must catch:
+tests/fixtures/privacy/**

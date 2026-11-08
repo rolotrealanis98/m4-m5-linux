@@ -1,0 +1,53 @@
+# An invalid machine file: every cell breaks a different rule (see tests/test_validate.py).
+board: J999t
+model: "Test Mac (fictional)"
+identifier: Mac99,1
+soc: T9999
+family: M5
+owner: example-owner
+color: blue                         # unknown key
+setups:
+  - id: test-setup
+    owner: example-owner
+    current_build: null
+features:
+  cpu.smp:
+    - setup: test-setup
+      state: works-daily            # works-daily without a current_build, and kind reported
+      kind: reported
+      evidence: [results/2026-11-01-boot.md#cpu]
+      verified: "2026-11-01"
+  storage.nvme:
+    - setup: test-setup
+      state: works-test             # result file does not exist
+      kind: native
+      evidence: [results/2026-11-09-missing.md]
+      verified: "2026-11-09"
+  input.keyboard:
+    - setup: test-setup
+      state: works-test             # anchor does not exist, verified does not match the result date
+      kind: native
+      evidence: [results/2026-11-01-boot.md#no-such-heading]
+      verified: "2026-10-01"
+  gpu.warp-drive:                   # unknown feature id
+    - setup: test-setup
+      state: untested
+      kind: native
+  audio.jack:
+    - setup: test-setup
+      state: attended               # no note
+      kind: native
+      evidence: [results/2026-11-01-boot.md]
+  touchid:
+    - setup: nobody                 # unknown setup, no reason
+      state: not-realistic
+      kind: native
+  video.decode:
+    - setup: test-setup
+      state: prepared
+      kind: offline
+      upstream: ["example/linux#999"]   # not in prs.yaml
+  ane:
+    - setup: test-setup
+      state: shiny                  # not a state
+      kind: native

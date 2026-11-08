@@ -1,0 +1,8 @@
+{
+  "generated_by": "tools/pr_status.py",
+  "source": "upstream/prs.yaml",
+  "fetched_at": "2026-11-05T00:00:00Z",
+  "prs": {
+    "example/linux#1": {"state": "open", "draft": false, "title": "Example change", "url": "https://github.com/example/linux/pull/1", "updated_at": "2026-11-04T00:00:00Z", "merged_at": null, "merge_commit_sha": null, "head_sha": null, "review": "none"}
+  }
+}
