@@ -1,0 +1,50 @@
+# SPDX-License-Identifier: MIT
+# Weekly: open or update one "Stale cells: <board>" issue per board whose works-* cells have no result in 30 days,
+# and close the issue of a board that has none left.
+name: stale
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --disable-pip-version-check pyyaml
+      - name: Find stale cells
+        run: python tools/validate.py --quiet --stale-report stale-report
+      - name: Open, update or close the per-board issues
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          gh label create stale --color cccccc --description "Cells with no recent result" --force >/dev/null
+          boards=$(python - <<'PY'
+          import sys; sys.path.insert(0, "tools"); import common
+          print(" ".join(m["board"] for _, m in common.load_machines()))
+          PY
+          )
+          for board in $boards; do
+            title="Stale cells: $board"
+            num=$(gh issue list --state open --label stale --search "in:title \"$title\"" --json number,title \
+                  --jq ".[] | select(.title == \"$title\") | .number" | head -n1)
+            if [ -f "stale-report/$board.md" ]; then
+              if [ -n "$num" ]; then
+                gh issue edit "$num" --body-file "stale-report/$board.md"
+              else
+                gh issue create --title "$title" --label stale --body-file "stale-report/$board.md"
+              fi
+            elif [ -n "$num" ]; then
+              gh issue close "$num" --comment "No stale cells left on $board."
+            fi
+          done

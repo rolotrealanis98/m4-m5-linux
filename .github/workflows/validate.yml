@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: MIT
+# Schema and evidence rules, privacy scan, generated-file check and tests on every pull request and push.
+name: validate
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Install PyYAML and pytest
+        run: python -m pip install --disable-pip-version-check pyyaml pytest
+      - name: Privacy scan (whole tree)
+        run: python tools/privacy_scan.py
+      - name: Validate data and evidence
+        run: python tools/validate.py
+      - name: Generated README tables and site are current
+        run: python tools/gen.py --check
+      - name: status.json lists exactly the PRs in prs.yaml
+        run: python tools/pr_status.py --check
+      - name: Tests
+        run: python -m pytest -q tests

@@ -1,0 +1,38 @@
+# SPDX-License-Identifier: MIT
+# Daily: refresh upstream/status.json from upstream/prs.yaml (public read-only API calls), regenerate the README
+# tables and the site, and propose the change as a pull request that a maintainer merges. The bot never pushes to main.
+# Note: a pull request opened with the default token does not start other workflows; a maintainer can close and
+# reopen it (or push to it) to run validate.yml.
+name: pr-status
+on:
+  schedule:
+    - cron: "41 4 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --disable-pip-version-check pyyaml
+      - name: Fetch PR states
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/pr_status.py
+      - name: Regenerate README tables and site
+        run: python tools/gen.py
+      - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          branch: bot/pr-status
+          delete-branch: true
+          commit-message: "upstream: refresh status.json"
+          title: "upstream: refresh status.json"
+          body: "Daily refresh of `upstream/status.json` by `tools/pr_status.py`, with the regenerated README tables and site."
+          labels: type:status
