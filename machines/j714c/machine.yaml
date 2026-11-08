@@ -1,0 +1,75 @@
+# J714c: MacBook Pro (14-inch, M5 Max). DRAFT written from edimoldovan's public posts on omacom/linux-aurora #293.
+# Nothing here is a native result in this repository: every cell is a reported claim with a link to the post it comes
+# from, for edimoldovan to confirm, correct or replace with result files. Nothing is copied from edimoldovan's
+# repositories; they are linked. Licence of this file: CC-BY-SA-4.0.
+board: J714c
+model: "MacBook Pro (14-inch, M5 Max)"
+identifier: Mac17,7
+soc: T6050
+family: M5
+draft: true
+owner: edimoldovan
+status_repos:
+  - https://github.com/edimoldovan/linux-aurora/tree/t6050-j714c
+  - https://github.com/edimoldovan/kernel
+omacom_test_report: null
+notes: "Draft from the #293 posts of 2026-11-03 to 2026-11-07, newest first in each cell's evidence. Branches named there: kernel t6050-j714c, m1n1 j714c/m1n1, U-Boot j714c/t6050. Base PRs: omacom/linux-aurora #404 and omacom/m1n1 #30."
+setups:
+  - id: edimoldovan-omarchy
+    owner: edimoldovan
+    firmware: {os: "mBoot-20457.60.65.0.1 (macOS 27.3 beta 1 on the Omarchy volume)", system: "mBoot-20457.60.65.0.1"}
+    stack:
+      kernel: "linux-aurora 7.2.11.aurora14-107 (edimoldovan/linux-aurora t6050-j714c)"
+      loader: "m1n1 stage 1 + stage 2 on the ESP, U-Boot, Limine (Omarchy chain)"
+      userspace: "Omarchy (packages linux-aurora, m1n1-aurora, uboot-aurora, omarchy-mac)"
+    current_build: null
+    source: "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405"
+features:
+  boot.untethered:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "boots from disk with no cable", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405"], upstream: ["omacom/m1n1#30"]}
+  boot.omarchy-chain:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "stage 1 m1n1, ESP stage 2, U-Boot, Limine, EFI kernel, all installed as packages", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405"], upstream: ["omacom/m1n1#30"]}
+  cpu.smp:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "all 18 cores (after the 27.3 beta 1 stub firmware)", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6662971451"], upstream: ["omacom/linux-aurora#404"]}
+  cpu.cpufreq:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "three apple-cpufreq policies on schedutil", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6662971451"], upstream: ["omacom/linux-aurora#404"]}
+  storage.nvme:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "NVMe mounted and working", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6699793094", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6653276699"]}
+  input.keyboard:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: works, evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405"], upstream: ["omacom/linux-aurora#404"]}
+  input.kbd-backlight:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "works (Omarchy's keyboard-light keys)", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6672583409"]}
+  input.trackpad:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "comes up on every boot (AFE reset through SMC pcIO 28, start retried)", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405"], upstream: ["omacom/linux-aurora#404"]}
+  smc.battery:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "battery and charger", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6672583409"], upstream: ["omacom/linux-aurora#404"]}
+  smc.sensors:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "fans, temperatures, voltages, power rails", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6672583409"], upstream: ["omacom/linux-aurora#404"]}
+  smc.lid:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "power button and lid", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6672583409"]}
+  sleep.s2idle:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "lid close suspends, lid open wakes (2026-11-05); not re-checked on the current kernel", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6672583409"]}
+  usb.host:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "USB 2.0 host on all three ports, SuperSpeed on port 1", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405"]}
+  net.netfilter:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "ufw active through iptables-nft", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6672583409"]}
+  wifi-bt.wifi:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "the kernel trains the N1 port; restart with the link up comes back", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712601850"], upstream: ["aurora-silicon/linux#1182", "omacom/linux-aurora#404"]}
+  wifi-bt.wifi-6ghz:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "6 GHz works (iwd)", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6699793094"]}
+  wifi-bt.bt:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: works, evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405"]}
+  audio.speakers:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "all six speakers at full volume with speakersafetyd", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712601850"]}
+  audio.mic:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "microphone array works", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405"]}
+  gpu.firmware:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "partial: the G17C firmware runs, the scheduler does not pick up jobs yet (software rendering)", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405"]}
+  desktop.session:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "Omarchy login with Hyprland (software rendering)", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6662971451"]}
+  display.dcp:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "internal panel through the DCP at 3024x1964 including the notch area", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405"]}
+  display.brightness:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "brightness keys work", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405"]}
+  power.pmp:
+    - {setup: edimoldovan-omarchy, state: reported, kind: reported, claim: "the PMP firmware starts and its endpoint is ready", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6712674405"]}

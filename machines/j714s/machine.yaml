@@ -1,0 +1,83 @@
+# J714s: MacBook Pro (14-inch, M5 Pro). DRAFT written from the public posts of its two owners on
+# omacom/linux-aurora #293 and the READMEs of their status repositories (TripleU613/Omarchy-M5-Pro,
+# betizzel/omarchy-m5). Every cell is a reported claim with a link, for TripleU613 and betizzel to confirm or correct.
+# Both repositories have no licence: they are linked, nothing is copied from them. Licence of this file: CC-BY-SA-4.0.
+board: J714s
+model: "MacBook Pro (14-inch, M5 Pro)"
+identifier: Mac17,9
+soc: T6050
+family: M5
+draft: true
+owner: [TripleU613, betizzel]
+status_repos:
+  - https://github.com/TripleU613/Omarchy-M5-Pro
+  - https://github.com/betizzel/omarchy-m5
+omacom_test_report: null
+notes: "Binned part with 15 CPU cores (five per cluster). Two independent setups: once both owners confirm a feature natively, the tracker marks it reproduced. Labels in TripleU613's posts (NATIVE, REPORTED, offline) map to kind native, reported, offline here."
+setups:
+  - id: triple-m5boot
+    owner: TripleU613
+    firmware: {os: "mBoot-18000.161.10 (stub stage 2)", system: "macOS 26.6.2 (25G83)"}
+    stack:
+      kernel: "7.2.2 #32"
+      loader: "m5boot raw boot object, then kexec into the kernel; one-shot Linux boots, macOS stays the default"
+      userspace: "Omarchy"
+    current_build: null
+    source: https://github.com/TripleU613/Omarchy-M5-Pro#tested-baseline-native-kernel-722-32
+  - id: betizzel-m1n1
+    owner: betizzel
+    firmware: {os: "mBoot-20457.60.65.0.1 (stub recreated from macOS 27.3 beta 1)", system: "mBoot-20457.60.65.0.1"}
+    stack:
+      kernel: "Aurora kernel 7.3.0-g96c096aaed23 with the betizzel/omarchy-m5 series (DCP); a default kernel kept as fallback"
+      loader: "m1n1 over the USB tether"
+      userspace: "Arch Linux ARM, Hyprland 0.57.1"
+    current_build: null
+    source: https://github.com/betizzel/omarchy-m5#status---verified-on-hardware
+features:
+  boot.untethered:
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "not yet: m1n1-tethered boots", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6703074169", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6700663901"]}
+  boot.safety:
+    - {setup: triple-m5boot, state: reported, kind: reported, claim: "a hardware watchdog (60 s) and an auto-reboot guard return the machine to macOS after a bad boot", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6666704710", "https://github.com/TripleU613/Omarchy-M5-Pro#how-it-boots-and-cautions"]}
+  cpu.smp:
+    - {setup: triple-m5boot, state: reported, kind: reported, claim: "one core on the 26.x stub firmware; an all-core prototype is built, not run", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6666704710", "https://github.com/TripleU613/Omarchy-M5-Pro#experimental-all-core-path-not-the-baseline"]}
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "all 15 cores after recreating the stub from macOS 27.3 beta 1", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6700663901", "https://github.com/betizzel/omarchy-m5#smp-fixed-by-apples-firmware"]}
+  cpu.cpufreq:
+    - {setup: triple-m5boot, state: reported, kind: reported, claim: "automatic frequency scaling on the boot CPU", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6666704710"]}
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "three policies on schedutil, P cores reach about 4.22 GHz", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6700663901"]}
+  cpu.idle:
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "register-preserving WFI without idle=nop; 250,000 sleeps per CPU on all 15 CPUs; idle 15.3 W to 5.6 W", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6703074169"]}
+  storage.nvme:
+    - {setup: triple-m5boot, state: reported, kind: reported, claim: "NVMe ext4 root, scoped write/read/flush test passes", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6666704710", "https://github.com/TripleU613/Omarchy-M5-Pro#tested-baseline-native-kernel-722-32"]}
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "internal SSD root (ext4, read-write)", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6700663901", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6703074169"]}
+  input.keyboard:
+    - {setup: triple-m5boot, state: reported, kind: reported, claim: "typing confirmed by the owner on older kernels; input devices present on #32", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6666704710"]}
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "confirmed by hand", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6700663901", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6703074169"]}
+  input.kbd-backlight:
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "confirmed lit by hand", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6700663901"]}
+  input.trackpad:
+    - {setup: triple-m5boot, state: reported, kind: reported, claim: "worked on the kernel #30 boot (2026-11-06)", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6666704710"]}
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "movement and click captured; no host AFE reset needed so far (J714s AFE reset is SMC pcIO, not gp1c)", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6703074169", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6700663901"]}
+  smc.sensors:
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "both fans and the SMC sensors with the F0md/F1md keys", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6700663901"]}
+  smc.battery:
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "not yet", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6703074169"]}
+  smc.lid:
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "lid open wakes the machine (macsmc-input)", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6701394047"]}
+  sleep.s2idle:
+    - {setup: triple-m5boot, state: reported, kind: reported, claim: "missing", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6666704710"]}
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "systemctl suspend, lid wake, 13-minute sleep on the default kernel; not requalified on the DCP kernel", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6701394047", "https://github.com/omacom/linux-aurora/issues/293#issuecomment-6703074169"]}
+  net.netfilter:
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "nftables: create, list and delete a table", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6700663901"]}
+  wifi-bt.wifi:
+    - {setup: triple-m5boot, state: reported, kind: reported, claim: "first native activation failed (reset 17 s after the trigger); a staged build is reviewed, not run", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6666704710"]}
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "not yet", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6703074169"]}
+  gpu.firmware:
+    - {setup: triple-m5boot, state: reported, kind: reported, claim: "not run: needs 27.x firmware and a J714s GPU voltage table (13 of 14 states differ from the J716s table)", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6666704710", "https://github.com/TripleU613/Omarchy-M5-Pro#gpu-gate"]}
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "not yet (software rendering)", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6703074169"]}
+  desktop.session:
+    - {setup: triple-m5boot, state: reported, kind: reported, claim: "Hyprland desktop on llvmpipe, one core", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6666704710", "https://github.com/TripleU613/Omarchy-M5-Pro#tested-baseline-native-kernel-722-32"]}
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "Hyprland 0.57.1 at 3024x1890, 120 Hz on the DCP panel, software rendering", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6703074169"]}
+  display.dcp:
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "internal panel through the DCP (firmware 27.3 beta 1 layout), framebuffer console, display off/on", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6703074169", "https://github.com/betizzel/omarchy-m5#internal-dcp-display-experimental-aurora-kernel"]}
+  display.brightness:
+    - {setup: betizzel-m1n1, state: reported, kind: reported, claim: "brightness control works", evidence: ["https://github.com/omacom/linux-aurora/issues/293#issuecomment-6703074169"]}
