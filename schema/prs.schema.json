@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/rolotrealanis98/m4plus-linux/schema/prs.schema.json",
+  "title": "upstream/prs.yaml",
+  "description": "Hand-written index of upstream pull requests that carry the code behind the tracker's cells. Live state is in upstream/status.json (generated).",
+  "type": "object",
+  "required": ["prs"],
+  "additionalProperties": false,
+  "properties": {
+    "prs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["repo", "number", "title", "machines", "features"],
+        "additionalProperties": false,
+        "properties": {
+          "repo": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
+          "number": {"type": "integer", "minimum": 1},
+          "title": {"type": "string", "minLength": 3},
+          "area": {"type": "string", "enum": ["kernel", "devicetree", "loader", "mesa", "package"]},
+          "machines": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^J[0-9]{3}[a-z]*$"}},
+          "features": {"type": "array", "items": {"type": "string"}},
+          "stacked_on": {"type": "array", "items": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#[0-9]+$"}},
+          "author": {"type": "string"},
+          "opened": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+          "notes": {"type": "string"}
+        }
+      }
+    }
+  }
+}

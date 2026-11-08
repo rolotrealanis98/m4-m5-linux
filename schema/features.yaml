@@ -1,0 +1,246 @@
+# Canonical feature ids. Each id has one sentence saying what counts as "works".
+# A software renderer, a loaded driver or a successful build alone does not establish that the hardware works.
+# Licence: CC-BY-SA-4.0.
+groups: [Boot, CPU, Storage, Input, SMC, Sleep, USB, Network, Wireless, Audio, GPU, Desktop, Display, NVRAM, Power,
+         Camera, Thunderbolt, Video, ANE, Security]
+features:
+  boot.untethered:
+    title: Untethered boot
+    group: Boot
+    topic: boot-chain
+    works: Boots from the internal disk (stage 1 on the boot slot, the payload on the ESP) with no cable or host attached.
+  boot.safety:
+    title: Boot safety and recovery
+    group: Boot
+    topic: boot-chain
+    works: A failed boot returns to a known-good payload or to macOS without a person at the machine (A/B fallback, watchdog, self-revert).
+  boot.omarchy-chain:
+    title: Omarchy boot chain (m1n1, U-Boot, Limine, EFI kernel)
+    group: Boot
+    topic: boot-chain
+    works: Stage 1 m1n1, stage 2 m1n1 on the ESP, U-Boot and Limine start the kernel as an EFI image from the disk, as the Omarchy installer sets it up.
+  cpu.smp:
+    title: All CPU cores
+    group: CPU
+    topic: boot-chain
+    works: Linux reports every core of the SoC online (for example "Brought up 1 node, 18 CPUs") and work runs on all of them.
+  cpu.cpufreq:
+    title: CPU frequency scaling
+    group: CPU
+    topic: power
+    works: A cpufreq driver runs every cluster, frequencies rise under load and fall at idle.
+  cpu.idle:
+    title: CPU idle (WFI)
+    group: CPU
+    topic: power
+    works: Cores idle in WFI or deeper without losing state (no idle=nop spin), checked by a register or floating-point consistency run and a soak.
+  storage.nvme:
+    title: Internal NVMe
+    group: Storage
+    topic: null
+    works: The internal SSD is the read-write root filesystem and survives restarts.
+  input.keyboard:
+    title: Built-in keyboard
+    group: Input
+    topic: null
+    works: Typing on the built-in keyboard reaches userspace, checked by a person.
+  input.kbd-backlight:
+    title: Keyboard backlight
+    group: Input
+    topic: null
+    works: The keyboard light changes level from Linux, checked by eye.
+  input.trackpad:
+    title: Built-in trackpad
+    group: Input
+    topic: null
+    works: The trackpad moves the pointer and clicks on every boot, checked by a person.
+  input.trackpad-palm:
+    title: Trackpad palm and thumb handling
+    group: Input
+    topic: null
+    works: Palm and thumb contacts are rejected while typing, checked by a person.
+  smc.battery:
+    title: Battery and charger
+    group: SMC
+    topic: power
+    works: The battery and AC supplies report status, capacity, voltage and current through the power-supply class.
+  smc.sensors:
+    title: Fans and sensors
+    group: SMC
+    topic: power
+    works: hwmon exposes the SMC temperatures, fans and power rails with plausible values.
+  smc.lid:
+    title: Lid and power button events
+    group: SMC
+    topic: power
+    works: Lid close/open and the power button reach userspace as input events.
+  sleep.s2idle:
+    title: Suspend to idle
+    group: Sleep
+    topic: power
+    works: A real s2idle cycle (not pm_test) sleeps and wakes on the lid or the power button, with devices and the network back after resume.
+  usb.host:
+    title: USB host on the Type-C ports
+    group: USB
+    topic: null
+    works: Devices plugged into the Type-C ports enumerate and work, at SuperSpeed where the port supports it.
+  net.netfilter:
+    title: Netfilter and WireGuard in the kernel
+    group: Network
+    topic: null
+    works: nftables, policy routing and WireGuard are available and usable from userspace.
+  wifi-bt.wifi:
+    title: Wi-Fi
+    group: Wireless
+    topic: n1-wireless
+    works: The wireless interface associates with a WPA2/WPA3 network, gets a DHCP lease and carries traffic, and comes back after a restart.
+  wifi-bt.wifi-6ghz:
+    title: Wi-Fi 6 GHz
+    group: Wireless
+    topic: n1-wireless
+    works: The interface lists 6 GHz channels and associates on one.
+  wifi-bt.bt:
+    title: Bluetooth controller
+    group: Wireless
+    topic: n1-wireless
+    works: The Bluetooth controller registers (hci0), powers on and finds devices in a scan.
+  wifi-bt.bt-pairing:
+    title: Bluetooth pairing
+    group: Wireless
+    topic: n1-wireless
+    works: A Bluetooth device pairs and carries data (input or audio), checked by a person.
+  audio.speakers:
+    title: Speakers
+    group: Audio
+    topic: audio
+    works: The built-in speakers play a test tone without amplifier faults, with the speaker-safety daemon active, heard by a person.
+  audio.mic:
+    title: Microphone
+    group: Audio
+    topic: audio
+    works: The built-in microphones record a signal that follows a voice.
+  audio.jack:
+    title: Headphone jack
+    group: Audio
+    topic: audio
+    works: Headphones play, plug detection reports the jack, and a headset microphone records, checked by a person.
+  audio.speaker-profile:
+    title: Tuned speaker profile
+    group: Audio
+    topic: audio
+    works: The board's DSP profile is active in the desktop sound server and passes a listening test.
+  gpu.firmware:
+    title: GPU firmware and DRM device
+    group: GPU
+    topic: gpu
+    works: The GPU firmware boots and its InitData is acknowledged, and the DRM render node is registered. On its own this is not acceleration.
+  gpu.vulkan:
+    title: Vulkan on the GPU
+    group: GPU
+    topic: gpu
+    works: A Vulkan driver runs compute and render work on the GPU with correct results and no GPU faults.
+  gpu.gl:
+    title: OpenGL on the GPU (any path)
+    group: GPU
+    topic: gpu
+    works: OpenGL/GLES renders on the GPU (natively or through zink) with correct pixels, and the compositor renders with it.
+  gpu.gl-native:
+    title: Native Gallium OpenGL
+    group: GPU
+    topic: gpu
+    works: The native Gallium GL driver renders on the GPU with correct pixels and runs the desktop compositor.
+  desktop.session:
+    title: Desktop session
+    group: Desktop
+    topic: null
+    works: A graphical desktop (for example Hyprland on Omarchy) starts on the internal panel and a person can log in and use it.
+  display.dcp:
+    title: Internal panel through the DCP
+    group: Display
+    topic: display-dcp
+    works: The display coprocessor driver drives the internal panel (DRM connector enabled, swaps completing) instead of the boot framebuffer.
+  display.refresh:
+    title: High refresh rate and VRR
+    group: Display
+    topic: display-dcp
+    works: The panel runs at its highest refresh rate and variable refresh changes the measured flip interval.
+  display.brightness:
+    title: Panel brightness
+    group: Display
+    topic: display-dcp
+    works: Writing the backlight brightness changes the panel's light output, checked by eye.
+  display.external:
+    title: External displays
+    group: Display
+    topic: display-dcp
+    works: A display on DisplayPort over Type-C (or HDMI) shows a picture.
+  nvram.read:
+    title: NVRAM read
+    group: NVRAM
+    topic: nvram
+    works: The boot NOR NVRAM partition is readable from Linux and its variables parse.
+  nvram.write:
+    title: NVRAM write
+    group: NVRAM
+    topic: nvram
+    works: A variable written from Linux takes effect on the next boot (for example the next boot target).
+  power.pmp:
+    title: PMP coprocessor
+    group: Power
+    topic: power
+    works: The PMP firmware is running and its endpoint answers.
+  power.pmc-observe:
+    title: Power-management controller (observe)
+    group: Power
+    topic: power
+    works: The PMC/CLPC drivers read the controller state and compute their votes without writing anything.
+  power.pmc-control:
+    title: Power-management controller (control)
+    group: Power
+    topic: power
+    works: Votes or floors written to the PMC take effect and the machine stays stable.
+  power.thermal:
+    title: Thermal zones
+    group: Power
+    topic: power
+    works: Thermal zones report SoC temperatures and their trip points throttle the CPU.
+  camera.isp-power:
+    title: Camera ISP power domains and DARTs
+    group: Camera
+    topic: null
+    works: The ISP's IOMMUs bind and its power domains are present and switchable, with no faults. On its own this is not a camera.
+  camera.capture:
+    title: Camera capture
+    group: Camera
+    topic: null
+    works: The ISP firmware starts and the camera delivers frames through a video device.
+  thunderbolt:
+    title: Thunderbolt / USB4
+    group: Thunderbolt
+    topic: thunderbolt
+    works: A Thunderbolt or USB4 device enumerates through a tunnel and works.
+  video.decode:
+    title: Hardware video decode
+    group: Video
+    topic: null
+    works: The video decoder plays a stream through a V4L2 decode API.
+  video.encode:
+    title: Hardware video encode
+    group: Video
+    topic: null
+    works: The video encoder produces a stream through a V4L2 encode API.
+  video.prores:
+    title: ProRes engine
+    group: Video
+    topic: null
+    works: The ProRes engine decodes or encodes a stream.
+  ane:
+    title: Neural Engine
+    group: ANE
+    topic: null
+    works: The Neural Engine runs a model from Linux.
+  touchid:
+    title: Touch ID
+    group: Security
+    topic: null
+    works: A fingerprint enrols and unlocks a session.
