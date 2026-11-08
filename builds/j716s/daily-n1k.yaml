@@ -1,10 +1,11 @@
-# The J716s daily since 2026-11-07 23:16 UTC: the kernel trains the N1 (Wi-Fi/Bluetooth) port itself.
+# Retired 2026-11-08 04:53 UTC: replaced as the daily by daily-dcp-lfix, then daily-dcp-lfix-vrr (its test twin is still the rollback).
+# The J716s daily from 2026-11-07 23:16 UTC to 2026-11-08 04:53 UTC: the kernel trains the N1 (Wi-Fi/Bluetooth) port itself.
 # Source: m5pro-linux contrib/validated/aurora/STATE.md ("Current: daily-n1k") and RESULTS.md ("DAILY-N1K"), at
 # commit f8fd6bc71b2688ca70ad7697cd5506fd2ed393da. Licence: CC-BY-SA-4.0.
 name: daily-n1k
 board: J716s
 setup: j716s-aurora73
-status: daily
+status: retired
 date: "2026-11-07T23:16Z"
 source: https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/validated/aurora/STATE.md#current-daily-n1k-the-kernel-trains-the-n1-promoted-2026-11-07-2316-utc-see-resultsmd-daily-n1k
 firmware: {os: "27.3 beta 1 (26C5035r), mBoot-20457.60.65.0.1", system: "27.3 beta 1 (26C5035r), mBoot-20457.60.65.0.1"}

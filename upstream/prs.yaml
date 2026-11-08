@@ -12,7 +12,7 @@ prs:
     opened: "2026-11-07"
     machines: [J716s, J714s]
     features: [storage.nvme]
-    notes: "The T6050 ANS needs about 3 s for its RTKit handshake; v2 makes the timeout per device."
+    notes: "Merged 2026-11-08 04:43 UTC by the maintainers after a fleet test on four Macs (no regression; only apple,t6050-nvme-ans2 gets the 10 s wait). v2 made the timeout per device."
   - repo: aurora-silicon/linux
     number: 1083
     title: "HID: dockchannel-hid: settle 50 ms after releasing the AFE reset"
@@ -21,6 +21,7 @@ prs:
     opened: "2026-11-07"
     machines: [J716s]
     features: [input.trackpad]
+    notes: "Merged 2026-11-08 04:43 UTC after the maintainers' fleet test."
   - repo: aurora-silicon/linux
     number: 1084
     title: "hwmon: (macsmc) keep a fan whose optional keys are missing"
@@ -29,6 +30,7 @@ prs:
     opened: "2026-11-07"
     machines: [J716s]
     features: [smc.sensors]
+    notes: "Merged 2026-11-08 04:43 UTC after the maintainers' fleet test."
   - repo: aurora-silicon/linux
     number: 1152
     title: "arm64: idle: T6050 idles in WFI even with idle=nop"
@@ -54,6 +56,7 @@ prs:
     machines: [J716s]
     features: [boot.untethered, storage.nvme, input.keyboard, input.trackpad, smc.battery, smc.sensors, usb.host]
     stacked_on: ["aurora-silicon/linux#945"]
+    notes: "Merged 2026-11-08 06:11 UTC (merge commit e636747) with the maintainers' fixups: no per-board config fragment, no maxcpus=1 default. Follow-ups: a panel node for the boot framebuffer and the trackpad reset route."
   - repo: aurora-silicon/linux
     number: 1173
     title: "drm/asahi: M5: InitData for the macOS 27.2 and 27.3 firmware (G17S bring-up on J716s)"
@@ -81,7 +84,7 @@ prs:
     machines: [J716s, J714c]
     features: [wifi-bt.wifi, wifi-bt.bt]
     stacked_on: ["aurora-silicon/linux#937"]
-    notes: "Driver half of the kernel-side N1 training; carries edimoldovan's cold-train, host-tunable and ASPM commits."
+    notes: "Driver half of the kernel-side N1 training; carries edimoldovan's cold-train, host-tunable and ASPM commits (six of them lack his Signed-off-by; asked on the PR). Rebased 2026-11-08 07:25 UTC onto the force-pushed #937 base (9 commits, per-commit W=1 clean)."
   - repo: aurora-silicon/linux
     number: 1183
     title: "arm64: dts: apple: t6050-j716s: let the kernel train the N1 root port (on #1167)"
@@ -91,6 +94,7 @@ prs:
     machines: [J716s]
     features: [wifi-bt.wifi, wifi-bt.bt]
     stacked_on: ["aurora-silicon/linux#1167"]
+    notes: "DT half of the kernel-side N1 training. Rebased 2026-11-08 07:25 UTC onto integration/aurora after #1167 merged: 2 commits (the apple,manual-availability binding and the J716s N1 training DT)."
   # ---- aurora-silicon/linux: base PRs the J716s work stacks on or depends on
   - repo: aurora-silicon/linux
     number: 937
@@ -142,6 +146,7 @@ prs:
     opened: "2026-11-08"
     machines: [J716s, J714c]
     features: [gpu.gl-native]
+    notes: "Five commits, the tree the desktop ran on 2026-11-08 (A/B 12/12, glmark2 1278 against zink 597-890). Three more commits (app fixes 0006-0008: M5 uniform ranges in dwords, keep the narrowing move after the projective multiply, a faulttrace debug flag) are pending push; the desktop is back on zink until the fixed tree is checked in a session."
   # ---- omacom (Omarchy)
   - repo: omacom/linux-aurora
     number: 404
@@ -160,6 +165,7 @@ prs:
     machines: [J716s]
     features: [boot.untethered]
     stacked_on: ["omacom/linux-aurora#404"]
+    notes: "12 commits on #404, from the re-created fork (the first fork never indexed pushes). Opened 2026-11-08 02:20 UTC."
   - repo: omacom/m1n1
     number: 30
     title: "T6050 (M5 Max, J714c): boot from disk through the Omarchy chain"
@@ -177,6 +183,7 @@ prs:
     machines: [J716s]
     features: [cpu.smp, boot.untethered]
     stacked_on: ["omacom/m1n1#30"]
+    notes: "Rebased 2026-11-08 onto #30 140a36b (late-heap retention), head ff75a40; booted the J716s first pass (machines/j716s/results/2026-11-08-omacom-wdt-keep-r2.md)."
   - repo: omacom/m1n1
     number: 34
     title: "pcie, kboot: T6050: optional N1 (Wi-Fi/Bluetooth) training and hand-off behind chosen.asahi,t6050-n1 (stacked on #33)"
@@ -186,6 +193,7 @@ prs:
     machines: [J716s]
     features: [wifi-bt.wifi, wifi-bt.bt]
     stacked_on: ["omacom/m1n1#33"]
+    notes: "Rebased 2026-11-08 onto #30 140a36b, head 9879c2f."
   - repo: omacom/m1n1
     number: 37
     title: "kboot_gpu: T6050: hand the GPU to the G17 driver from the ADT (stacked on #34)"
@@ -195,6 +203,7 @@ prs:
     machines: [J716s]
     features: [gpu.firmware]
     stacked_on: ["omacom/m1n1#34"]
+    notes: "Rebased 2026-11-08 onto #30 140a36b, head 2bebfe7."
   - repo: omacom/m1n1
     number: 35
     title: "kboot: T6050: internal display hand-off for the firmware-27 DCP driver, opt-in (stacked on #37)"
@@ -204,6 +213,7 @@ prs:
     machines: [J716s]
     features: [display.dcp]
     stacked_on: ["omacom/m1n1#37"]
+    notes: "Rebased 2026-11-08 onto #30 140a36b, head 5818f6b; carries the phandle fix (the in-tree J716s DTB has no phandle on dcp and display-subsystem)."
   - repo: omacom/m1n1
     number: 36
     title: "wdt: leave the watchdog armed when the boot-args say m1n1.wdt=keep"
@@ -211,7 +221,8 @@ prs:
     author: rolotrealanis98
     opened: "2026-11-07"
     machines: [J716s]
-    features: [boot.safety]
+    features: [boot.safety, boot.loop-safety]
+    notes: "Rebased 2026-11-08 onto #30 140a36b, head 64c8ce2 (m1n1 v1.6.1-430-g64c8ce2), which booted the J716s: late heap retained, N1 trained, 18 CPUs, Wi-Fi and Bluetooth up."
   - repo: omacom/omarchy-mac-pkgs
     number: 103
     title: "Cover the 16-inch M5 Pro (J716s) in the audio tests and the manual"
@@ -220,3 +231,4 @@ prs:
     opened: "2026-11-07"
     machines: [J716s]
     features: [audio.speakers, audio.mic]
+    notes: "Opened 2026-11-07. Open packaging items found since: imagemagick and qt6-imageformats are needed by the Omarchy shell on this aarch64 root and were installed by hand."

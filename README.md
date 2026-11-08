@@ -26,6 +26,8 @@ and `R` a cell reproduced on two setups. Draft machines (entries written from th
 |---|---|---|---|
 | Untethered boot (`boot.untethered`) | reported | reported | works (daily) |
 | Boot safety and recovery (`boot.safety`) | untested | reported | works (daily) |
+| Loop safety (a hung test boot resets by itself) (`boot.loop-safety`) | untested | untested | works (test) |
+| Clean restart is not counted as a failed boot (`boot.counted-restart`) | untested | untested | blocked |
 | Omarchy boot chain (m1n1, U-Boot, Limine, EFI kernel) (`boot.omarchy-chain`) | reported | untested | attended |
 | All CPU cores (`cpu.smp`) | reported | reported | works (daily) |
 | CPU frequency scaling (`cpu.cpufreq`) | reported | reported | works (daily) |
@@ -45,18 +47,20 @@ and `R` a cell reproduced on two setups. Draft machines (entries written from th
 | Wi-Fi 6 GHz (`wifi-bt.wifi-6ghz`) | reported | untested | untested |
 | Bluetooth controller (`wifi-bt.bt`) | reported | untested | works (daily) |
 | Bluetooth pairing (`wifi-bt.bt-pairing`) | untested | untested | attended |
-| Speakers (`audio.speakers`) | reported | untested | works (daily) |
+| Wi-Fi through NetworkManager (`wifi-bt.networkmanager`) | untested | untested | attended |
+| Speakers (`audio.speakers`) | reported | untested | works (test) |
 | Microphone (`audio.mic`) | reported | untested | works (daily) |
 | Headphone jack (`audio.jack`) | untested | untested | attended |
 | Tuned speaker profile (`audio.speaker-profile`) | untested | untested | attended |
 | GPU firmware and DRM device (`gpu.firmware`) | reported | reported | works (daily) |
 | Vulkan on the GPU (`gpu.vulkan`) | untested | untested | works (daily) |
 | OpenGL on the GPU (any path) (`gpu.gl`) | untested | untested | works (daily) |
-| Native Gallium OpenGL (`gpu.gl-native`) | untested | untested | works (daily) |
+| Native Gallium OpenGL (`gpu.gl-native`) | untested | untested | works (test) |
 | Desktop session (`desktop.session`) | reported | reported | works (daily) |
-| Internal panel through the DCP (`display.dcp`) | reported | reported | works (test) |
-| High refresh rate and VRR (`display.refresh`) | untested | untested | works (test) |
-| Panel brightness (`display.brightness`) | reported | reported | blocked |
+| Omarchy shell and packages (`desktop.omarchy`) | untested | untested | works (daily) |
+| Internal panel through the DCP (`display.dcp`) | reported | reported | works (daily) |
+| High refresh rate and VRR (`display.refresh`) | untested | untested | works (daily) |
+| Panel brightness (`display.brightness`) | reported | reported | works (daily) |
 | External displays (`display.external`) | untested | untested | prepared |
 | NVRAM read (`nvram.read`) | untested | untested | works (daily) |
 | NVRAM write (`nvram.write`) | untested | untested | untested |
@@ -83,7 +87,7 @@ States and evidence rules: see [States and evidence](#states-and-evidence). `R` 
 |---|---|---|---|---|---|---|---|
 | [J714c](machines/j714c/machine.yaml) | MacBook Pro (14-inch, M5 Max) | Mac17,7 | T6050 | [@edimoldovan](https://github.com/edimoldovan) | draft (from public posts, not yet confirmed) | edimoldovan-omarchy | none |
 | [J714s](machines/j714s/machine.yaml) | MacBook Pro (14-inch, M5 Pro) | Mac17,9 | T6050 | [@TripleU613](https://github.com/TripleU613), [@betizzel](https://github.com/betizzel) | draft (from public posts, not yet confirmed) | triple-m5boot, betizzel-m1n1 | none |
-| [J716s](machines/j716s/machine.yaml) | MacBook Pro (16-inch, M5 Pro) | Mac17,8 | T6050 | [@rolotrealanis98](https://github.com/rolotrealanis98) | confirmed | j716s-aurora73, j716s-legacy72 | [daily-n1k](builds/j716s/daily-n1k.yaml) |
+| [J716s](machines/j716s/machine.yaml) | MacBook Pro (16-inch, M5 Pro) | Mac17,8 | T6050 | [@rolotrealanis98](https://github.com/rolotrealanis98) | confirmed | j716s-aurora73, j716s-legacy72 | [daily-dcp-lfix-vrr](builds/j716s/daily-dcp-lfix-vrr.yaml) |
 <!-- END GENERATED: machines -->
 
 ### Upstream pull requests
@@ -95,15 +99,15 @@ Hand-written index in [`upstream/prs.yaml`](upstream/prs.yaml); live state in
 | PR | Title | Machines | Features | State |
 |---|---|---|---|---|
 | [aurora-silicon/linux#937](https://github.com/aurora-silicon/linux/pull/937) | PCI: apple: adopt the T6050 root ports the boot loader trained | J716s, J716c | `wifi-bt.wifi` | open |
-| [aurora-silicon/linux#945](https://github.com/aurora-silicon/linux/pull/945) | arm64: dts: apple: add the J716c (MacBook Pro 16-inch, M5 Max) | J716c, J716s | `boot.untethered` | open |
+| [aurora-silicon/linux#945](https://github.com/aurora-silicon/linux/pull/945) | arm64: dts: apple: add the J716c (MacBook Pro 16-inch, M5 Max) | J716c, J716s | `boot.untethered` | merged |
 | [aurora-silicon/linux#946](https://github.com/aurora-silicon/linux/pull/946) | J716c: Thunderbolt 5 and USB4 on the right USB-C port | J716c, J716s | `thunderbolt` | open |
 | [aurora-silicon/linux#1012](https://github.com/aurora-silicon/linux/pull/1012) | drm/asahi, drm/apple: M5 GPU and firmware-27 display on integration/aurora | J716s | `gpu.firmware`, `display.dcp` | open |
-| [aurora-silicon/linux#1082](https://github.com/aurora-silicon/linux/pull/1082) | soc: apple: rtkit: wait up to 10 s for a handshake reply | J716s, J714s | `storage.nvme` | open |
-| [aurora-silicon/linux#1083](https://github.com/aurora-silicon/linux/pull/1083) | HID: dockchannel-hid: settle 50 ms after releasing the AFE reset | J716s | `input.trackpad` | open |
-| [aurora-silicon/linux#1084](https://github.com/aurora-silicon/linux/pull/1084) | hwmon: (macsmc) keep a fan whose optional keys are missing | J716s | `smc.sensors` | open |
+| [aurora-silicon/linux#1082](https://github.com/aurora-silicon/linux/pull/1082) | soc: apple: rtkit: wait up to 10 s for a handshake reply | J716s, J714s | `storage.nvme` | merged |
+| [aurora-silicon/linux#1083](https://github.com/aurora-silicon/linux/pull/1083) | HID: dockchannel-hid: settle 50 ms after releasing the AFE reset | J716s | `input.trackpad` | merged |
+| [aurora-silicon/linux#1084](https://github.com/aurora-silicon/linux/pull/1084) | hwmon: (macsmc) keep a fan whose optional keys are missing | J716s | `smc.sensors` | merged |
 | [aurora-silicon/linux#1152](https://github.com/aurora-silicon/linux/pull/1152) | arm64: idle: T6050 idles in WFI even with idle=nop | J716s | `cpu.idle` | open |
 | [aurora-silicon/linux#1160](https://github.com/aurora-silicon/linux/pull/1160) | Input: macsmc-input - confirm a lid-open report during system sleep | J716s | `sleep.s2idle`, `smc.lid` | open |
-| [aurora-silicon/linux#1167](https://github.com/aurora-silicon/linux/pull/1167) | arm64: dts: apple: add the J716s (MacBook Pro 16-inch, M5 Pro) | J716s | `boot.untethered`, `storage.nvme`, `input.keyboard`, `input.trackpad`, `smc.battery`, `smc.sensors`, `usb.host` | open |
+| [aurora-silicon/linux#1167](https://github.com/aurora-silicon/linux/pull/1167) | arm64: dts: apple: add the J716s (MacBook Pro 16-inch, M5 Pro) | J716s | `boot.untethered`, `storage.nvme`, `input.keyboard`, `input.trackpad`, `smc.battery`, `smc.sensors`, `usb.host` | merged |
 | [aurora-silicon/linux#1173](https://github.com/aurora-silicon/linux/pull/1173) | drm/asahi: M5: InitData for the macOS 27.2 and 27.3 firmware (G17S bring-up on J716s) | J716s | `gpu.firmware`, `gpu.vulkan`, `gpu.gl` | open |
 | [aurora-silicon/linux#1174](https://github.com/aurora-silicon/linux/pull/1174) | drm/apple: firmware 27.3 IOMFB method table and swap layout | J716s | `display.dcp` | open |
 | [aurora-silicon/linux#1182](https://github.com/aurora-silicon/linux/pull/1182) | PCI: apple: train a T6050 root port the boot loader left down (J716s N1) | J716s, J714c | `wifi-bt.wifi`, `wifi-bt.bt` | open |
@@ -116,11 +120,11 @@ Hand-written index in [`upstream/prs.yaml`](upstream/prs.yaml); live state in
 | [omacom/m1n1#33](https://github.com/omacom/m1n1/pull/33) | smp: T6050: forward secondaries whose RVBAR is locked to the stage 1 base (stacked on #30) | J716s | `cpu.smp`, `boot.untethered` | open |
 | [omacom/m1n1#34](https://github.com/omacom/m1n1/pull/34) | pcie, kboot: T6050: optional N1 (Wi-Fi/Bluetooth) training and hand-off behind chosen.asahi,t6050-n1 (stacked on #33) | J716s | `wifi-bt.wifi`, `wifi-bt.bt` | open |
 | [omacom/m1n1#35](https://github.com/omacom/m1n1/pull/35) | kboot: T6050: internal display hand-off for the firmware-27 DCP driver, opt-in (stacked on #37) | J716s | `display.dcp` | open |
-| [omacom/m1n1#36](https://github.com/omacom/m1n1/pull/36) | wdt: leave the watchdog armed when the boot-args say m1n1.wdt=keep | J716s | `boot.safety` | open |
+| [omacom/m1n1#36](https://github.com/omacom/m1n1/pull/36) | wdt: leave the watchdog armed when the boot-args say m1n1.wdt=keep | J716s | `boot.safety`, `boot.loop-safety` | open |
 | [omacom/m1n1#37](https://github.com/omacom/m1n1/pull/37) | kboot_gpu: T6050: hand the GPU to the G17 driver from the ADT (stacked on #34) | J716s | `gpu.firmware` | open |
 | [omacom/omarchy-mac-pkgs#103](https://github.com/omacom/omarchy-mac-pkgs/pull/103) | Cover the 16-inch M5 Pro (J716s) in the audio tests and the manual | J716s | `audio.speakers`, `audio.mic` | open |
 
-State from `upstream/status.json`, fetched 2026-11-08T03:32:54Z.
+State from `upstream/status.json`, fetched 2026-11-08T10:44:53Z.
 <!-- END GENERATED: upstream -->
 
 ## What lives here
@@ -135,6 +139,28 @@ State from `upstream/status.json`, fetched 2026-11-08T03:32:54Z.
 | `schema/` | `features.yaml` (feature ids and what "works" means for each) and the JSON Schemas for machines, builds, PR index and result front matter |
 | `tools/` | `validate.py`, `gen.py`, `privacy_scan.py`, `pr_status.py` (Python 3, standard library + PyYAML) |
 | `site/` | The generated static site, published with GitHub Pages |
+
+## How the queue works
+
+The queue of open work is this repository's [issues](https://github.com/rolotrealanis98/m4-m5-linux/issues). They replace
+the old private ledger: one issue per item, each saying what it is, why, the evidence (links into this repository), the
+exact next step and who does it (the owner at the machine, an unattended loop, or an agent or contributor). Issues,
+like everything else here, carry no private data (see [Privacy](#privacy)).
+
+| Label | Meaning |
+|---|---|
+| `machine:<board>` | The board the item is about (`machine:j716s`) |
+| `attended` | Needs the machine's owner physically at the machine |
+| `in-flight` | An agent or an unattended loop is working on it now |
+| `blocked` | Waiting on someone else or on an upstream decision |
+| `upstream` | The work is a pull request or discussion in another repository |
+| `help-wanted` | Someone else can take it; say so in a comment |
+
+Results land as a pull request (or a commit by a board maintainer) that adds a dated result file in
+`machines/<board>/results/` with scrubbed log lines, changes the cells in `machine.yaml` that the result supports and,
+when the daily payload changed, adds its recipe under `builds/<board>/`. The change closes the issue it answers. A state
+change without a result file does not pass `tools/validate.py`. Upstream pull requests are listed in
+[`upstream/prs.yaml`](upstream/prs.yaml).
 
 ## Code stays upstream
 

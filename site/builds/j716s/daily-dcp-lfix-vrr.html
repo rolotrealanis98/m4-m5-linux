@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>daily-dcp-lfix-vrr - M4-M5 Linux</title><link rel="stylesheet" href="../../style.css"></head><body><header class="site"><a href="../../index.html">M4-M5 Linux</a><nav><a href="../../index.html">Matrix</a><a href="../../upstream.html">Upstream PRs</a><a href="../../topics/index.html">Topics</a><a href="https://github.com/rolotrealanis98/m4-m5-linux">Repository</a></nav></header><main>
+<h1>Build daily-dcp-lfix-vrr</h1><p>J716s · status daily · 2026-11-08T05:28Z</p><h2>Results</h2><ul><li><a href="../../machines/j716s/results/2026-11-08-daily-dcp-lfix-vrr.html">machines/j716s/results/2026-11-08-daily-dcp-lfix-vrr.md</a></li><li><a href="../../machines/j716s/results/2026-11-08-daily-dcp-lfix.html">machines/j716s/results/2026-11-08-daily-dcp-lfix.md</a></li><li><a href="../../machines/j716s/results/2026-11-08-daily-dcp-bisect.html">machines/j716s/results/2026-11-08-daily-dcp-bisect.md</a></li><li><a href="../../machines/j716s/results/2026-11-08-loop-safety.html">machines/j716s/results/2026-11-08-loop-safety.md</a></li><li><a href="../../machines/j716s/results/2026-11-08-desktop-fixes.html">machines/j716s/results/2026-11-08-desktop-fixes.md</a></li></ul><h2>Recipe</h2><pre><code># The J716s daily since 2026-11-08 05:28 UTC: the DCP scans out the panel at 120 Hz with VRR on, the GPU renders into the
+# scanout buffers, the kernel trains the N1 itself. Replaces daily-n1k as the daily (daily-n1k stays as the recipe of
+# the previous daily and, as its test twin, the rollback).
+# Source: m5pro-linux contrib/validated/aurora/STATE.md (&quot;2026-11-08 04:53 UTC: daily-dcp-lfix promoted&quot; and &quot;2026-11-08
+# 05:28 UTC: daily-dcp-lfix-vrr promoted&quot;) and contrib/pending/dcp/daily-dcp/mk-lfix.py (the pins), at commit
+# 70bbffcc160b02903058a7a82a065ef047affdd9. Licence: CC-BY-SA-4.0.
+name: daily-dcp-lfix-vrr
+board: J716s
+setup: j716s-aurora73
+status: daily
+date: &quot;2026-11-08T05:28Z&quot;
+source: https://github.com/rolotrealanis98/m5pro-linux/blob/70bbffcc160b02903058a7a82a065ef047affdd9/contrib/validated/aurora/STATE.md#2026-11-08-0528-utc-daily-dcp-lfix-vrr-promoted-vrr-on
+firmware: {os: &quot;27.3 beta 1 (26C5035r), mBoot-20457.60.65.0.1&quot;, system: &quot;27.3 beta 1 (26C5035r), mBoot-20457.60.65.0.1&quot;}
+kernel:
+  repo: https://github.com/aurora-silicon/linux
+  branch: integration/aurora
+  base: 33bec4016c46
+  release: 7.3.0-gbd53915f2ef1
+  patches:
+    - repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/validated/aurora/series/patches
+      commit: 70bbffcc160b02903058a7a82a065ef047affdd9
+      count: 87
+      description: &quot;The J716s series, as in daily-n1k (tip a0f2f30c967b). Part of it is upstream since 2026-11-08: #1082, #1083, #1084 and the J716s device tree #1167 are merged into integration/aurora&quot;
+    - pr: &quot;aurora-silicon/linux#1012&quot;
+      description: &quot;M5 GPU and firmware-27 display base&quot;
+    - pr: &quot;aurora-silicon/linux#1173&quot;
+      description: &quot;InitData for the macOS 27.2 and 27.3 GPU firmware (G17S)&quot;
+    - pr: &quot;aurora-silicon/linux#1174&quot;
+      repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/pending/dcp/promotion/kernel
+      commit: 70bbffcc160b02903058a7a82a065ef047affdd9
+      count: 2
+      description: &quot;120 Hz promotion v2: constant swap timestamps (0001, the fix for the first-swap stall) and the brightness guard (0002), on the firmware 27.3 IOMFB table&quot;
+    - repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/pending/dcp/vrr/patches/on-promotion-v2
+      commit: 70bbffcc160b02903058a7a82a065ef047affdd9
+      count: 2
+      description: &quot;The VRR pair on v2: name the adaptive-sync parameter, offer vrr_capable and apply VRR_ENABLED from a page flip. Opt-in through appledrm.fw27_panel_vrr=1&quot;
+    - repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/pending/dcp/promotion/dt
+      commit: 70bbffcc160b02903058a7a82a065ef047affdd9
+      description: &quot;Display device tree: the DCP nodes enabled, clk_disp0 at 712 MHz, P3 gamut, the panel node. The notch description is in this directory; the rest of the display device-tree commit is recorded only in the build host&#x27;s tree&quot;
+    - pr: &quot;aurora-silicon/linux#1182&quot;
+      description: &quot;Kernel-side N1 training, driver half (as in daily-n1k)&quot;
+    - pr: &quot;aurora-silicon/linux#1183&quot;
+      description: &quot;Kernel-side N1 training, device-tree half (as in daily-n1k)&quot;
+  config: [defconfig, asahi.config, j716s.config]
+  toolchain: &quot;LLVM=1 ARCH=arm64, 16K pages, RUST off&quot;
+  notes: &quot;Adds DRM_APPLE=y and tracing to the daily-n1k config; DRM_ASAHI=y as before. Base given as the 12-digit prefix STATE.md records. The in-tree J716s DTB (sha256 c8f1b960fa59b662c0bf58d5e952aaf73f313d3c769107f2ff9fc7aad09a105d) has no phandle on the dcp and display-subsystem nodes; the loader gives them one.&quot;
+loader:
+  name: &quot;m1n1-plain-n1-dt-gpu-dcp-phfix (stage 2 on the ESP, 0x410000 bytes)&quot;
+  patches:
+    - repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: patches/m1n1
+      commit: 70bbffcc160b02903058a7a82a065ef047affdd9
+      description: &quot;T6050 bring-up, chainload above the CTRR window, RVBAR relay, notch rows, USB-PD power-up, PIPE park, combo-PHY tunables from the ADT&quot;
+    - repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/pending/wireless/patches/m1n1
+      commit: 70bbffcc160b02903058a7a82a065ef047affdd9
+      description: &quot;0022 and 0028 only: the N1 port stays enabled and the host tunables are copied; no loader-side training&quot;
+    - pr: &quot;omacom/m1n1#37&quot;
+      description: &quot;GPU hand-off, behind chosen.m5pro,gpu=1&quot;
+    - pr: &quot;omacom/m1n1#35&quot;
+      repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/pending/dcp/daily-dcp/m1n1-0029-dcp-give-display-nodes-a-phandle.diff
+      commit: 70bbffcc160b02903058a7a82a065ef047affdd9
+      description: &quot;Internal display hand-off for the firmware-27 DCP driver behind chosen.m5,t6050-display=1, and the phandle fix (branch n1-dt-gpu-dcp-phfix at 694d4040, pushed to #35 as ffee101)&quot;
+stage1:
+  description: &quot;CHAINLOADING m1n1 stage 1 with the A/B fallback on iBoot&#x27;s boot-failure counter and a 150 s watchdog (unchanged from daily-n1k)&quot;
+  patches:
+    - repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: patches/m1n1-stage1
+      commit: 70bbffcc160b02903058a7a82a065ef047affdd9
+devicetree:
+  source: &quot;arch/arm64/boot/dts/apple/t6050-j716s.dts, the merged in-tree device tree, plus the N1, GPU, NVRAM and display additions&quot;
+  per_unit_values: false
+  notes: &quot;The in-tree DTB has no phandle on the dcp and display-subsystem nodes; the loader assigns them.&quot;
+initramfs:
+  description: &quot;Minimal initramfs that mounts the NVMe root; it also carries the unit&#x27;s personalised N1 firmware, so it is neither hashed nor published here&quot;
+  per_unit: true
+userspace:
+  - name: Omarchy
+    version: &quot;4.5.0 (official aarch64 packages, Hyprland; ImageMagick and qt6-imageformats added by hand)&quot;
+    notes: &quot;Two-card Hyprland session (AQ_DRM_DEVICES on the apple card, render node renderD128). The runtime watchdog drop-in (RuntimeWatchdogSec=60) is on the root.&quot;
+  - name: &quot;Mesa (Aurora agx3c, zink over the Vulkan driver): the session GL&quot;
+    repo: https://github.com/aurora-silicon/mesa
+    commit: a79e5a94e316b73b327d5774d23e15dde61b428c
+    notes: &quot;The session default again since 2026-11-08 09:55 UTC (session.env.zink copied over session.env).&quot;
+  - name: &quot;Mesa native Gallium GL for G17S (kept as the A/B variant)&quot;
+    repo: https://github.com/aurora-silicon/mesa
+    commit: 043a4c58080c4951fea3797fe45fc6898ce77632
+    patches:
+      - {pr: &quot;aurora-silicon/mesa#194&quot;}
+    notes: &quot;Fails Alacritty and some glmark2 shaders (fixed offline by patches 0006-0008, three commits pending push on #194); not the session default.&quot;
+bootargs: &quot;earlycon=efifb keep_bootcon console=tty0 loglevel=8 pd_ignore_unused clk_ignore_unused no_console_suspend nvme_apple.flush_interval=0 m5.root=&lt;root-partition&gt; kvm-arm.wfi_trap_policy=trap log_buf_len=16M appledrm.fw27_panel_vrr=1&quot;
+chosen: [&quot;chosen.asahi,show-notch=1&quot;, &quot;chosen.m5pro,gpu=1&quot;, &quot;chosen.m5,t6050-display=1&quot;]
+outputs:
+  payload:
+    name: daily-dcp-lfix-vrr-20261107-7e244836.bin
+    sha256: 7e244836c80aa6ca83b9794a1db8065bee690fbf024f6df6df3566784712db15
+    recorded_in: &quot;the build host&#x27;s payload recipe (daily-dcp-lfix-vrr-20261107-7e244836.bin.recipe.txt) and STATE.md&quot;
+    notes: &quot;Daily form (no self-test) of daily-dcp-lfix plus appledrm.fw27_panel_vrr=1. Layout: m1n1 (0x410000 bytes) | chosen lines | Image.gz | DTB | initramfs. Contains per-unit firmware (initramfs); never published.&quot;
+  test_twin_vrr:
+    name: daily-dcp-lfix-test-vrr-20261107-54b4d1c9.bin
+    sha256: null
+    sha256_prefix: 54b4d1c9
+    notes: &quot;The test twin (self-test on) of the same ingredients; the verifier ran on it (22 passed, 0 failed). Full hash not recorded in the source.&quot;
+  previous_daily:
+    name: daily-dcp-lfix-20261107-689facad.bin
+    sha256: 689facad94cb4aafa813ed888c7d0e580142bab050cc99acbbc6c38fdc7b12da
+    notes: &quot;The VRR-off daily of 2026-11-08 04:53 UTC, replaced by the payload above at 05:28 UTC; test twin daily-dcp-lfix-test-20261107-14f93bfc.bin (prefix only).&quot;
+rollback:
+  name: daily-n1k-test-20261107-5c74c66c.bin
+  sha256: 5c74c66c6d8394c22a3c10333d400ac5cf6612a6dda77c8716c37f53978a3108
+  recorded_in: &quot;STATE.md; daily-n1k recipe&quot;
+  notes: &quot;boot.bin.prev: the previous daily&#x27;s self-test twin; reaches the network with the N1-aware loader. The previous daily daily-n1k-20261107-512a1c00.bin stays on the build host.&quot;
+ingredients:
+  - name: &quot;m1n1-plain-n1-dt-gpu-dcp-phfix.bin (stage-2 loader as embedded, 0x410000 bytes)&quot;
+    sha256: 98906d2912b9de1b384065ad316d25eac88b56286ac495c0d7e2dbd6f8abd477
+    recorded_in: &quot;STATE.md; mk-lfix.py pin&quot;
+  - name: &quot;Image.gz, 7.3.0-gbd53915f2ef1&quot;
+    sha256: fd5b48ebd314a61cc66542becf1049b16507a9e99a0df04750d6c1b85021798f
+    recorded_in: &quot;mk-lfix.py pin&quot;
+  - name: &quot;t6050-j716s-daily-dcp.dtb (in-tree DTB)&quot;
+    sha256: c8f1b960fa59b662c0bf58d5e952aaf73f313d3c769107f2ff9fc7aad09a105d
+    recorded_in: &quot;mk-lfix.py pin&quot;
+    notes: &quot;Built from the in-tree t6050-j716s.dts; no per-unit values; no phandle on dcp and display-subsystem.&quot;
+  - name: &quot;initramfs (self-test and firmware loader)&quot;
+    sha256: null
+    notes: &quot;Carries the unit&#x27;s personalised N1 firmware; not hashed here on purpose.&quot;
+reproducibility:
+  kbuild_build_timestamp: null
+  kbuild_build_user: null
+  kbuild_build_host: null
+  notes: &quot;Not recorded for this build. The release string&#x27;s commit (bd53915f2ef1) identifies the kernel tree.&quot;
+results:
+  - machines/j716s/results/2026-11-08-daily-dcp-lfix-vrr.md
+  - machines/j716s/results/2026-11-08-daily-dcp-lfix.md
+  - machines/j716s/results/2026-11-08-daily-dcp-bisect.md
+  - machines/j716s/results/2026-11-08-loop-safety.md
+  - machines/j716s/results/2026-11-08-desktop-fixes.md
+notes: &quot;Boot arguments are mk-daily.py&#x27;s BASE line with the battery driver on and no self-test, plus log_buf_len=16M and appledrm.fw27_panel_vrr=1; the root partition is a placeholder. Every ESP write is followed by 60 s of idle before a reboot (and a first write-and-reboot can still be counted as a failed restart: see the counted-restart cell).&quot;
+</code></pre><p class="muted"><a href="https://github.com/rolotrealanis98/m4-m5-linux/blob/main/builds/j716s/daily-dcp-lfix-vrr.yaml">builds/j716s/daily-dcp-lfix-vrr.yaml</a></p>
+</main><footer>Generated by <code>tools/gen.py</code> from the data in <a href="https://github.com/rolotrealanis98/m4-m5-linux">the repository</a>. Text and data CC-BY-SA-4.0; tools MIT. Independent of Apple, Asahi Linux, omacom/Omarchy and Aurora Silicon.</footer></body></html>

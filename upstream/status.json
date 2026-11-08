@@ -1,7 +1,7 @@
 {
   "generated_by": "tools/pr_status.py",
   "source": "upstream/prs.yaml",
-  "fetched_at": "2026-11-08T03:32:54Z",
+  "fetched_at": "2026-11-08T10:44:53Z",
   "prs": {
     "aurora-silicon/linux#1012": {
       "state": "open",
@@ -15,35 +15,35 @@
       "review": "none"
     },
     "aurora-silicon/linux#1082": {
-      "state": "open",
+      "state": "merged",
       "draft": false,
       "title": "soc: apple: rtkit: wait up to 10 s for a handshake reply",
       "url": "https://github.com/aurora-silicon/linux/pull/1082",
-      "updated_at": "2026-11-07T15:32:52Z",
-      "merged_at": null,
-      "merge_commit_sha": null,
+      "updated_at": "2026-11-08T04:44:00Z",
+      "merged_at": "2026-11-08T04:43:15Z",
+      "merge_commit_sha": "db35e3d7fdc5f1024b9ee9f7eb350e7fa2b7d972",
       "head_sha": "0630fabf19e907f7a0b78dd0ef0ab8c2a3e95890",
       "review": "commented"
     },
     "aurora-silicon/linux#1083": {
-      "state": "open",
+      "state": "merged",
       "draft": false,
       "title": "HID: dockchannel-hid: settle 50 ms after releasing the AFE reset",
       "url": "https://github.com/aurora-silicon/linux/pull/1083",
-      "updated_at": "2026-11-07T15:32:55Z",
-      "merged_at": null,
-      "merge_commit_sha": null,
+      "updated_at": "2026-11-08T04:44:02Z",
+      "merged_at": "2026-11-08T04:43:19Z",
+      "merge_commit_sha": "284d476452e29ff95bdb14f0a931d9aaf9f67e69",
       "head_sha": "00768a757b560a469dd8e25962426318433bed8d",
       "review": "commented"
     },
     "aurora-silicon/linux#1084": {
-      "state": "open",
+      "state": "merged",
       "draft": false,
       "title": "hwmon: (macsmc) keep a fan whose optional keys are missing",
       "url": "https://github.com/aurora-silicon/linux/pull/1084",
-      "updated_at": "2026-11-07T15:32:58Z",
-      "merged_at": null,
-      "merge_commit_sha": null,
+      "updated_at": "2026-11-08T04:44:04Z",
+      "merged_at": "2026-11-08T04:43:24Z",
+      "merge_commit_sha": "286609da09465422ebe90f944da82aba00556628",
       "head_sha": "5de41949c17448134fec09c0ece0706d3698c7f8",
       "review": "commented"
     },
@@ -70,14 +70,14 @@
       "review": "none"
     },
     "aurora-silicon/linux#1167": {
-      "state": "open",
+      "state": "merged",
       "draft": false,
       "title": "arm64: dts: apple: add the J716s (MacBook Pro 16-inch, M5 Pro)",
       "url": "https://github.com/aurora-silicon/linux/pull/1167",
-      "updated_at": "2026-11-07T17:27:36Z",
-      "merged_at": null,
-      "merge_commit_sha": null,
-      "head_sha": "674542cf2e222ce79ea6f58c961a9a1345537781",
+      "updated_at": "2026-11-08T09:41:17Z",
+      "merged_at": "2026-11-08T06:11:38Z",
+      "merge_commit_sha": "e636747d9cdf9226798986ecda022a51494f2a9e",
+      "head_sha": "36aba43a53965575db87c2f21b7b3b891f861051",
       "review": "none"
     },
     "aurora-silicon/linux#1173": {
@@ -107,10 +107,10 @@
       "draft": false,
       "title": "PCI: apple: train a T6050 root port the boot loader left down (J716s N1)",
       "url": "https://github.com/aurora-silicon/linux/pull/1182",
-      "updated_at": "2026-11-07T22:50:45Z",
+      "updated_at": "2026-11-08T07:16:24Z",
       "merged_at": null,
       "merge_commit_sha": null,
-      "head_sha": "a0e28f1c1ab689c86af6ba537c3db212eb900e88",
+      "head_sha": "089d4cbc014c8bf41a4e9bf9f389790ae6fe494a",
       "review": "commented"
     },
     "aurora-silicon/linux#1183": {
@@ -118,10 +118,10 @@
       "draft": false,
       "title": "arm64: dts: apple: t6050-j716s: let the kernel train the N1 root port (on #1167)",
       "url": "https://github.com/aurora-silicon/linux/pull/1183",
-      "updated_at": "2026-11-07T22:48:52Z",
+      "updated_at": "2026-11-08T07:16:23Z",
       "merged_at": null,
       "merge_commit_sha": null,
-      "head_sha": "2fdad550cebb1367b1574c7063939e48e34dd77f",
+      "head_sha": "c69970a07753323def89b3e9a129742b5aae0433",
       "review": "commented"
     },
     "aurora-silicon/linux#937": {
@@ -129,21 +129,21 @@
       "draft": false,
       "title": "PCI: apple: adopt the T6050 root ports the boot loader trained",
       "url": "https://github.com/aurora-silicon/linux/pull/937",
-      "updated_at": "2026-11-05T04:19:00Z",
+      "updated_at": "2026-11-08T06:10:09Z",
       "merged_at": null,
       "merge_commit_sha": null,
-      "head_sha": "a873be047e9a514f8a2e886f5272c570e0dd6516",
+      "head_sha": "911da8c5008a05f69cffb1cc1169a598c9138117",
       "review": "none"
     },
     "aurora-silicon/linux#945": {
-      "state": "open",
+      "state": "merged",
       "draft": false,
       "title": "arm64: dts: apple: add the J716c (MacBook Pro 16-inch, M5 Max)",
       "url": "https://github.com/aurora-silicon/linux/pull/945",
-      "updated_at": "2026-11-07T10:50:51Z",
-      "merged_at": null,
-      "merge_commit_sha": null,
-      "head_sha": "3552eaa764e90a344aeb76ecba50c6deeb2dc761",
+      "updated_at": "2026-11-08T08:02:47Z",
+      "merged_at": "2026-11-08T05:44:55Z",
+      "merge_commit_sha": "843d7911dc374d74d20dc2b1ec16ae4a4b95805f",
+      "head_sha": "921689014ab176945040d8b8cdc6236c15c3427c",
       "review": "none"
     },
     "aurora-silicon/linux#946": {
@@ -184,7 +184,7 @@
       "draft": false,
       "title": "Add the T6050 (M5 Max) and the 14-inch MacBook Pro (J714c)",
       "url": "https://github.com/omacom/linux-aurora/pull/404",
-      "updated_at": "2026-11-07T16:29:36Z",
+      "updated_at": "2026-11-08T07:34:55Z",
       "merged_at": null,
       "merge_commit_sha": null,
       "head_sha": "66da9d75380100af827ac023927cff64eabef1d7",
@@ -206,10 +206,10 @@
       "draft": false,
       "title": "T6050 (M5 Max, J714c): boot from disk through the Omarchy chain",
       "url": "https://github.com/omacom/m1n1/pull/30",
-      "updated_at": "2026-11-07T20:51:45Z",
+      "updated_at": "2026-11-08T07:50:13Z",
       "merged_at": null,
       "merge_commit_sha": null,
-      "head_sha": "ad08bf5449bdb0226783e4602d47899e84494840",
+      "head_sha": "140a36b3015a969ad30f686617873cd72853c7c5",
       "review": "commented"
     },
     "omacom/m1n1#33": {
@@ -217,10 +217,10 @@
       "draft": false,
       "title": "smp: T6050: forward secondaries whose RVBAR is locked to the stage 1 base (stacked on #30)",
       "url": "https://github.com/omacom/m1n1/pull/33",
-      "updated_at": "2026-11-07T23:17:19Z",
+      "updated_at": "2026-11-08T08:25:32Z",
       "merged_at": null,
       "merge_commit_sha": null,
-      "head_sha": "275ecc4205add99cc5f26860896cf1b43df96156",
+      "head_sha": "ff75a40df86272364a556c0c9a622c022c7bf03c",
       "review": "commented"
     },
     "omacom/m1n1#34": {
@@ -228,10 +228,10 @@
       "draft": false,
       "title": "pcie, kboot: T6050: optional N1 (Wi-Fi/Bluetooth) training and hand-off behind chosen.asahi,t6050-n1 (stacked on #33)",
       "url": "https://github.com/omacom/m1n1/pull/34",
-      "updated_at": "2026-11-07T23:17:21Z",
+      "updated_at": "2026-11-08T08:25:32Z",
       "merged_at": null,
       "merge_commit_sha": null,
-      "head_sha": "f1a942e393d11eadb154988a4a3bd961184fe5e0",
+      "head_sha": "9879c2f9b488ebfb0a614c6733fd656635969f37",
       "review": "commented"
     },
     "omacom/m1n1#35": {
@@ -239,10 +239,10 @@
       "draft": false,
       "title": "kboot: T6050: internal display hand-off for the firmware-27 DCP driver, opt-in (stacked on #37)",
       "url": "https://github.com/omacom/m1n1/pull/35",
-      "updated_at": "2026-11-07T22:41:28Z",
+      "updated_at": "2026-11-08T08:25:35Z",
       "merged_at": null,
       "merge_commit_sha": null,
-      "head_sha": "db0d3bf0d1bffa3cd07e212f2448b8698e71b586",
+      "head_sha": "5818f6bdd73b40b0628b04457028d45b7da231ba",
       "review": "commented"
     },
     "omacom/m1n1#36": {
@@ -250,10 +250,10 @@
       "draft": false,
       "title": "wdt: leave the watchdog armed when the boot-args say m1n1.wdt=keep",
       "url": "https://github.com/omacom/m1n1/pull/36",
-      "updated_at": "2026-11-07T23:17:22Z",
+      "updated_at": "2026-11-08T08:25:29Z",
       "merged_at": null,
       "merge_commit_sha": null,
-      "head_sha": "02785a35e046901d5686ab9059b2c08b6256752a",
+      "head_sha": "64c8ce2171155d18e5f110d640f86f1b90fbc893",
       "review": "commented"
     },
     "omacom/m1n1#37": {
@@ -261,10 +261,10 @@
       "draft": false,
       "title": "kboot_gpu: T6050: hand the GPU to the G17 driver from the ADT (stacked on #34)",
       "url": "https://github.com/omacom/m1n1/pull/37",
-      "updated_at": "2026-11-07T22:40:15Z",
+      "updated_at": "2026-11-08T08:25:54Z",
       "merged_at": null,
       "merge_commit_sha": null,
-      "head_sha": "4e461025b9ecd25b571ed66d87acdd5680bf6b21",
+      "head_sha": "2bebfe7708c7077377ecc0d80d29bfb458335c0d",
       "review": "commented"
     },
     "omacom/omarchy-mac-pkgs#103": {

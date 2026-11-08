@@ -14,6 +14,16 @@ features:
     group: Boot
     topic: boot-chain
     works: A failed boot returns to a known-good payload or to macOS without a person at the machine (A/B fallback, watchdog, self-revert).
+  boot.loop-safety:
+    title: Loop safety (a hung test boot resets by itself)
+    group: Boot
+    topic: boot-chain
+    works: A test payload that reaches userspace but never opens the watchdog, or hangs in kernel init, is reset by the watchdog and stage 1 falls back to the known-good payload without a person at the machine; a payload that opens it hands it over to systemd and runs on.
+  boot.counted-restart:
+    title: Clean restart is not counted as a failed boot
+    group: Boot
+    topic: boot-chain
+    works: A reboot straight after heavy disk writes (no idle wait) starts the new payload every time instead of being counted by iBoot as a failed boot and falling back.
   boot.omarchy-chain:
     title: Omarchy boot chain (m1n1, U-Boot, Limine, EFI kernel)
     group: Boot
@@ -109,6 +119,11 @@ features:
     group: Wireless
     topic: n1-wireless
     works: A Bluetooth device pairs and carries data (input or audio), checked by a person.
+  wifi-bt.networkmanager:
+    title: Wi-Fi through NetworkManager
+    group: Wireless
+    topic: null
+    works: NetworkManager (as Omarchy's network menu expects) manages the wireless interface, associates, gets a lease and survives a restart, with systemd-networkd and wpa_supplicant no longer in charge.
   audio.speakers:
     title: Speakers
     group: Audio
@@ -154,6 +169,11 @@ features:
     group: Desktop
     topic: null
     works: A graphical desktop (for example Hyprland on Omarchy) starts on the internal panel and a person can log in and use it.
+  desktop.omarchy:
+    title: Omarchy shell and packages
+    group: Desktop
+    topic: null
+    works: Omarchy's own shell from its aarch64 packages (the Quickshell bar and the wallpaper) runs on the desktop session, with any package it needs that its dependencies do not pull in noted. Menu, lock screen and first-run are separate checks.
   display.dcp:
     title: Internal panel through the DCP
     group: Display

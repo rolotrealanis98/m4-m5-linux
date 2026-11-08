@@ -11,12 +11,22 @@
 <tr><td>Untethered boot<br><code>boot.untethered</code></td>
 <td title="boots from disk with no cable"><a href="machines/j714c.html#f-boot-untethered"><span class="st st-reported">reported</span></a></td>
 <td title="not yet: m1n1-tethered boots"><a href="machines/j714s.html#f-boot-untethered"><span class="st st-reported">reported</span></a></td>
-<td title="Stage 1 on the boot slot, payload on the ESP, no cable."><a href="machines/j716s.html#f-boot-untethered"><span class="st st-works-daily">works (daily)</span></a></td>
+<td title="Stage 1 on the boot slot, payload on the ESP, no cable. The daily is daily-dcp-lfix-vrr (50 s to ssh); the J716s device tree is upstream (#1167 merged 2026-11-08). The omacom m1n1 stack rebased on #30 140a36b also booted first pass (results/2026-11-08-omacom-wdt-keep-r2.md)."><a href="machines/j716s.html#f-boot-untethered"><span class="st st-works-daily">works (daily)</span></a></td>
 </tr>
 <tr><td>Boot safety and recovery<br><code>boot.safety</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title="a hardware watchdog (60 s) and an auto-reboot guard return the machine to macOS after a bad boot"><a href="machines/j714s.html#f-boot-safety"><span class="st st-reported">reported</span></a></td>
-<td title="A/B stage 1 with a 150 s watchdog and self-reverting test payloads. Rule: 60 s of idle after any large write before a reboot. A hang inside Linux init after Linux owns the watchdog is not covered (Thunderbolt T0). The stage-mark change to stage 1 waits for an attended sitting."><a href="machines/j716s.html#f-boot-safety"><span class="st st-works-daily">works (daily)</span></a></td>
+<td title="A/B stage 1 with a 150 s watchdog and self-reverting test payloads; since 2026-11-08 systemd owns the watchdog on the daily (RuntimeWatchdogSec=60) and test payloads reset a hung init (boot.loop-safety). Rule: 60 s of idle after any large write before a reboot; a first write-and-reboot can still be "><a href="machines/j716s.html#f-boot-safety"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Loop safety (a hung test boot resets by itself)<br><code>boot.loop-safety</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Test payloads carry watchdog.open_timeout=300 and an initramfs opener that hands the watchdog to systemd. Negative test: a boot that reaches userspace and never opens the device is reset at about 150 s and stage 1 falls back, stage of death recorded. Positive test: hand-over to systemd passes (Runti"><a href="machines/j716s.html#f-boot-loop-safety"><span class="st st-works-test">works (test)</span></a></td>
+</tr>
+<tr><td>Clean restart is not counted as a failed boot<br><code>boot.counted-restart</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="A reboot while the SSD is still busy after a write burst is counted by iBoot as a failed boot, so the next stage-1 pass falls back before reading the new file (about 1 in 3 immediate reboots after a burst; 0 failures in 17 with at least 60 s idle). The workaround is the 60 s idle rule and a 20 s shu"><a href="machines/j716s.html#f-boot-counted-restart"><span class="st st-blocked">blocked</span></a></td>
 </tr>
 <tr><td>Omarchy boot chain (m1n1, U-Boot, Limine, EFI kernel)<br><code>boot.omarchy-chain</code></td>
 <td title="stage 1 m1n1, ESP stage 2, U-Boot, Limine, EFI kernel, all installed as packages"><a href="machines/j714c.html#f-boot-omarchy-chain"><span class="st st-reported">reported</span></a></td>
@@ -56,12 +66,12 @@
 <tr><td>Built-in trackpad<br><code>input.trackpad</code></td>
 <td title="comes up on every boot (AFE reset through SMC pcIO 28, start retried)"><a href="machines/j714c.html#f-input-trackpad"><span class="st st-reported">reported</span></a></td>
 <td title="worked on the kernel #30 boot (2026-11-06) / movement and click captured; no host AFE reset needed so far (J714s AFE reset is SMC pcIO, not gp1c)"><a href="machines/j714s.html#f-input-trackpad"><span class="st st-reported">reported</span></a></td>
-<td title="Touch MT ready on every boot (the host drives the AFE reset on SMC GPIO gp1c); both MTP haptic devices, the click gives feedback."><a href="machines/j716s.html#f-input-trackpad"><span class="st st-works-daily">works (daily)</span></a></td>
+<td title="Touch MT ready on every boot (the host drives the AFE reset on SMC GPIO gp1c); both MTP haptic devices, the click gives feedback; feel confirmed by Rolando 2026-11-08. #1083 is merged upstream. Palm and thumb handling is the separate input.trackpad-palm cell."><a href="machines/j716s.html#f-input-trackpad"><span class="st st-works-daily">works (daily)</span></a></td>
 </tr>
 <tr><td>Trackpad palm and thumb handling<br><code>input.trackpad-palm</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="Palm and thumb handling: the palm-class change is a module parameter, untested. Needs a person typing on the machine."><a href="machines/j716s.html#f-input-trackpad-palm"><span class="st st-attended">attended</span></a></td>
+<td title="Palm and thumb handling: the palm-class change is a module parameter, untested. Needs a person typing on the machine; the touch-size numbers from the HOWTO checklist finalise the thresholds."><a href="machines/j716s.html#f-input-trackpad-palm"><span class="st st-attended">attended</span></a></td>
 </tr>
 <tr><td>Battery and charger<br><code>smc.battery</code></td>
 <td title="battery and charger"><a href="machines/j714c.html#f-smc-battery"><span class="st st-reported">reported</span></a></td>
@@ -81,7 +91,7 @@
 <tr><td>Suspend to idle<br><code>sleep.s2idle</code></td>
 <td title="lid close suspends, lid open wakes (2026-11-05); not re-checked on the current kernel"><a href="machines/j714c.html#f-sleep-s2idle"><span class="st st-reported">reported</span></a></td>
 <td title="missing / systemctl suspend, lid wake, 13-minute sleep on the default kernel; not requalified on the DCP kernel"><a href="machines/j714s.html#f-sleep-s2idle"><span class="st st-reported">reported</span></a></td>
-<td title="Lid close sleeps and lid open wakes with Wi-Fi back (adopted-link fix). Not yet re-run on the daily whose kernel trains the N1 itself."><a href="machines/j716s.html#f-sleep-s2idle"><span class="st st-works-daily">works (daily)</span></a></td>
+<td title="Lid close sleeps and lid open wakes with Wi-Fi back (adopted-link fix). Not yet re-run on the current daily: kernel-trained N1, DCP scanout, and systemd now feeding the watchdog (RuntimeWatchdogSec=60) all came after the last sleep result."><a href="machines/j716s.html#f-sleep-s2idle"><span class="st st-works-daily">works (daily)</span></a></td>
 </tr>
 <tr><td>USB host on the Type-C ports<br><code>usb.host</code></td>
 <td title="USB 2.0 host on all three ports, SuperSpeed on port 1"><a href="machines/j714c.html#f-usb-host"><span class="st st-reported">reported</span></a></td>
@@ -113,10 +123,15 @@
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
 <td title="No device paired yet; needs a person with a Bluetooth device."><a href="machines/j716s.html#f-wifi-bt-bt-pairing"><span class="st st-attended">attended</span></a></td>
 </tr>
+<tr><td>Wi-Fi through NetworkManager<br><code>wifi-bt.networkmanager</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Pending. The root runs systemd-networkd with wpa_supplicant; Omarchy&#x27;s network menu expects NetworkManager, which is installed but not enabled (the widget shows offline). The switch can cut the remote session, so it is done with a person at the machine and the old units one command away."><a href="machines/j716s.html#f-wifi-bt-networkmanager"><span class="st st-attended">attended</span></a></td>
+</tr>
 <tr><td>Speakers<br><code>audio.speakers</code></td>
 <td title="all six speakers at full volume with speakersafetyd"><a href="machines/j714c.html#f-audio-speakers"><span class="st st-reported">reported</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="J716 link in the J616s TDM frame (series 0081), six amps, no faults, 1 kHz tone heard clean, PipeWire sink with a -30 dB ceiling and speakersafetyd."><a href="machines/j716s.html#f-audio-speakers"><span class="st st-works-daily">works (daily)</span></a></td>
+<td title="J716 link in the J616s TDM frame (series 0081), six amps, no faults, tone heard clean (2026-11-07 and again 2026-11-08 by Rolando after the PipeWire route was reset), bring-up filter sink and profile graphs, kernel ceiling -30 dB with speakersafetyd. works-test, not daily: the route had to be fixed "><a href="machines/j716s.html#f-audio-speakers"><span class="st st-works-test">works (test)</span></a></td>
 </tr>
 <tr><td>Microphone<br><code>audio.mic</code></td>
 <td title="microphone array works"><a href="machines/j714c.html#f-audio-mic"><span class="st st-reported">reported</span></a></td>
@@ -131,7 +146,7 @@
 <tr><td>Tuned speaker profile<br><code>audio.speaker-profile</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="J716s profile built and checked offline (Apple&#x27;s J716s speaker tuning matches the J616s one; volume graph capped at -10 dB, kernel ceiling -30 dB kept); staged, not active. Needs a listening test."><a href="machines/j716s.html#f-audio-speaker-profile"><span class="st st-attended">attended</span></a></td>
+<td title="J716s profile built and checked offline (Apple&#x27;s J716s speaker tuning matches the J616s one; volume graph capped at -10 dB, kernel ceiling -30 dB kept); staged, not active. The listening-test tool j716-listen (signals, volume steps, live safety readout, auto-stop, results table) is ready; needs abou"><a href="machines/j716s.html#f-audio-speaker-profile"><span class="st st-attended">attended</span></a></td>
 </tr>
 <tr><td>GPU firmware and DRM device<br><code>gpu.firmware</code></td>
 <td title="partial: the G17C firmware runs, the scheduler does not pick up jobs yet (software rendering)"><a href="machines/j714c.html#f-gpu-firmware"><span class="st st-reported">reported</span></a></td>
@@ -146,37 +161,42 @@
 <tr><td>OpenGL on the GPU (any path)<br><code>gpu.gl</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="First through zink, native Gallium since 2026-11-08. Scanout still through simpledrm (a CPU copy) in the daily."><a href="machines/j716s.html#f-gpu-gl"><span class="st st-works-daily">works (daily)</span></a></td>
+<td title="Zink is the session GL again since 2026-11-08 09:55 UTC (the native driver cannot yet draw Alacritty); the GPU renders straight into the DCP scanout buffers, no copy."><a href="machines/j716s.html#f-gpu-gl"><span class="st st-works-daily">works (daily)</span></a></td>
 </tr>
 <tr><td>Native Gallium OpenGL<br><code>gpu.gl-native</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="The desktop&#x27;s GL since 2026-11-08 02:23 UTC (userspace change on the daily; the kernel is unchanged). zink kept as a one-file rollback."><a href="machines/j716s.html#f-gpu-gl-native"><span class="st st-works-daily">works (daily)</span></a></td>
+<td title="Passes 12/12 scenes and a 24 min desktop soak, but it was the session GL only from 02:23 to 09:55 UTC: it cannot build Alacritty&#x27;s fragment program, so zink is the session default again. Fixes 0006-0008 (uniform ranges in dwords, keep the narrowing move, a faulttrace flag) are checked offline on the"><a href="machines/j716s.html#f-gpu-gl-native"><span class="st st-works-test">works (test)</span></a></td>
 </tr>
 <tr><td>Desktop session<br><code>desktop.session</code></td>
 <td title="Omarchy login with Hyprland (software rendering)"><a href="machines/j714c.html#f-desktop-session"><span class="st st-reported">reported</span></a></td>
 <td title="Hyprland desktop on llvmpipe, one core / Hyprland 0.57.1 at 3024x1890, 120 Hz on the DCP panel, software rendering"><a href="machines/j714s.html#f-desktop-session"><span class="st st-reported">reported</span></a></td>
-<td title="Hyprland on Omarchy 4.5.0 on the internal panel, GPU session by default (software session as fallback). A full interactive login on the GPU kernel is not separately logged."><a href="machines/j716s.html#f-desktop-session"><span class="st st-works-daily">works (daily)</span></a></td>
+<td title="Hyprland on Omarchy 4.5.0 on the internal panel through the DCP (two-card session: the GPU renders, the DCP scans out), 120 Hz with VRR, zink GL, software session as fallback. Used with Rolando at the machine on 2026-11-08."><a href="machines/j716s.html#f-desktop-session"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Omarchy shell and packages<br><code>desktop.omarchy</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Omarchy 4.5.0 from the official aarch64 packages: the Quickshell bar and wallpaper run on the daily. Package fill: imagemagick and qt6-imageformats were not pulled in and were installed by hand (the wallpaper layer was blank without them). Held back on purpose: the boot-chain packages, NetworkManage"><a href="machines/j716s.html#f-desktop-omarchy"><span class="st st-works-daily">works (daily)</span></a></td>
 </tr>
 <tr><td>Internal panel through the DCP<br><code>display.dcp</code></td>
 <td title="internal panel through the DCP at 3024x1964 including the notch area"><a href="machines/j714c.html#f-display-dcp"><span class="st st-reported">reported</span></a></td>
 <td title="internal panel through the DCP (firmware 27.3 beta 1 layout), framebuffer console, display off/on"><a href="machines/j714s.html#f-display-dcp"><span class="st st-reported">reported</span></a></td>
-<td title="The DCP drives the internal panel on a test payload (firmware 27.3). The first daily candidate with the DCP and the GPU together panicked early (fallback worked); bisect in progress."><a href="machines/j716s.html#f-display-dcp"><span class="st st-works-test">works (test)</span></a></td>
+<td title="In the daily since 2026-11-08 04:53 UTC: the DCP drives the panel on the 27.3 firmware (apple-drm card1, eDP-2, six 3456x2234 timings), the GPU renders into the scanout buffers. The first attempt fell back because the in-tree DTB has no phandle on the dcp and display-subsystem nodes; the loader assi"><a href="machines/j716s.html#f-display-dcp"><span class="st st-works-daily">works (daily)</span></a></td>
 </tr>
 <tr><td>High refresh rate and VRR<br><code>display.refresh</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="120 Hz mode set; VRR (opt-in) changes the measured flip interval. Constant swap timestamps fixed the first-swap stall."><a href="machines/j716s.html#f-display-refresh"><span class="st st-works-test">works (test)</span></a></td>
+<td title="120 Hz: vkcube composited 2405 swaps in 20 s, p50 8.333 ms, 0 late. VRR on in the daily (appledrm.fw27_panel_vrr=1, firmware minimum 24 Hz): a 50 fps client is shown at 20.8 ms intervals (80 percent within 1.5 ms) against 12.5 ms judder with VRR off."><a href="machines/j716s.html#f-display-refresh"><span class="st st-works-daily">works (daily)</span></a></td>
 </tr>
 <tr><td>Panel brightness<br><code>display.brightness</code></td>
 <td title="brightness keys work"><a href="machines/j714c.html#f-display-brightness"><span class="st st-reported">reported</span></a></td>
 <td title="brightness control works"><a href="machines/j714s.html#f-display-brightness"><span class="st st-reported">reported</span></a></td>
-<td title="Writes are accepted but actual_brightness stays 300; the firmware-27 brightness path needs work, then a check by eye."><a href="machines/j716s.html#f-display-brightness"><span class="st st-blocked">blocked</span></a></td>
+<td title="Backlight 300/600 and writes reach the panel on the DCP daily (the v2 brightness guard fixed the earlier readback stuck at 300). The source records the readback, not a by-eye check; confirm by eye at the next sitting."><a href="machines/j716s.html#f-display-brightness"><span class="st st-works-daily">works (daily)</span></a></td>
 </tr>
 <tr><td>External displays<br><code>display.external</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="Needs the DCP in the daily first; DisplayPort over Type-C untested on both ports."><a href="machines/j716s.html#f-display-external"><span class="st st-prepared">prepared</span></a></td>
+<td title="The DCP is in the daily now; HDMI via the external DCP and DisplayPort alt mode on the Type-C ports are untested (both ports otherwise work as USB hosts)."><a href="machines/j716s.html#f-display-external"><span class="st st-prepared">prepared</span></a></td>
 </tr>
 <tr><td>NVRAM read<br><code>nvram.read</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
@@ -221,7 +241,7 @@
 <tr><td>Thunderbolt / USB4<br><code>thunderbolt</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="The T0 boot hung in kernel init (a deferred probe waiting forever) and the fallback could not run. Attended only until there is a probe timeout and an init-completion watchdog."><a href="machines/j716s.html#f-thunderbolt"><span class="st st-blocked">blocked</span></a></td>
+<td title="The T0 boot hung in kernel init (a deferred probe waiting forever) and the fallback could not run. Test payloads now reset a hung init (boot.loop-safety passes); a bisect ladder of DTBs (round 2) is prepared. Still attended: first the daily DTB, then the power-domain nodes, then the full T0."><a href="machines/j716s.html#f-thunderbolt"><span class="st st-blocked">blocked</span></a></td>
 </tr>
 <tr><td>Hardware video decode<br><code>video.decode</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
