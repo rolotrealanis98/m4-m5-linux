@@ -20,13 +20,70 @@ and `R` a cell reproduced on two setups. Draft machines (entries written from th
 `reported` cells. The [site](site/index.html) has the same data with evidence links on every cell.
 
 <!-- BEGIN GENERATED: matrix -->
-_Run `python3 tools/gen.py` to fill this section._
+#### M5 family
+
+| Feature | [J714c](machines/j714c/machine.yaml) (draft) | [J714s](machines/j714s/machine.yaml) (draft) | [J716s](machines/j716s/machine.yaml) |
+|---|---|---|---|
+| Untethered boot (`boot.untethered`) | reported | reported | works (daily) |
+| Boot safety and recovery (`boot.safety`) | untested | reported | works (daily) |
+| Omarchy boot chain (m1n1, U-Boot, Limine, EFI kernel) (`boot.omarchy-chain`) | reported | untested | attended |
+| All CPU cores (`cpu.smp`) | reported | reported | works (daily) |
+| CPU frequency scaling (`cpu.cpufreq`) | reported | reported | works (daily) |
+| CPU idle (WFI) (`cpu.idle`) | untested | reported | works (daily) |
+| Internal NVMe (`storage.nvme`) | reported | reported | works (daily) |
+| Built-in keyboard (`input.keyboard`) | reported | reported | works (daily) |
+| Keyboard backlight (`input.kbd-backlight`) | reported | reported | works (daily) |
+| Built-in trackpad (`input.trackpad`) | reported | reported | works (daily) |
+| Trackpad palm and thumb handling (`input.trackpad-palm`) | untested | untested | attended |
+| Battery and charger (`smc.battery`) | reported | reported | works (daily) |
+| Fans and sensors (`smc.sensors`) | reported | reported | works (daily) |
+| Lid and power button events (`smc.lid`) | reported | reported | works (daily) |
+| Suspend to idle (`sleep.s2idle`) | reported | reported | works (daily) |
+| USB host on the Type-C ports (`usb.host`) | reported | untested | works (daily) |
+| Netfilter and WireGuard in the kernel (`net.netfilter`) | reported | reported | works (daily) |
+| Wi-Fi (`wifi-bt.wifi`) | reported | reported | works (daily) |
+| Wi-Fi 6 GHz (`wifi-bt.wifi-6ghz`) | reported | untested | untested |
+| Bluetooth controller (`wifi-bt.bt`) | reported | untested | works (daily) |
+| Bluetooth pairing (`wifi-bt.bt-pairing`) | untested | untested | attended |
+| Speakers (`audio.speakers`) | reported | untested | works (daily) |
+| Microphone (`audio.mic`) | reported | untested | works (daily) |
+| Headphone jack (`audio.jack`) | untested | untested | attended |
+| Tuned speaker profile (`audio.speaker-profile`) | untested | untested | attended |
+| GPU firmware and DRM device (`gpu.firmware`) | reported | reported | works (daily) |
+| Vulkan on the GPU (`gpu.vulkan`) | untested | untested | works (daily) |
+| OpenGL on the GPU (any path) (`gpu.gl`) | untested | untested | works (daily) |
+| Native Gallium OpenGL (`gpu.gl-native`) | untested | untested | works (daily) |
+| Desktop session (`desktop.session`) | reported | reported | works (daily) |
+| Internal panel through the DCP (`display.dcp`) | reported | reported | works (test) |
+| High refresh rate and VRR (`display.refresh`) | untested | untested | works (test) |
+| Panel brightness (`display.brightness`) | reported | reported | attended |
+| External displays (`display.external`) | untested | untested | prepared |
+| NVRAM read (`nvram.read`) | untested | untested | works (daily) |
+| NVRAM write (`nvram.write`) | untested | untested | untested |
+| PMP coprocessor (`power.pmp`) | reported | untested | untested |
+| Power-management controller (observe) (`power.pmc-observe`) | untested | untested | works (test) |
+| Power-management controller (control) (`power.pmc-control`) | untested | untested | attended |
+| Thermal zones (`power.thermal`) | untested | untested | prepared |
+| Camera ISP power domains and DARTs (`camera.isp-power`) | untested | untested | works (test) |
+| Camera capture (`camera.capture`) | untested | untested | attended |
+| Thunderbolt / USB4 (`thunderbolt`) | untested | untested | blocked |
+| Hardware video decode (`video.decode`) | untested | untested | prepared |
+| Hardware video encode (`video.encode`) | untested | untested | not realistic |
+| ProRes engine (`video.prores`) | untested | untested | not realistic |
+| Neural Engine (`ane`) | untested | untested | prepared |
+| Touch ID (`touchid`) | untested | untested | not realistic |
+
+States and evidence rules: see [States and evidence](#states-and-evidence). `R` = reproduced on two setups, `*` = stale.
 <!-- END GENERATED: matrix -->
 
 ### Machines
 
 <!-- BEGIN GENERATED: machines -->
-_Run `python3 tools/gen.py` to fill this section._
+| Board | Model | Identifier | SoC | Owners | Entry | Setups | Current build |
+|---|---|---|---|---|---|---|---|
+| [J714c](machines/j714c/machine.yaml) | MacBook Pro (14-inch, M5 Max) | Mac17,7 | T6050 | [@edimoldovan](https://github.com/edimoldovan) | draft (from public posts, not yet confirmed) | edimoldovan-omarchy | none |
+| [J714s](machines/j714s/machine.yaml) | MacBook Pro (14-inch, M5 Pro) | Mac17,9 | T6050 | [@TripleU613](https://github.com/TripleU613), [@betizzel](https://github.com/betizzel) | draft (from public posts, not yet confirmed) | triple-m5boot, betizzel-m1n1 | none |
+| [J716s](machines/j716s/machine.yaml) | MacBook Pro (16-inch, M5 Pro) | Mac17,8 | T6050 | [@rolotrealanis98](https://github.com/rolotrealanis98) | confirmed | j716s-aurora73, j716s-legacy72 | [daily-n1k](builds/j716s/daily-n1k.yaml) |
 <!-- END GENERATED: machines -->
 
 ### Upstream pull requests
@@ -35,7 +92,35 @@ Hand-written index in [`upstream/prs.yaml`](upstream/prs.yaml); live state in
 [`upstream/status.json`](upstream/status.json), refreshed daily by `tools/pr_status.py`.
 
 <!-- BEGIN GENERATED: upstream -->
-_Run `python3 tools/gen.py` to fill this section._
+| PR | Title | Machines | Features | State |
+|---|---|---|---|---|
+| [aurora-silicon/linux#937](https://github.com/aurora-silicon/linux/pull/937) | PCI: apple: adopt the T6050 root ports the boot loader trained | J716s, J716c | `wifi-bt.wifi` | open |
+| [aurora-silicon/linux#945](https://github.com/aurora-silicon/linux/pull/945) | arm64: dts: apple: add the J716c (MacBook Pro 16-inch, M5 Max) | J716c, J716s | `boot.untethered` | open |
+| [aurora-silicon/linux#946](https://github.com/aurora-silicon/linux/pull/946) | J716c: Thunderbolt 5 and USB4 on the right USB-C port | J716c, J716s | `thunderbolt` | open |
+| [aurora-silicon/linux#1012](https://github.com/aurora-silicon/linux/pull/1012) | drm/asahi, drm/apple: M5 GPU and firmware-27 display on integration/aurora | J716s | `gpu.firmware`, `display.dcp` | open |
+| [aurora-silicon/linux#1082](https://github.com/aurora-silicon/linux/pull/1082) | soc: apple: rtkit: wait up to 10 s for a handshake reply | J716s, J714s | `storage.nvme` | open |
+| [aurora-silicon/linux#1083](https://github.com/aurora-silicon/linux/pull/1083) | HID: dockchannel-hid: settle 50 ms after releasing the AFE reset | J716s | `input.trackpad` | open |
+| [aurora-silicon/linux#1084](https://github.com/aurora-silicon/linux/pull/1084) | hwmon: (macsmc) keep a fan whose optional keys are missing | J716s | `smc.sensors` | open |
+| [aurora-silicon/linux#1152](https://github.com/aurora-silicon/linux/pull/1152) | arm64: idle: T6050 idles in WFI even with idle=nop | J716s | `cpu.idle` | open |
+| [aurora-silicon/linux#1160](https://github.com/aurora-silicon/linux/pull/1160) | Input: macsmc-input - confirm a lid-open report during system sleep | J716s | `sleep.s2idle`, `smc.lid` | open |
+| [aurora-silicon/linux#1167](https://github.com/aurora-silicon/linux/pull/1167) | arm64: dts: apple: add the J716s (MacBook Pro 16-inch, M5 Pro) | J716s | `boot.untethered`, `storage.nvme`, `input.keyboard`, `input.trackpad`, `smc.battery`, `smc.sensors`, `usb.host` | open |
+| [aurora-silicon/linux#1173](https://github.com/aurora-silicon/linux/pull/1173) | drm/asahi: M5: InitData for the macOS 27.2 and 27.3 firmware (G17S bring-up on J716s) | J716s | `gpu.firmware`, `gpu.vulkan`, `gpu.gl` | open |
+| [aurora-silicon/linux#1174](https://github.com/aurora-silicon/linux/pull/1174) | drm/apple: firmware 27.3 IOMFB method table and swap layout | J716s | `display.dcp` | open |
+| [aurora-silicon/linux#1182](https://github.com/aurora-silicon/linux/pull/1182) | PCI: apple: train a T6050 root port the boot loader left down (J716s N1) | J716s, J714c | `wifi-bt.wifi`, `wifi-bt.bt` | open |
+| [aurora-silicon/linux#1183](https://github.com/aurora-silicon/linux/pull/1183) | arm64: dts: apple: t6050-j716s: let the kernel train the N1 root port (on #1167) | J716s | `wifi-bt.wifi`, `wifi-bt.bt` | open |
+| [aurora-silicon/m1n1#65](https://github.com/aurora-silicon/m1n1/pull/65) | kboot: train the T6050 N1 link and fill its hand-off (J716s Wi-Fi/Bluetooth) | J716s | `wifi-bt.wifi`, `wifi-bt.bt` | open |
+| [aurora-silicon/mesa#194](https://github.com/aurora-silicon/mesa/pull/194) | asahi: native Gallium GL on the M5 Pro and M5 Max (G17S, G17C) | J716s, J714c | `gpu.gl-native` | open |
+| [omacom/linux-aurora#404](https://github.com/omacom/linux-aurora/pull/404) | Add the T6050 (M5 Max) and the 14-inch MacBook Pro (J714c) | J714c | `cpu.smp`, `cpu.cpufreq`, `input.keyboard`, `input.trackpad`, `smc.battery`, `smc.sensors`, `wifi-bt.wifi` | open |
+| [omacom/linux-aurora#413](https://github.com/omacom/linux-aurora/pull/413) | Add the 16-inch MacBook Pro with the M5 Pro (J716s) | J716s | `boot.untethered` | open |
+| [omacom/m1n1#30](https://github.com/omacom/m1n1/pull/30) | T6050 (M5 Max, J714c): boot from disk through the Omarchy chain | J714c | `boot.untethered`, `boot.omarchy-chain` | open |
+| [omacom/m1n1#33](https://github.com/omacom/m1n1/pull/33) | smp: T6050: forward secondaries whose RVBAR is locked to the stage 1 base (stacked on #30) | J716s | `cpu.smp`, `boot.untethered` | open |
+| [omacom/m1n1#34](https://github.com/omacom/m1n1/pull/34) | pcie, kboot: T6050: optional N1 (Wi-Fi/Bluetooth) training and hand-off behind chosen.asahi,t6050-n1 (stacked on #33) | J716s | `wifi-bt.wifi`, `wifi-bt.bt` | open |
+| [omacom/m1n1#35](https://github.com/omacom/m1n1/pull/35) | kboot: T6050: internal display hand-off for the firmware-27 DCP driver, opt-in (stacked on #37) | J716s | `display.dcp` | open |
+| [omacom/m1n1#36](https://github.com/omacom/m1n1/pull/36) | wdt: leave the watchdog armed when the boot-args say m1n1.wdt=keep | J716s | `boot.safety` | open |
+| [omacom/m1n1#37](https://github.com/omacom/m1n1/pull/37) | kboot_gpu: T6050: hand the GPU to the G17 driver from the ADT (stacked on #34) | J716s | `gpu.firmware` | open |
+| [omacom/omarchy-mac-pkgs#103](https://github.com/omacom/omarchy-mac-pkgs/pull/103) | Cover the 16-inch M5 Pro (J716s) in the audio tests and the manual | J716s | `audio.speakers`, `audio.mic` | open |
+
+State from `upstream/status.json`, fetched 2026-11-08T03:32:54Z.
 <!-- END GENERATED: upstream -->
 
 ## What lives here

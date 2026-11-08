@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>daily-n1k - M4Plus-Linux</title><link rel="stylesheet" href="../../style.css"></head><body><header class="site"><a href="../../index.html">M4Plus-Linux</a><nav><a href="../../index.html">Matrix</a><a href="../../upstream.html">Upstream PRs</a><a href="../../topics/index.html">Topics</a><a href="https://github.com/rolotrealanis98/m4plus-linux">Repository</a></nav></header><main>
+<h1>Build daily-n1k</h1><p>J716s · status daily · 2026-11-07T23:16Z</p><h2>Results</h2><ul><li><a href="../../machines/j716s/results/2026-11-07-daily-n1k.html">machines/j716s/results/2026-11-07-daily-n1k.md</a></li><li><a href="../../machines/j716s/results/2026-11-08-gl-native.html">machines/j716s/results/2026-11-08-gl-native.md</a></li></ul><h2>Recipe</h2><pre><code># The J716s daily since 2026-11-07 23:16 UTC: the kernel trains the N1 (Wi-Fi/Bluetooth) port itself.
+# Source: m5pro-linux contrib/validated/aurora/STATE.md (&quot;Current: daily-n1k&quot;) and RESULTS.md (&quot;DAILY-N1K&quot;), at
+# commit f8fd6bc71b2688ca70ad7697cd5506fd2ed393da. Licence: CC-BY-SA-4.0.
+name: daily-n1k
+board: J716s
+setup: j716s-aurora73
+status: daily
+date: &quot;2026-11-07T23:16Z&quot;
+source: https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/validated/aurora/STATE.md#current-daily-n1k-the-kernel-trains-the-n1-promoted-2026-11-07-2316-utc-see-resultsmd-daily-n1k
+firmware: {os: &quot;27.3 beta 1 (26C5035r), mBoot-20457.60.65.0.1&quot;, system: &quot;27.3 beta 1 (26C5035r), mBoot-20457.60.65.0.1&quot;}
+kernel:
+  repo: https://github.com/aurora-silicon/linux
+  branch: integration/aurora
+  base: 33bec4016c46
+  release: 7.3.0-g36845aa5f650
+  patches:
+    - repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/validated/aurora/series/patches
+      commit: f8fd6bc71b2688ca70ad7697cd5506fd2ed393da
+      count: 87
+      description: &quot;The J716s series (tip a0f2f30c967b): Aurora&#x27;s T6050 commits carried with their authors (0001-0044) and the J716s work (WFI idle, battery, SMC sensors, right Type-C port, lid confirm, haptics, netfilter/WireGuard, iwd crypto, AOP audio in the J616s TDM frame, netconsole config, adopted-port shutdown park and s2idle fix)&quot;
+    - pr: &quot;aurora-silicon/linux#1012&quot;
+      description: &quot;M5 GPU and firmware-27 display base&quot;
+    - pr: &quot;aurora-silicon/linux#1173&quot;
+      repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/pending/gpu/patches/kernel-27.2
+      commit: f8fd6bc71b2688ca70ad7697cd5506fd2ed393da
+      description: &quot;InitData for the macOS 27.2 and 27.3 GPU firmware (G17S)&quot;
+    - pr: &quot;aurora-silicon/linux#1182&quot;
+      repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/pending/wireless/patches/linux
+      commit: f8fd6bc71b2688ca70ad7697cd5506fd2ed393da
+      description: &quot;Kernel-side N1 training, patches 0004-0010 (driver half #1182, device-tree half #1183)&quot;
+    - repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/pending/peripherals/patches
+      commit: f8fd6bc71b2688ca70ad7697cd5506fd2ed393da
+      description: &quot;Peripherals 0007: F6 mapped to Do Not Disturb&quot;
+    - repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/pending/nvram/patches
+      commit: f8fd6bc71b2688ca70ad7697cd5506fd2ed393da
+      description: &quot;NVRAM 0001: the boot NOR and its NVRAM partition, read-only&quot;
+  config: [defconfig, asahi.config, j716s.config]
+  toolchain: &quot;LLVM=1 ARCH=arm64, 16K pages, RUST off&quot;
+  notes: &quot;Base given as the 12-digit prefix STATE.md records. The DT is the series&#x27; source-form t6050-j716s.dts, built with the kernel; it carries no per-unit values (m1n1 fills the PHY tunables from the ADT at boot).&quot;
+loader:
+  repo: https://github.com/AsahiLinux/m1n1
+  base: 7cde7d1a
+  name: &quot;m1n1-plain-n1-dt-gpu (stage 2 on the ESP)&quot;
+  patches:
+    - repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: patches/m1n1
+      commit: f8fd6bc71b2688ca70ad7697cd5506fd2ed393da
+      description: &quot;T6050 bring-up, chainload above the CTRR window, RVBAR relay, notch rows, USB-PD power-up, PIPE park, combo-PHY tunables from the ADT&quot;
+    - repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/pending/wireless/patches/m1n1
+      commit: f8fd6bc71b2688ca70ad7697cd5506fd2ed393da
+      description: &quot;0022 and 0028 only: the N1 port stays enabled and the host tunables are copied; no loader-side training&quot;
+    - pr: &quot;omacom/m1n1#37&quot;
+      repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: contrib/pending/gpu/patches/m1n1
+      commit: f8fd6bc71b2688ca70ad7697cd5506fd2ed393da
+      description: &quot;GPU hand-off (0019 and the GPU patch numbered 0028), behind chosen.m5pro,gpu=1&quot;
+stage1:
+  description: &quot;CHAINLOADING m1n1 stage 1 with the A/B fallback on iBoot&#x27;s boot-failure counter and a 150 s watchdog&quot;
+  patches:
+    - repo: https://github.com/rolotrealanis98/m5pro-linux
+      path: patches/m1n1-stage1
+      commit: f8fd6bc71b2688ca70ad7697cd5506fd2ed393da
+devicetree:
+  source: &quot;arch/arm64/boot/dts/apple/t6050-j716s.dts from the series, plus the N1 (wireless 0010), GPU and NVRAM additions&quot;
+  per_unit_values: false
+initramfs:
+  description: &quot;Minimal initramfs that mounts the NVMe root; it also carries the unit&#x27;s personalised N1 firmware, so it is neither hashed nor published here&quot;
+  per_unit: true
+userspace:
+  - name: Omarchy
+    version: &quot;4.5.0 (official aarch64 packages, Hyprland)&quot;
+  - name: Mesa (Aurora agx3c + native Gallium GL for G17S)
+    repo: https://github.com/aurora-silicon/mesa
+    commit: 043a4c58080c4951fea3797fe45fc6898ce77632
+    patches:
+      - {pr: &quot;aurora-silicon/mesa#194&quot;}
+    notes: &quot;The desktop&#x27;s GL since 2026-11-08 02:23 UTC; the zink configuration is kept as the rollback.&quot;
+bootargs: &quot;earlycon=efifb keep_bootcon console=tty0 loglevel=8 pd_ignore_unused clk_ignore_unused no_console_suspend nvme_apple.flush_interval=0 m5.root=&lt;root-partition&gt; kvm-arm.wfi_trap_policy=trap&quot;
+chosen: [&quot;chosen.asahi,show-notch=1&quot;, &quot;chosen.m5pro,gpu=1&quot;]
+outputs:
+  payload:
+    name: daily-n1k-20261107-512a1c00.bin
+    sha256: null
+    sha256_prefix: 512a1c00
+    recorded_in: &quot;m5pro-linux STATE.md and RESULTS.md (prefix only)&quot;
+    notes: &quot;Layout: m1n1 (0x400000 bytes) | chosen lines | Image.gz | DTB | initramfs. The source notes record only the 8-digit prefix; the full hash is on the build host and goes here when copied. The payload contains per-unit firmware (initramfs) and is never published.&quot;
+rollback:
+  name: daily-n1k-test-20261107-5c74c66c.bin
+  sha256: null
+  sha256_prefix: 5c74c66c
+  recorded_in: &quot;m5pro-linux STATE.md (prefix only)&quot;
+  notes: &quot;The test twin (same ingredients with the self-test), on the previous slot.&quot;
+ingredients:
+  - name: &quot;lineage: m1n1 pipepark-atc stage 2 (R3-SERIES loader; n1-dt-gpu adds the N1 and GPU hand-offs on top)&quot;
+    sha256: 28b26ebcf91e11e512ef100aae0b3e66d174ebf8a380c243dea4763ae2459a33
+    recorded_in: &quot;STATE.md, R3-V table&quot;
+    notes: &quot;Ancestor of this payload&#x27;s loader, not the loader itself; the n1-dt-gpu build&#x27;s hash is not recorded in the source.&quot;
+  - name: &quot;lineage: t6050-j716s.dtb of the 58-patch series (R3-SERIES)&quot;
+    sha256: 8c4df67ac743a08b633f7e5233004180e5b18d9f82c56b9261ec76eb77458e6e
+    recorded_in: &quot;STATE.md, R3-SERIES table&quot;
+    notes: &quot;Ancestor of this payload&#x27;s DTB (the daily adds the sensors, right port, N1, GPU and NVRAM nodes); the daily DTB&#x27;s hash is not recorded in the source.&quot;
+reproducibility:
+  kbuild_build_timestamp: null
+  kbuild_build_user: null
+  kbuild_build_host: null
+  notes: &quot;Not recorded for this build. The release string&#x27;s commit (36845aa5f650) identifies the kernel tree.&quot;
+results:
+  - machines/j716s/results/2026-11-07-daily-n1k.md
+  - machines/j716s/results/2026-11-08-gl-native.md
+notes: &quot;Boot arguments are mk-daily.py&#x27;s BASE line (m5pro-linux contrib/validated/aurora/tools/mk-daily.py) with the battery driver on and no self-test; the root partition is a placeholder. m1n1 appends idle=nop arm64.nowfxt, which series 0061 overrides for WFI. Every ESP write is followed by 60 s of idle before a reboot.&quot;
+</code></pre><p class="muted"><a href="https://github.com/rolotrealanis98/m4plus-linux/blob/main/builds/j716s/daily-n1k.yaml">builds/j716s/daily-n1k.yaml</a></p>
+</main><footer>Generated by <code>tools/gen.py</code> from the data in <a href="https://github.com/rolotrealanis98/m4plus-linux">the repository</a>. Text and data CC-BY-SA-4.0; tools MIT. Independent of Apple, Asahi Linux, omacom/Omarchy and Aurora Silicon.</footer></body></html>

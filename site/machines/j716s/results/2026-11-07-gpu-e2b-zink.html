@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2026-11-07-gpu-e2b-zink - M4Plus-Linux</title><link rel="stylesheet" href="../../../style.css"></head><body><header class="site"><a href="../../../index.html">M4Plus-Linux</a><nav><a href="../../../index.html">Matrix</a><a href="../../../upstream.html">Upstream PRs</a><a href="../../../topics/index.html">Topics</a><a href="https://github.com/rolotrealanis98/m4plus-linux">Repository</a></nav></header><main>
+<p><a href="../../j716s.html">J716s</a> · result <code>2026-11-07-gpu-e2b-zink.md</code></p><div class="table"><table><tbody><tr><th>date</th><td>2026-11-07T18:42Z</td></tr><tr><th>board</th><td>J716s</td></tr><tr><th>setup</th><td>j716s-aurora73</td></tr><tr><th>kind</th><td>native</td></tr><tr><th>build</th><td>87-patch series + aurora-silicon/linux #1012 + the 27.2+ InitData port (#1173), DRM_ASAHI=y; m1n1 n1-warm-gpu with chosen.m5pro,gpu=1</td></tr><tr><th>kernel</th><td>7.3.0-g3671d907d570</td></tr><tr><th>payload</th><td>e2b-gpu-20261107-3f2fec04</td></tr><tr><th>payload_sha256_prefix</th><td>3f2fec04</td></tr><tr><th>firmware</th><td>{&quot;os&quot;: &quot;27.3 beta 1 (26C5035r), mBoot-20457.60.65.0.1&quot;, &quot;system&quot;: &quot;27.3 beta 1 (26C5035r), mBoot-20457.60.65.0.1&quot;}</td></tr><tr><th>attended</th><td>False</td></tr><tr><th>source</th><td><a href="https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/validated/integration/RESULTS.md#result-gpu-e2b-2026-11-07-1842-1846-utc-loop-nobody-at-the-machine-the-gpu-firmware-boots">github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b268...</a></td></tr><tr><th>features</th><td>[&quot;gpu.firmware&quot;, &quot;gpu.vulkan&quot;, &quot;gpu.gl&quot;, &quot;desktop.session&quot;]</td></tr><tr><th>summary_of</th><td>[&quot;GPU E2b&quot;, &quot;GPU first frame on zink + Hyprland on the GPU&quot;, &quot;GPU soak with Hyprland on the GPU&quot;, &quot;GPU DAILY promotion&quot;]</td></tr></tbody></table></div>
+<p>Four runs on the same kernel, nobody at the machine: the first GPU firmware boot (18:42 UTC), the first frame and Hyprland on the GPU through zink (19:57 UTC), a 31-minute soak (20:04 UTC) and the promotion to the daily (20:35 UTC, payload <code>e2b-daily-20261107-fd4b3b9e</code>).</p>
+<h2 id="e2b-the-gpu-firmware-boots">E2b: the GPU firmware boots <a class="anchor" href="#e2b-the-gpu-firmware-boots">#</a></h2>
+<p>Loader:</p>
+<pre><code>FDT: GPU: T6050: chosen.m5pro,gpu=1: GPU hand-off</code></pre>
+<p>Kernel:</p>
+<pre><code>always-on domain afr/gfx is off at boot, turning it on
+aurora 2300000000.gpu: Probing...
+GPU firmware: 27.3 (26C5035r), G17S
+RTKit: Initializing (protocol version 12)
+M5 primary initdata acknowledged
+M5 secondary initdata acknowledged
+M5 firmware opening records retired
+[drm] Initialized aurora 1.0.0 for 2300000000.gpu on minor 1</code></pre>
+<p><code>/dev/dri/renderD128</code> present; no crash, SError, DART/UAT fault or RCU stall over the 2+ minutes until the daily was restored. The 27.2+ InitData graph is accepted by the 27.3 beta 1 firmware on the first try.</p>
+<h2 id="first-frame-zink-and-hyprland-on-the-gpu">First frame (zink) and Hyprland on the GPU <a class="anchor" href="#first-frame-zink-and-hyprland-on-the-gpu">#</a></h2>
+<p><code>gpu-first-frame.sh --screen</code>: 13 passed, 0 failed, no <code>submit failed</code> in the kernel log.</p>
+<div class="table"><table><thead><tr><th>Step</th><th>Result</th><th>Detail</th></tr></thead><tbody><tr><td>Vulkan identity</td><td>pass</td><td><code>deviceName = Apple M5 Pro (G17S B1)</code>, driver Borealis</td></tr><tr><td>Vulkan compute, render, stress</td><td>pass</td><td>2 passed in 61 s, vkmark runs on the GPU</td></tr><tr><td>GLES headless on renderD128</td><td>pass</td><td><code>GL_RENDERER: zink Vulkan 1.4(Apple M5 Pro (G17S B1) (AURORA_BOREALIS))</code>, correct pixels</td></tr><tr><td>GBM with PRIME into simpledrm</td><td>pass</td><td>explicit and implicit modifiers, correct readback</td></tr><tr><td>GPU-rendered frame on the panel</td><td>pass</td><td>left green, right orange, 10 s</td></tr></tbody></table></div>
+<p>Native Gallium GL refused every render submission on this date (the M5 kernel requires a render-resources list the Gallium driver did not send), so GL ran through zink; see the 2026-11-08 GL-NATIVE result for the native driver.</p>
+<h2 id="soak-with-hyprland-on-the-gpu">Soak with Hyprland on the GPU <a class="anchor" href="#soak-with-hyprland-on-the-gpu">#</a></h2>
+<p>Hyprland's runtime log:</p>
+<pre><code>Creating CDRMRenderer on gpu /dev/dri/renderD128
+Renderer: zink Vulkan 1.4(Apple M5 Pro (G17S B1) (AURORA_BOREALIS))</code></pre>
+<p>glmark2-wayland inside the session every 5 minutes: 597, 613, 612, 846, 890; zero GPU kernel errors; Hyprland's process stable. Scanout stays on simpledrm (a CPU copy) until the display driver is in the daily.</p>
+<h2 id="daily-promotion">Daily promotion <a class="anchor" href="#daily-promotion">#</a></h2>
+<p>First boot on the primary slot, 76 s to SSH, 18 CPUs, Wi-Fi, Bluetooth, haptics, two sound cards, battery; <code>GPU firmware: 27.3 (26C5035r), G17S</code>, <code>[drm] Initialized aurora 1.0.0</code>. The session launcher starts the GPU session when the <code>aurora</code> card and the Mesa tree exist, and falls back to the software session if the GPU session dies within 30 s.</p>
+<h2 id="not-tested">Not tested <a class="anchor" href="#not-tested">#</a></h2>
+<p>A full interactive desktop login on this kernel was not recorded in these runs (Hyprland ran in the session started by the launcher, and a screenshot through the session showed the desktop).</p>
+</main><footer>Generated by <code>tools/gen.py</code> from the data in <a href="https://github.com/rolotrealanis98/m4plus-linux">the repository</a>. Text and data CC-BY-SA-4.0; tools MIT. Independent of Apple, Asahi Linux, omacom/Omarchy and Aurora Silicon.</footer></body></html>

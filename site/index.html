@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>M4Plus-Linux</title><link rel="stylesheet" href="style.css"></head><body><header class="site"><a href="index.html">M4Plus-Linux</a><nav><a href="index.html">Matrix</a><a href="upstream.html">Upstream PRs</a><a href="topics/index.html">Topics</a><a href="https://github.com/rolotrealanis98/m4plus-linux">Repository</a></nav></header><main>
+<h1>M4Plus-Linux</h1>
+<p>Status of Linux on Macs with M4 and M5 chips, by machine and feature. Every <em>works</em> cell links a dated result from that machine; draft machines show their owners' public claims as <em>reported</em> until the owners confirm them. Code lives upstream; this site tracks it.</p>
+<p class="muted">Legend: <span class="st st-works-daily">works (daily)</span> <span class="st st-works-test">works (test)</span> <span class="st st-attended">attended</span> <span class="st st-prepared">prepared</span> <span class="st st-blocked">blocked</span> <span class="st st-not-realistic">not realistic</span> <span class="st st-untested">untested</span> <span class="st st-reported">reported</span> &nbsp; R = reproduced on two setups, * = stale (no supporting result in the 30 days before the last upstream refresh).</p>
+<h2 id="m5">M5 family</h2><div class="table"><table><thead><tr><th>Feature</th>
+<th><a href="machines/j714c.html">J714c</a><br><span class="muted">MacBook Pro (14-inch, M5 Max) (draft)</span></th>
+<th><a href="machines/j714s.html">J714s</a><br><span class="muted">MacBook Pro (14-inch, M5 Pro) (draft)</span></th>
+<th><a href="machines/j716s.html">J716s</a><br><span class="muted">MacBook Pro (16-inch, M5 Pro)</span></th>
+</tr></thead><tbody>
+<tr><td>Untethered boot<br><code>boot.untethered</code></td>
+<td title="boots from disk with no cable"><a href="machines/j714c.html#f-boot-untethered"><span class="st st-reported">reported</span></a></td>
+<td title="not yet: m1n1-tethered boots"><a href="machines/j714s.html#f-boot-untethered"><span class="st st-reported">reported</span></a></td>
+<td title="Stage 1 on the boot slot, payload on the ESP, no cable."><a href="machines/j716s.html#f-boot-untethered"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Boot safety and recovery<br><code>boot.safety</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title="a hardware watchdog (60 s) and an auto-reboot guard return the machine to macOS after a bad boot"><a href="machines/j714s.html#f-boot-safety"><span class="st st-reported">reported</span></a></td>
+<td title="A/B stage 1 with a 150 s watchdog and self-reverting test payloads. Rule: 60 s of idle after any large write before a reboot. A hang inside Linux init after Linux owns the watchdog is not covered (Thunderbolt T0). The stage-mark change to stage 1 waits for an attended sitting."><a href="machines/j716s.html#f-boot-safety"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Omarchy boot chain (m1n1, U-Boot, Limine, EFI kernel)<br><code>boot.omarchy-chain</code></td>
+<td title="stage 1 m1n1, ESP stage 2, U-Boot, Limine, EFI kernel, all installed as packages"><a href="machines/j714c.html#f-boot-omarchy-chain"><span class="st st-reported">reported</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="A/B stage 1, m1n1, U-Boot, Limine, the daily kernel as an EFI-stub image: built, not booted. Needs a cold start with a person present (only the 150 s stage-1 watchdog as fallback)."><a href="machines/j716s.html#f-boot-omarchy-chain"><span class="st st-attended">attended</span></a></td>
+</tr>
+<tr><td>All CPU cores<br><code>cpu.smp</code></td>
+<td title="all 18 cores (after the 27.3 beta 1 stub firmware)"><a href="machines/j714c.html#f-cpu-smp"><span class="st st-reported">reported</span></a></td>
+<td title="one core on the 26.x stub firmware; an all-core prototype is built, not run / all 15 cores after recreating the stub from macOS 27.3 beta 1"><a href="machines/j714s.html#f-cpu-smp"><span class="st st-reported">reported</span></a></td>
+<td title="18 CPUs. Needs the stub firmware from macOS 27.3 beta 1 (mBoot-20457.60.65.0.1) or later."><a href="machines/j716s.html#f-cpu-smp"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>CPU frequency scaling<br><code>cpu.cpufreq</code></td>
+<td title="three apple-cpufreq policies on schedutil"><a href="machines/j714c.html#f-cpu-cpufreq"><span class="st st-reported">reported</span></a></td>
+<td title="automatic frequency scaling on the boot CPU / three policies on schedutil, P cores reach about 4.22 GHz"><a href="machines/j714s.html#f-cpu-cpufreq"><span class="st st-reported">reported</span></a></td>
+<td title="schedutil on all three clusters. The quoted cpufreq lines come from the 7.2 stack and the power test kernel; the daily&#x27;s own cpufreq is recorded only in the m5pro-linux status table."><a href="machines/j716s.html#f-cpu-cpufreq"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>CPU idle (WFI)<br><code>cpu.idle</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title="register-preserving WFI without idle=nop; 250,000 sleeps per CPU on all 15 CPUs; idle 15.3 W to 5.6 W"><a href="machines/j714s.html#f-cpu-idle"><span class="st st-reported">reported</span></a></td>
+<td title="Idle on the charger 16.4 W to about 9.8 W; 56 min soak; m1n1 still appends idle=nop, the kernel ignores it."><a href="machines/j716s.html#f-cpu-idle"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Internal NVMe<br><code>storage.nvme</code></td>
+<td title="NVMe mounted and working"><a href="machines/j714c.html#f-storage-nvme"><span class="st st-reported">reported</span></a></td>
+<td title="NVMe ext4 root, scoped write/read/flush test passes / internal SSD root (ext4, read-write)"><a href="machines/j714s.html#f-storage-nvme"><span class="st st-reported">reported</span></a></td>
+<td title="NVMe root, read-write. The ANS needs about 3 s for its RTKit handshake (#1082)."><a href="machines/j716s.html#f-storage-nvme"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Built-in keyboard<br><code>input.keyboard</code></td>
+<td title="works"><a href="machines/j714c.html#f-input-keyboard"><span class="st st-reported">reported</span></a></td>
+<td title="typing confirmed by the owner on older kernels; input devices present on #32 / confirmed by hand"><a href="machines/j714s.html#f-input-keyboard"><span class="st st-reported">reported</span></a></td>
+<td title="Through dockchannel-hid. F6 is mapped to Do Not Disturb in the daily, not yet checked with the key."><a href="machines/j716s.html#f-input-keyboard"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Keyboard backlight<br><code>input.kbd-backlight</code></td>
+<td title="works (Omarchy&#x27;s keyboard-light keys)"><a href="machines/j714c.html#f-input-kbd-backlight"><span class="st st-reported">reported</span></a></td>
+<td title="confirmed lit by hand"><a href="machines/j714s.html#f-input-kbd-backlight"><span class="st st-reported">reported</span></a></td>
+<td title="Levels checked by eye on the 7.2 stack; bound to the keyboard-light keys on the daily desktop (status table)."><a href="machines/j716s.html#f-input-kbd-backlight"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Built-in trackpad<br><code>input.trackpad</code></td>
+<td title="comes up on every boot (AFE reset through SMC pcIO 28, start retried)"><a href="machines/j714c.html#f-input-trackpad"><span class="st st-reported">reported</span></a></td>
+<td title="worked on the kernel #30 boot (2026-11-06) / movement and click captured; no host AFE reset needed so far (J714s AFE reset is SMC pcIO, not gp1c)"><a href="machines/j714s.html#f-input-trackpad"><span class="st st-reported">reported</span></a></td>
+<td title="Touch MT ready on every boot (the host drives the AFE reset on SMC GPIO gp1c); both MTP haptic devices, the click gives feedback."><a href="machines/j716s.html#f-input-trackpad"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Trackpad palm and thumb handling<br><code>input.trackpad-palm</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Palm and thumb handling: the palm-class change is a module parameter, untested. Needs a person typing on the machine."><a href="machines/j716s.html#f-input-trackpad-palm"><span class="st st-attended">attended</span></a></td>
+</tr>
+<tr><td>Battery and charger<br><code>smc.battery</code></td>
+<td title="battery and charger"><a href="machines/j714c.html#f-smc-battery"><span class="st st-reported">reported</span></a></td>
+<td title="not yet"><a href="machines/j714s.html#f-smc-battery"><span class="st st-reported">reported</span></a></td>
+<td title="Discharging and MagSafe unplug events not exercised."><a href="machines/j716s.html#f-smc-battery"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Fans and sensors<br><code>smc.sensors</code></td>
+<td title="fans, temperatures, voltages, power rails"><a href="machines/j714c.html#f-smc-sensors"><span class="st st-reported">reported</span></a></td>
+<td title="both fans and the SMC sensors with the F0md/F1md keys"><a href="machines/j714s.html#f-smc-sensors"><span class="st st-reported">reported</span></a></td>
+<td title="60+ temperature channels, both fans, power rails. No fan control (the T6050 SMC has no Ftst key)."><a href="machines/j716s.html#f-smc-sensors"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Lid and power button events<br><code>smc.lid</code></td>
+<td title="power button and lid"><a href="machines/j714c.html#f-smc-lid"><span class="st st-reported">reported</span></a></td>
+<td title="lid open wakes the machine (macsmc-input)"><a href="machines/j714s.html#f-smc-lid"><span class="st st-reported">reported</span></a></td>
+<td title=""><a href="machines/j716s.html#f-smc-lid"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Suspend to idle<br><code>sleep.s2idle</code></td>
+<td title="lid close suspends, lid open wakes (2026-11-05); not re-checked on the current kernel"><a href="machines/j714c.html#f-sleep-s2idle"><span class="st st-reported">reported</span></a></td>
+<td title="missing / systemctl suspend, lid wake, 13-minute sleep on the default kernel; not requalified on the DCP kernel"><a href="machines/j714s.html#f-sleep-s2idle"><span class="st st-reported">reported</span></a></td>
+<td title="Lid close sleeps and lid open wakes with Wi-Fi back (adopted-link fix). Not yet re-run on the daily whose kernel trains the N1 itself."><a href="machines/j716s.html#f-sleep-s2idle"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>USB host on the Type-C ports<br><code>usb.host</code></td>
+<td title="USB 2.0 host on all three ports, SuperSpeed on port 1"><a href="machines/j714c.html#f-usb-host"><span class="st st-reported">reported</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Both Type-C ports; the right port at 10 Gb/s. DisplayPort not tested on either."><a href="machines/j716s.html#f-usb-host"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Netfilter and WireGuard in the kernel<br><code>net.netfilter</code></td>
+<td title="ufw active through iptables-nft"><a href="machines/j714c.html#f-net-netfilter"><span class="st st-reported">reported</span></a></td>
+<td title="nftables: create, list and delete a table"><a href="machines/j714s.html#f-net-netfilter"><span class="st st-reported">reported</span></a></td>
+<td title="nftables, policy routing, WireGuard built in; no tunnel test recorded."><a href="machines/j716s.html#f-net-netfilter"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Wi-Fi<br><code>wifi-bt.wifi</code></td>
+<td title="the kernel trains the N1 port; restart with the link up comes back"><a href="machines/j714c.html#f-wifi-bt-wifi"><span class="st st-reported">reported</span></a></td>
+<td title="first native activation failed (reset 17 s after the trigger); a staged build is reviewed, not run / not yet"><a href="machines/j714s.html#f-wifi-bt-wifi"><span class="st st-reported">reported</span></a></td>
+<td title="The kernel trains the N1 port; WPA2 5 GHz, DHCP, traffic, warm restart. 14 % ping loss seen once in an earlier soak. The N1 firmware is personalised per unit and not published."><a href="machines/j716s.html#f-wifi-bt-wifi"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Wi-Fi 6 GHz<br><code>wifi-bt.wifi-6ghz</code></td>
+<td title="6 GHz works (iwd)"><a href="machines/j714c.html#f-wifi-bt-wifi-6ghz"><span class="st st-reported">reported</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="The firmware&#x27;s regulatory list on this unit has no 6 GHz entries (6 GHz 0)."><a href="machines/j716s.html#f-wifi-bt-wifi-6ghz"><span class="st st-untested">untested</span></a></td>
+</tr>
+<tr><td>Bluetooth controller<br><code>wifi-bt.bt</code></td>
+<td title="works"><a href="machines/j714c.html#f-wifi-bt-bt"><span class="st st-reported">reported</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="hci0 up; a scan finds 36 devices in 8 s."><a href="machines/j716s.html#f-wifi-bt-bt"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Bluetooth pairing<br><code>wifi-bt.bt-pairing</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="No device paired yet; needs a person with a Bluetooth device."><a href="machines/j716s.html#f-wifi-bt-bt-pairing"><span class="st st-attended">attended</span></a></td>
+</tr>
+<tr><td>Speakers<br><code>audio.speakers</code></td>
+<td title="all six speakers at full volume with speakersafetyd"><a href="machines/j714c.html#f-audio-speakers"><span class="st st-reported">reported</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="J716 link in the J616s TDM frame (series 0081), six amps, no faults, 1 kHz tone heard clean, PipeWire sink with a -30 dB ceiling and speakersafetyd."><a href="machines/j716s.html#f-audio-speakers"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Microphone<br><code>audio.mic</code></td>
+<td title="microphone array works"><a href="machines/j714c.html#f-audio-mic"><span class="st st-reported">reported</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Three capsules; speech tracks the voice."><a href="machines/j716s.html#f-audio-mic"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Headphone jack<br><code>audio.jack</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Headphone Jack and Headset Mic Jack register as switches in the daily; nothing plugged in yet. Needs headphones and a headset."><a href="machines/j716s.html#f-audio-jack"><span class="st st-attended">attended</span></a></td>
+</tr>
+<tr><td>Tuned speaker profile<br><code>audio.speaker-profile</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="J716s profile built and checked offline (Apple&#x27;s J716s speaker tuning matches the J616s one; volume graph capped at -10 dB, kernel ceiling -30 dB kept); staged, not active. Needs a listening test."><a href="machines/j716s.html#f-audio-speaker-profile"><span class="st st-attended">attended</span></a></td>
+</tr>
+<tr><td>GPU firmware and DRM device<br><code>gpu.firmware</code></td>
+<td title="partial: the G17C firmware runs, the scheduler does not pick up jobs yet (software rendering)"><a href="machines/j714c.html#f-gpu-firmware"><span class="st st-reported">reported</span></a></td>
+<td title="not run: needs 27.x firmware and a J714s GPU voltage table (13 of 14 states differ from the J716s table) / not yet (software rendering)"><a href="machines/j714s.html#f-gpu-firmware"><span class="st st-reported">reported</span></a></td>
+<td title="Firmware 27.3 (26C5035r), G17S, on every daily boot."><a href="machines/j716s.html#f-gpu-firmware"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Vulkan on the GPU<br><code>gpu.vulkan</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Apple M5 Pro (G17S B1): compute, render, stress and vkmark pass."><a href="machines/j716s.html#f-gpu-vulkan"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>OpenGL on the GPU (any path)<br><code>gpu.gl</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="First through zink, native Gallium since 2026-11-08. Scanout still through simpledrm (a CPU copy) in the daily."><a href="machines/j716s.html#f-gpu-gl"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Native Gallium OpenGL<br><code>gpu.gl-native</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="The desktop&#x27;s GL since 2026-11-08 02:23 UTC (userspace change on the daily; the kernel is unchanged). zink kept as a one-file rollback."><a href="machines/j716s.html#f-gpu-gl-native"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Desktop session<br><code>desktop.session</code></td>
+<td title="Omarchy login with Hyprland (software rendering)"><a href="machines/j714c.html#f-desktop-session"><span class="st st-reported">reported</span></a></td>
+<td title="Hyprland desktop on llvmpipe, one core / Hyprland 0.57.1 at 3024x1890, 120 Hz on the DCP panel, software rendering"><a href="machines/j714s.html#f-desktop-session"><span class="st st-reported">reported</span></a></td>
+<td title="Hyprland on Omarchy 4.5.0 on the internal panel, GPU session by default (software session as fallback). A full interactive login on the GPU kernel is not separately logged."><a href="machines/j716s.html#f-desktop-session"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>Internal panel through the DCP<br><code>display.dcp</code></td>
+<td title="internal panel through the DCP at 3024x1964 including the notch area"><a href="machines/j714c.html#f-display-dcp"><span class="st st-reported">reported</span></a></td>
+<td title="internal panel through the DCP (firmware 27.3 beta 1 layout), framebuffer console, display off/on"><a href="machines/j714s.html#f-display-dcp"><span class="st st-reported">reported</span></a></td>
+<td title="The DCP drives the internal panel on a test payload (firmware 27.3). The first daily candidate with the DCP and the GPU together panicked early (fallback worked); bisect in progress."><a href="machines/j716s.html#f-display-dcp"><span class="st st-works-test">works (test)</span></a></td>
+</tr>
+<tr><td>High refresh rate and VRR<br><code>display.refresh</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="120 Hz mode set; VRR (opt-in) changes the measured flip interval. Constant swap timestamps fixed the first-swap stall."><a href="machines/j716s.html#f-display-refresh"><span class="st st-works-test">works (test)</span></a></td>
+</tr>
+<tr><td>Panel brightness<br><code>display.brightness</code></td>
+<td title="brightness keys work"><a href="machines/j714c.html#f-display-brightness"><span class="st st-reported">reported</span></a></td>
+<td title="brightness control works"><a href="machines/j714s.html#f-display-brightness"><span class="st st-reported">reported</span></a></td>
+<td title="Writes are accepted but actual_brightness stays 300; the firmware-27 brightness path needs work, then a check by eye."><a href="machines/j716s.html#f-display-brightness"><span class="st st-attended">attended</span></a></td>
+</tr>
+<tr><td>External displays<br><code>display.external</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Needs the DCP in the daily first; DisplayPort over Type-C untested on both ports."><a href="machines/j716s.html#f-display-external"><span class="st st-prepared">prepared</span></a></td>
+</tr>
+<tr><td>NVRAM read<br><code>nvram.read</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Read-only; the dump stays on the machine."><a href="machines/j716s.html#f-nvram-read"><span class="st st-works-daily">works (daily)</span></a></td>
+</tr>
+<tr><td>NVRAM write<br><code>nvram.write</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="No write done; the first one (the next-boot target) is planned as an attended sitting."><a href="machines/j716s.html#f-nvram-write"><span class="st st-untested">untested</span></a></td>
+</tr>
+<tr><td>PMP coprocessor<br><code>power.pmp</code></td>
+<td title="the PMP firmware starts and its endpoint is ready"><a href="machines/j714c.html#f-power-pmp"><span class="st st-reported">reported</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j716s.html#f-power-pmp"><span class="st st-untested">untested</span></a></td>
+</tr>
+<tr><td>Power-management controller (observe)<br><code>power.pmc-observe</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="PMC and CLPC observe only (nothing written); idle 10.4 W on the charger."><a href="machines/j716s.html#f-power-pmc-observe"><span class="st st-works-test">works (test)</span></a></td>
+</tr>
+<tr><td>Power-management controller (control)<br><code>power.pmc-control</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="T3, the first PMC write (floors), is built and waits for a person at the machine."><a href="machines/j716s.html#f-power-pmc-control"><span class="st st-attended">attended</span></a></td>
+</tr>
+<tr><td>Thermal zones<br><code>power.thermal</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Design report only."><a href="machines/j716s.html#f-power-thermal"><span class="st st-prepared">prepared</span></a></td>
+</tr>
+<tr><td>Camera ISP power domains and DARTs<br><code>camera.isp-power</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Three ISP DARTs bind, 8 of 8 ISP power domains present, no faults. Not a camera yet."><a href="machines/j716s.html#f-camera-isp-power"><span class="st st-works-test">works (test)</span></a></td>
+</tr>
+<tr><td>Camera capture<br><code>camera.capture</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="I2 (ISP firmware handshake, /dev/video0) not run: the firmware segment pre-check failed on the daily and the ISP kernel patches were being built. Queued as an attended step."><a href="machines/j716s.html#f-camera-capture"><span class="st st-attended">attended</span></a></td>
+</tr>
+<tr><td>Thunderbolt / USB4<br><code>thunderbolt</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="The T0 boot hung in kernel init (a deferred probe waiting forever) and the fallback could not run. Attended only until there is a probe timeout and an init-completion watchdog."><a href="machines/j716s.html#f-thunderbolt"><span class="st st-blocked">blocked</span></a></td>
+</tr>
+<tr><td>Hardware video decode<br><code>video.decode</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="AVD and JPEG engine patches and DT nodes, not booted."><a href="machines/j716s.html#f-video-decode"><span class="st st-prepared">prepared</span></a></td>
+</tr>
+<tr><td>Hardware video encode<br><code>video.encode</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="The encoder has a probe-only driver; nothing beyond that is expected soon."><a href="machines/j716s.html#f-video-encode"><span class="st st-not-realistic">not realistic</span></a></td>
+</tr>
+<tr><td>ProRes engine<br><code>video.prores</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Only a device-tree binding exists, no driver."><a href="machines/j716s.html#f-video-prores"><span class="st st-not-realistic">not realistic</span></a></td>
+</tr>
+<tr><td>Neural Engine<br><code>ane</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Kernel and m1n1 patches that bind the Neural Engine for observation only, not booted."><a href="machines/j716s.html#f-ane"><span class="st st-prepared">prepared</span></a></td>
+</tr>
+<tr><td>Touch ID<br><code>touchid</code></td>
+<td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
+<td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
+<td title="Sits behind the Secure Enclave; not planned."><a href="machines/j716s.html#f-touchid"><span class="st st-not-realistic">not realistic</span></a></td>
+</tr>
+</tbody></table></div>
+</main><footer>Generated by <code>tools/gen.py</code> from the data in <a href="https://github.com/rolotrealanis98/m4plus-linux">the repository</a>. Text and data CC-BY-SA-4.0; tools MIT. Independent of Apple, Asahi Linux, omacom/Omarchy and Aurora Silicon.</footer></body></html>
