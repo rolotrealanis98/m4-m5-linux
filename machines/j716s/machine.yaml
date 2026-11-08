@@ -1,0 +1,365 @@
+# J716s: MacBook Pro (16-inch, M5 Pro). Status source for this board. Licence: CC-BY-SA-4.0.
+# Seeded 2026-11-08 from m5pro-linux (README status table, RESULTS.md, STATE.md, prs/REPORT.md) at commit
+# f8fd6bc71b2688ca70ad7697cd5506fd2ed393da. The lab notebook stays there; this file carries the summary.
+board: J716s
+model: "MacBook Pro (16-inch, M5 Pro)"
+identifier: Mac17,8
+soc: T6050
+family: M5
+owner: rolotrealanis98
+status_repos: [https://github.com/rolotrealanis98/m5pro-linux]
+omacom_test_report: null
+setups:
+  - id: j716s-aurora73
+    owner: rolotrealanis98
+    firmware: {os: "27.3 beta 1 (26C5035r), mBoot-20457.60.65.0.1", system: "27.3 beta 1 (26C5035r), mBoot-20457.60.65.0.1"}
+    stack:
+      kernel: "aurora-silicon/linux integration/aurora 33bec4016c46 + the 87-patch J716s series + #1012 + #1173 + kernel-side N1 training (7.3.0-g36845aa5f650)"
+      loader: "m1n1 two-stage: A/B stage 1 on the boot slot, stage 2 n1-dt-gpu on the ESP"
+      userspace: "Omarchy 4.5.0 (aarch64 packages), Hyprland on the GPU with native Gallium GL"
+    current_build: builds/j716s/daily-n1k.yaml
+    source: https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/validated/aurora/STATE.md
+  - id: j716s-legacy72
+    owner: rolotrealanis98
+    firmware: {os: "27.3 beta 1 (26C5035r), mBoot-20457.60.65.0.1", system: "27.3 beta 1 (26C5035r), mBoot-20457.60.65.0.1"}
+    stack:
+      kernel: "asahi-wip 7.2 with the omarchy-m5 J716s patches (7.2.2)"
+      loader: "m1n1 stage 2 on the ESP"
+      userspace: "Arch Linux ARM"
+    current_build: null
+    notes: "The first stack (2026-10-20 to 2026-11-06), retired. It proved SMP, the boot chain, NVMe, the trackpad, battery and cpufreq; everything carried over to the Aurora kernel. Its results are supporting evidence for the cells of j716s-aurora73."
+notes: "SMP on this board needs the stub firmware from macOS 27.3 beta 1 or later (see topics/boot-chain). Every ESP write is followed by 60 s of idle before a reboot."
+features:
+  boot.untethered:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-daily-n1k.md#results]
+      upstream: ["omacom/m1n1#33", "aurora-silicon/linux#1167", "omacom/linux-aurora#413"]
+      verified: "2026-11-07"
+      note: "Stage 1 on the boot slot, payload on the ESP, no cable."
+  boot.safety:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-boot-safety-settle.md#restart-exp4-the-cause-of-the-first-boot-of-a-fresh-payload-falls-back]
+      upstream: ["omacom/m1n1#36"]
+      verified: "2026-11-07"
+      note: "A/B stage 1 with a 150 s watchdog and self-reverting test payloads. Rule: 60 s of idle after any large write before a reboot. A hang inside Linux init after Linux owns the watchdog is not covered (Thunderbolt T0). The stage-mark change to stage 1 waits for an attended sitting."
+  boot.omarchy-chain:
+    - setup: j716s-aurora73
+      state: attended
+      kind: offline
+      evidence: ["https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/installer/omarchy-chain/REPORT.md"]
+      upstream: ["omacom/m1n1#30"]
+      note: "A/B stage 1, m1n1, U-Boot, Limine, the daily kernel as an EFI-stub image: built, not booted. Needs a cold start with a person present (only the 150 s stage-1 watchdog as fallback)."
+  cpu.smp:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-daily-n1k.md#cpu, results/2026-11-06-r1a-desktop-checks.md#results]
+      upstream: ["omacom/m1n1#33"]
+      verified: "2026-11-07"
+      note: "18 CPUs. Needs the stub firmware from macOS 27.3 beta 1 (mBoot-20457.60.65.0.1) or later."
+  cpu.cpufreq:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-power-t1.md#retest, results/2026-11-06-r1a-desktop-checks.md#cpufreq]
+      verified: "2026-11-07"
+      note: "schedutil on all three clusters. The quoted cpufreq lines come from the 7.2 stack and the power test kernel; the daily's own cpufreq is recorded only in the m5pro-linux status table."
+  cpu.idle:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-wfi-idle-and-sleep.md#wfi-t1, results/2026-11-07-wfi-idle-and-sleep.md#soak]
+      upstream: ["aurora-silicon/linux#1152"]
+      verified: "2026-11-07"
+      note: "Idle on the charger 16.4 W to about 9.8 W; 56 min soak; m1n1 still appends idle=nop, the kernel ignores it."
+  storage.nvme:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-daily-n1k.md#results]
+      upstream: ["aurora-silicon/linux#1082", "aurora-silicon/linux#1167"]
+      verified: "2026-11-07"
+      note: "NVMe root, read-write. The ANS needs about 3 s for its RTKit handshake (#1082)."
+  input.keyboard:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-next-daily-trackpad.md#results, results/2026-11-07-daily-n1k.md#results]
+      upstream: ["aurora-silicon/linux#1167"]
+      verified: "2026-11-07"
+      note: "Through dockchannel-hid. F6 is mapped to Do Not Disturb in the daily, not yet checked with the key."
+  input.kbd-backlight:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-06-r1a-desktop-checks.md#keyboard-backlight]
+      verified: "2026-11-06"
+      note: "Levels checked by eye on the 7.2 stack; bound to the keyboard-light keys on the daily desktop (status table)."
+  input.trackpad:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-next-daily-trackpad.md#results, results/2026-11-07-daily-n1k.md#results]
+      upstream: ["aurora-silicon/linux#1083"]
+      verified: "2026-11-07"
+      note: "Touch MT ready on every boot (the host drives the AFE reset on SMC GPIO gp1c); both MTP haptic devices, the click gives feedback."
+  input.trackpad-palm:
+    - setup: j716s-aurora73
+      state: attended
+      kind: offline
+      evidence: ["https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/platform/trackpad-feel/NOTES.md"]
+      note: "Palm and thumb handling: the palm-class change is a module parameter, untested. Needs a person typing on the machine."
+  smc.battery:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-r3s-battery.md#battery]
+      verified: "2026-11-07"
+      note: "Discharging and MagSafe unplug events not exercised."
+  smc.sensors:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-hwmon-t1.md#readings]
+      upstream: ["aurora-silicon/linux#1084"]
+      verified: "2026-11-07"
+      note: "60+ temperature channels, both fans, power rails. No fan control (the T6050 SMC has no Ftst key)."
+  smc.lid:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-lid-sleep-n1.md#lid-sleep]
+      upstream: ["aurora-silicon/linux#1160"]
+      verified: "2026-11-07"
+  sleep.s2idle:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-wfi-idle-and-sleep.md#sleep-steps, results/2026-11-07-lid-sleep-n1.md#n1-sleep]
+      upstream: ["aurora-silicon/linux#1160"]
+      verified: "2026-11-07"
+      note: "Lid close sleeps and lid open wakes with Wi-Fi back (adopted-link fix). Not yet re-run on the daily whose kernel trains the N1 itself."
+  usb.host:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-rightport-usb3.md#results]
+      upstream: ["aurora-silicon/linux#1167"]
+      verified: "2026-11-07"
+      note: "Both Type-C ports; the right port at 10 Gb/s. DisplayPort not tested on either."
+  net.netfilter:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-netfilter-bisect.md#results]
+      verified: "2026-11-07"
+      note: "nftables, policy routing, WireGuard built in; no tunnel test recorded."
+  wifi-bt.wifi:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-daily-n1k.md#wi-fi, results/2026-11-07-k1k2-kernel-trains-n1.md#results, results/2026-11-07-n1-wifi-bring-up.md#daily-wifi-t1]
+      upstream: ["aurora-silicon/linux#1182", "aurora-silicon/linux#1183", "aurora-silicon/linux#937"]
+      verified: "2026-11-07"
+      note: "The kernel trains the N1 port; WPA2 5 GHz, DHCP, traffic, warm restart. 14 % ping loss seen once in an earlier soak. The N1 firmware is personalised per unit and not published."
+  wifi-bt.wifi-6ghz:
+    - setup: j716s-aurora73
+      state: untested
+      kind: native
+      evidence: [results/2026-11-07-n1-wifi-bring-up.md#w3b]
+      note: "The firmware's regulatory list on this unit has no 6 GHz entries (6 GHz 0)."
+  wifi-bt.bt:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-n1-wifi-bring-up.md#w3b, results/2026-11-07-daily-n1k.md#results]
+      upstream: ["aurora-silicon/linux#1182", "aurora-silicon/linux#1183"]
+      verified: "2026-11-07"
+      note: "hci0 up; a scan finds 36 devices in 8 s."
+  wifi-bt.bt-pairing:
+    - setup: j716s-aurora73
+      state: attended
+      kind: native
+      evidence: [results/2026-11-07-n1-wifi-bring-up.md#w3b]
+      note: "No device paired yet; needs a person with a Bluetooth device."
+  audio.speakers:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-audio-b6-speakers.md#results, results/2026-11-07-next-daily-trackpad.md#results]
+      upstream: ["omacom/omarchy-mac-pkgs#103"]
+      verified: "2026-11-07"
+      note: "J716 link in the J616s TDM frame (series 0081), six amps, no faults, 1 kHz tone heard clean, PipeWire sink with a -30 dB ceiling and speakersafetyd."
+  audio.mic:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-audio-a2-mic.md#results]
+      upstream: ["omacom/omarchy-mac-pkgs#103"]
+      verified: "2026-11-07"
+      note: "Three capsules; speech tracks the voice."
+  audio.jack:
+    - setup: j716s-aurora73
+      state: attended
+      kind: native
+      evidence: [results/2026-11-07-audio-a2-mic.md#results]
+      note: "Headphone Jack and Headset Mic Jack register as switches in the daily; nothing plugged in yet. Needs headphones and a headset."
+  audio.speaker-profile:
+    - setup: j716s-aurora73
+      state: attended
+      kind: offline
+      evidence: ["https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/validated/desktop/audio/j716-profile/REPORT.md"]
+      note: "J716s profile built and checked offline (Apple's J716s speaker tuning matches the J616s one; volume graph capped at -10 dB, kernel ceiling -30 dB kept); staged, not active. Needs a listening test."
+  gpu.firmware:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-gpu-e2b-zink.md#e2b-the-gpu-firmware-boots, results/2026-11-07-daily-n1k.md#gpu]
+      upstream: ["aurora-silicon/linux#1173", "aurora-silicon/linux#1012", "omacom/m1n1#37"]
+      verified: "2026-11-07"
+      note: "Firmware 27.3 (26C5035r), G17S, on every daily boot."
+  gpu.vulkan:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-gpu-e2b-zink.md#first-frame-zink-and-hyprland-on-the-gpu]
+      upstream: ["aurora-silicon/linux#1173"]
+      verified: "2026-11-07"
+      note: "Apple M5 Pro (G17S B1): compute, render, stress and vkmark pass."
+  gpu.gl:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-gpu-e2b-zink.md#soak-with-hyprland-on-the-gpu, results/2026-11-08-gl-native.md#desktop-session]
+      upstream: ["aurora-silicon/linux#1173", "aurora-silicon/mesa#194"]
+      verified: "2026-11-08"
+      note: "First through zink, native Gallium since 2026-11-08. Scanout still through simpledrm (a CPU copy) in the daily."
+  gpu.gl-native:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-08-gl-native.md#headless-ab, results/2026-11-08-gl-native.md#soak-0251-utc]
+      upstream: ["aurora-silicon/mesa#194"]
+      verified: "2026-11-08"
+      note: "The desktop's GL since 2026-11-08 02:23 UTC (userspace change on the daily; the kernel is unchanged). zink kept as a one-file rollback."
+  desktop.session:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-gpu-e2b-zink.md#daily-promotion, results/2026-11-08-gl-native.md#desktop-session]
+      verified: "2026-11-08"
+      note: "Hyprland on Omarchy 4.5.0 on the internal panel, GPU session by default (software session as fallback). A full interactive login on the GPU kernel is not separately logged."
+  display.dcp:
+    - setup: j716s-aurora73
+      state: works-test
+      kind: native
+      evidence: [results/2026-11-07-dcp-stage-c.md#results, results/2026-11-08-dcp-120-vrr.md#results, results/2026-11-08-daily-dcp-fallback.md#results]
+      upstream: ["aurora-silicon/linux#1174", "aurora-silicon/linux#1012", "omacom/m1n1#35"]
+      verified: "2026-11-08"
+      note: "The DCP drives the internal panel on a test payload (firmware 27.3). The first daily candidate with the DCP and the GPU together panicked early (fallback worked); bisect in progress."
+  display.refresh:
+    - setup: j716s-aurora73
+      state: works-test
+      kind: native
+      evidence: [results/2026-11-08-dcp-120-vrr.md#flip-intervals-median-page-flip-interval]
+      upstream: ["aurora-silicon/linux#1174"]
+      verified: "2026-11-08"
+      note: "120 Hz mode set; VRR (opt-in) changes the measured flip interval. Constant swap timestamps fixed the first-swap stall."
+  display.brightness:
+    - setup: j716s-aurora73
+      state: attended
+      kind: native
+      evidence: [results/2026-11-08-dcp-120-vrr.md#results]
+      note: "Writes are accepted but actual_brightness stays 300; the firmware-27 brightness path needs work, then a check by eye."
+  display.external:
+    - setup: j716s-aurora73
+      state: prepared
+      kind: offline
+      evidence: ["https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/README.md#status-2026-11-08"]
+      note: "Needs the DCP in the daily first; DisplayPort over Type-C untested on both ports."
+  nvram.read:
+    - setup: j716s-aurora73
+      state: works-daily
+      kind: native
+      evidence: [results/2026-11-07-nvram-ro.md#results, results/2026-11-07-daily-n1k.md#results]
+      verified: "2026-11-07"
+      note: "Read-only; the dump stays on the machine."
+  nvram.write:
+    - setup: j716s-aurora73
+      state: untested
+      kind: native
+      note: "No write done; the first one (the next-boot target) is planned as an attended sitting."
+  power.pmp:
+    - setup: j716s-aurora73
+      state: untested
+      kind: native
+  power.pmc-observe:
+    - setup: j716s-aurora73
+      state: works-test
+      kind: native
+      evidence: [results/2026-11-07-power-t1.md#retest, results/2026-11-07-power-t1.md#baseline]
+      verified: "2026-11-07"
+      note: "PMC and CLPC observe only (nothing written); idle 10.4 W on the charger."
+  power.pmc-control:
+    - setup: j716s-aurora73
+      state: attended
+      kind: offline
+      evidence: [results/2026-11-07-power-t1.md#not-tested, "https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/power/REPORT.md"]
+      note: "T3, the first PMC write (floors), is built and waits for a person at the machine."
+  power.thermal:
+    - setup: j716s-aurora73
+      state: prepared
+      kind: offline
+      evidence: ["https://github.com/rolotrealanis98/m5pro-linux/tree/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/platform"]
+      note: "Design report only."
+  camera.isp-power:
+    - setup: j716s-aurora73
+      state: works-test
+      kind: native
+      evidence: [results/2026-11-07-camera-i1.md#results]
+      verified: "2026-11-07"
+      note: "Three ISP DARTs bind, 8 of 8 ISP power domains present, no faults. Not a camera yet."
+  camera.capture:
+    - setup: j716s-aurora73
+      state: attended
+      kind: offline
+      evidence: [results/2026-11-07-camera-i1.md#results, "https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/camera/TEST-PLAN.md"]
+      note: "I2 (ISP firmware handshake, /dev/video0) not run: the firmware segment pre-check failed on the daily and the ISP kernel patches were being built. Queued as an attended step."
+  thunderbolt:
+    - setup: j716s-aurora73
+      state: blocked
+      kind: native
+      evidence: [results/2026-11-08-tb-t0.md#analysis]
+      upstream: ["aurora-silicon/linux#946"]
+      note: "The T0 boot hung in kernel init (a deferred probe waiting forever) and the fallback could not run. Attended only until there is a probe timeout and an init-completion watchdog."
+  video.decode:
+    - setup: j716s-aurora73
+      state: prepared
+      kind: offline
+      evidence: ["https://github.com/rolotrealanis98/m5pro-linux/tree/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/video"]
+      note: "AVD and JPEG engine patches and DT nodes, not booted."
+  video.encode:
+    - setup: j716s-aurora73
+      state: not-realistic
+      kind: native
+      note: "The encoder has a probe-only driver; nothing beyond that is expected soon."
+  video.prores:
+    - setup: j716s-aurora73
+      state: not-realistic
+      kind: native
+      note: "Only a device-tree binding exists, no driver."
+  ane:
+    - setup: j716s-aurora73
+      state: prepared
+      kind: offline
+      evidence: ["https://github.com/rolotrealanis98/m5pro-linux/tree/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/ane"]
+      note: "Kernel and m1n1 patches that bind the Neural Engine for observation only, not booted."
+  touchid:
+    - setup: j716s-aurora73
+      state: not-realistic
+      kind: native
+      note: "Sits behind the Secure Enclave; not planned."
