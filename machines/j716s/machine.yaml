@@ -54,20 +54,20 @@ features:
       evidence: [results/2026-11-08-loop-safety.md#results, results/2026-11-08-loop-safety.md#v1-0322-utc-for-the-record, results/2026-11-08-tb-t0.md#analysis]
       upstream: ["omacom/m1n1#36"]
       verified: "2026-11-08"
-      note: "Test payloads carry watchdog.open_timeout=300 and an initramfs opener that hands the watchdog to systemd. Negative test: a boot that reaches userspace and never opens the device is reset at about 150 s and stage 1 falls back, stage of death recorded. Positive test: hand-over to systemd passes (RuntimeWatchdogUSec=1min). Not covered: a kernel hang before the initramfs mark that the watchdog core cannot see, and lid-close sleep under the systemd watchdog (attended)."
+      note: "Test payloads carry watchdog.open_timeout=300 and an initramfs opener that hands the watchdog to systemd. Negative test: a boot that reaches userspace and never opens the device is reset at about 150 s and stage 1 falls back, stage of death recorded. Positive test: hand-over to systemd passes (RuntimeWatchdogUSec=1min). Not exercised: the original Thunderbolt T0 hang inside kernel init (the open timeout should cover it by design; only the never-opens-the-device case was run) and lid-close sleep under the systemd watchdog (attended). Open work: tracker issues #1 and #8."
   boot.counted-restart:
     - setup: j716s-aurora73
       state: blocked
       kind: native
-      evidence: [results/2026-11-07-boot-safety-settle.md#restart-exp4-the-cause-of-the-first-boot-of-a-fresh-payload-falls-back, results/2026-11-08-daily-dcp-lfix.md#counted-restart-on-the-first-write]
-      note: "A reboot while the SSD is still busy after a write burst is counted by iBoot as a failed boot, so the next stage-1 pass falls back before reading the new file (about 1 in 3 immediate reboots after a burst; 0 failures in 17 with at least 60 s idle). The workaround is the 60 s idle rule and a 20 s shutdown settle hook; the kernel-side fix (three NVMe/SMC shutdown patches) is written and compile-checked, not run, and stage-1 0017 (a counted restart boots the primary) waits for an attended install."
+      evidence: [results/2026-11-07-boot-safety-settle.md#restart-exp4-the-cause-of-the-first-boot-of-a-fresh-payload-falls-back, results/2026-11-08-daily-dcp-lfix.md#counted-restart-on-the-first-write, "https://github.com/rolotrealanis98/m4-m5-linux/issues/15"]
+      note: "A reboot while the SSD is still busy after a write burst is counted by iBoot as a failed boot, so the next stage-1 pass falls back before reading the new file (about 1 in 3 immediate reboots after a burst; 0 failures in 17 with at least 60 s idle). The workaround is the 60 s idle rule and a 20 s shutdown settle hook; the kernel-side fix (three NVMe/SMC shutdown patches) is written and compile-checked, not run, and stage-1 0017 (a counted restart boots the primary) waits for an attended install. Open work: tracker issues #15 and #5."
   boot.omarchy-chain:
     - setup: j716s-aurora73
       state: attended
       kind: offline
       evidence: ["https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/installer/omarchy-chain/REPORT.md"]
       upstream: ["omacom/m1n1#30"]
-      note: "A/B stage 1, m1n1, U-Boot, Limine, the daily kernel as an EFI-stub image: built, not booted. Needs a cold start with a person present (only the 150 s stage-1 watchdog as fallback)."
+      note: "A/B stage 1, m1n1, U-Boot, Limine, the daily kernel as an EFI-stub image: built, not booted. Needs a cold start with a person present (only the 150 s stage-1 watchdog as fallback). Open work: tracker issue #6."
   cpu.smp:
     - setup: j716s-aurora73
       state: works-daily
@@ -127,14 +127,14 @@ features:
       state: attended
       kind: offline
       evidence: ["https://github.com/rolotrealanis98/m5pro-linux/blob/70bbffcc160b02903058a7a82a065ef047affdd9/contrib/pending/platform/trackpad-feel/NOTES.md"]
-      note: "Palm and thumb handling: the palm-class change is a module parameter, untested. Needs a person typing on the machine; the touch-size numbers from the HOWTO checklist finalise the thresholds."
+      note: "Palm and thumb handling: the palm-class change is a module parameter, untested. Needs a person typing on the machine; the touch-size numbers from the HOWTO checklist finalise the thresholds. Open work: tracker issue #12."
   smc.battery:
     - setup: j716s-aurora73
       state: works-daily
       kind: native
       evidence: [results/2026-11-07-r3s-battery.md#battery]
       verified: "2026-11-07"
-      note: "Discharging and MagSafe unplug events not exercised."
+      note: "Discharging and MagSafe unplug events not exercised. Open work: tracker issue #10."
   smc.sensors:
     - setup: j716s-aurora73
       state: works-daily
@@ -157,7 +157,7 @@ features:
       evidence: [results/2026-11-07-wfi-idle-and-sleep.md#sleep-steps, results/2026-11-07-lid-sleep-n1.md#n1-sleep]
       upstream: ["aurora-silicon/linux#1160"]
       verified: "2026-11-07"
-      note: "Lid close sleeps and lid open wakes with Wi-Fi back (adopted-link fix). Not yet re-run on the current daily: kernel-trained N1, DCP scanout, and systemd now feeding the watchdog (RuntimeWatchdogSec=60) all came after the last sleep result."
+      note: "Lid close sleeps and lid open wakes with Wi-Fi back (adopted-link fix). Not yet re-run on the current daily: kernel-trained N1, DCP scanout, and systemd now feeding the watchdog (RuntimeWatchdogSec=60) all came after the last sleep result. Open work: tracker issue #8."
   usb.host:
     - setup: j716s-aurora73
       state: works-daily
@@ -172,7 +172,7 @@ features:
       kind: native
       evidence: [results/2026-11-07-netfilter-bisect.md#results]
       verified: "2026-11-07"
-      note: "nftables, policy routing, WireGuard built in; no tunnel test recorded."
+      note: "nftables, policy routing, WireGuard built in; no tunnel test recorded. Open work: tracker issue #34."
   wifi-bt.wifi:
     - setup: j716s-aurora73
       state: works-daily
@@ -186,7 +186,7 @@ features:
       state: untested
       kind: native
       evidence: [results/2026-11-07-n1-wifi-bring-up.md#w3b]
-      note: "The firmware's regulatory list on this unit has no 6 GHz entries (6 GHz 0)."
+      note: "The firmware's regulatory list on this unit has no 6 GHz entries (6 GHz 0). Open work: tracker issue #33."
   wifi-bt.bt:
     - setup: j716s-aurora73
       state: works-daily
@@ -200,13 +200,13 @@ features:
       state: attended
       kind: native
       evidence: [results/2026-11-07-n1-wifi-bring-up.md#w3b]
-      note: "No device paired yet; needs a person with a Bluetooth device."
+      note: "No device paired yet; needs a person with a Bluetooth device. Open work: tracker issue #9."
   wifi-bt.networkmanager:
     - setup: j716s-aurora73
       state: attended
       kind: offline
       evidence: ["https://github.com/rolotrealanis98/m5pro-linux/blob/70bbffcc160b02903058a7a82a065ef047affdd9/contrib/validated/desktop/omarchy-upgrade-REPORT.md"]
-      note: "Pending. The root runs systemd-networkd with wpa_supplicant; Omarchy's network menu expects NetworkManager, which is installed but not enabled (the widget shows offline). The switch can cut the remote session, so it is done with a person at the machine and the old units one command away."
+      note: "Pending. The root runs systemd-networkd with wpa_supplicant; Omarchy's network menu expects NetworkManager, which is installed but not enabled (the widget shows offline). The switch can cut the remote session, so it is done with a person at the machine and the old units one command away. Open work: tracker issue #21."
   audio.speakers:
     - setup: j716s-aurora73
       state: works-test
@@ -214,7 +214,7 @@ features:
       evidence: [results/2026-11-07-audio-b6-speakers.md#results, results/2026-11-08-desktop-fixes.md#results]
       upstream: ["omacom/omarchy-mac-pkgs#103"]
       verified: "2026-11-08"
-      note: "J716 link in the J616s TDM frame (series 0081), six amps, no faults, tone heard clean (2026-11-07 and again 2026-11-08 by Rolando after the PipeWire route was reset), bring-up filter sink and profile graphs, kernel ceiling -30 dB with speakersafetyd. works-test, not daily: the route had to be fixed by hand in WirePlumber's state on the daily, the graph cap is -10 dB and the listening test (tool j716-listen) has not run."
+      note: "J716 link in the J616s TDM frame (series 0081), six amps, no faults, tone heard clean (2026-11-07 and again 2026-11-08 by Rolando after the PipeWire route was reset), bring-up filter sink and profile graphs, kernel ceiling -30 dB with speakersafetyd. works-test, not daily: the route had to be fixed by hand in WirePlumber's state on the daily, the graph cap is -10 dB and the listening test (tool j716-listen) has not run. Open work: tracker issues #7 and #22."
   audio.mic:
     - setup: j716s-aurora73
       state: works-daily
@@ -228,13 +228,13 @@ features:
       state: attended
       kind: native
       evidence: [results/2026-11-07-audio-a2-mic.md#results]
-      note: "Headphone Jack and Headset Mic Jack register as switches in the daily; nothing plugged in yet. Needs headphones and a headset."
+      note: "Headphone Jack and Headset Mic Jack register as switches in the daily; nothing plugged in yet. Needs headphones and a headset. Open work: tracker issue #11."
   audio.speaker-profile:
     - setup: j716s-aurora73
       state: attended
       kind: offline
       evidence: ["https://github.com/rolotrealanis98/m5pro-linux/blob/70bbffcc160b02903058a7a82a065ef047affdd9/contrib/validated/desktop/audio/j716-profile/REPORT.md", "https://github.com/rolotrealanis98/m5pro-linux/blob/70bbffcc160b02903058a7a82a065ef047affdd9/contrib/validated/desktop/audio/j716-profile/tools/README.md"]
-      note: "J716s profile built and checked offline (Apple's J716s speaker tuning matches the J616s one; volume graph capped at -10 dB, kernel ceiling -30 dB kept); staged, not active. The listening-test tool j716-listen (signals, volume steps, live safety readout, auto-stop, results table) is ready; needs about 30 minutes of listening."
+      note: "J716s profile built and checked offline (Apple's J716s speaker tuning matches the J616s one; volume graph capped at -10 dB, kernel ceiling -30 dB kept); staged, not active. The listening-test tool j716-listen (signals, volume steps, live safety readout, auto-stop, results table) is ready; needs about 30 minutes of listening. Open work: tracker issue #7."
   gpu.firmware:
     - setup: j716s-aurora73
       state: works-daily
@@ -266,7 +266,7 @@ features:
       evidence: [results/2026-11-08-gl-native.md#headless-ab, results/2026-11-08-gl-native.md#soak-0251-utc, results/2026-11-08-desktop-fixes.md#terminals-on-the-native-gl-driver]
       upstream: ["aurora-silicon/mesa#194"]
       verified: "2026-11-08"
-      note: "Passes 12/12 scenes and a 24 min desktop soak, but it was the session GL only from 02:23 to 09:55 UTC: it cannot build Alacritty's fragment program, so zink is the session default again. Fixes 0006-0008 (uniform ranges in dwords, keep the narrowing move, a faulttrace flag) are checked offline on the shim and, per the board owner, render Alacritty in a side-by-side test on the machine (that run is not in the source log yet); the A/B of the second tree is still to do."
+      note: "Passes 12/12 scenes and a 24 min desktop soak, but it was the session GL only from 02:23 to 09:55 UTC: it cannot build Alacritty's fragment program, so zink is the session default again. Fixes 0006-0008 (uniform ranges in dwords, keep the narrowing move, a faulttrace flag) are checked offline on the shim and, per the board owner, render Alacritty in a side-by-side test on the machine (that run is not in the source log yet); the A/B of the second tree is still to do. Open work: tracker issue #16."
   desktop.session:
     - setup: j716s-aurora73
       state: works-daily
@@ -280,7 +280,7 @@ features:
       kind: native
       evidence: [results/2026-11-08-desktop-fixes.md#package-fill, results/2026-11-08-desktop-fixes.md#results, results/2026-11-08-gl-native.md#desktop-session]
       verified: "2026-11-08"
-      note: "Omarchy 4.5.0 from the official aarch64 packages: the Quickshell bar and wallpaper run on the daily. Package fill: imagemagick and qt6-imageformats were not pulled in and were installed by hand (the wallpaper layer was blank without them). Held back on purpose: the boot-chain packages, NetworkManager as the network stack and the ~110 optional apps. Menu, lock screen and first-run are not logged."
+      note: "Omarchy 4.5.0 from the official aarch64 packages: the Quickshell bar and wallpaper run on the daily. Package fill: imagemagick and qt6-imageformats were not pulled in and were installed by hand (the wallpaper layer was blank without them). Held back on purpose: the boot-chain packages, NetworkManager as the network stack and the ~110 optional apps. Menu, lock screen and first-run are not logged. Open work: tracker issue #21."
   display.dcp:
     - setup: j716s-aurora73
       state: works-daily
@@ -303,13 +303,13 @@ features:
       kind: native
       evidence: [results/2026-11-08-daily-dcp-lfix.md#results]
       verified: "2026-11-08"
-      note: "Backlight 300/600 and writes reach the panel on the DCP daily (the v2 brightness guard fixed the earlier readback stuck at 300). The source records the readback, not a by-eye check; confirm by eye at the next sitting."
+      note: "Backlight 300/600 and writes reach the panel on the DCP daily (the v2 brightness guard fixed the earlier readback stuck at 300). The source records the readback, not a by-eye check; confirm by eye at the next sitting. Open work: tracker issue #13."
   display.external:
     - setup: j716s-aurora73
       state: prepared
       kind: offline
       evidence: ["https://github.com/rolotrealanis98/m5pro-linux/blob/70bbffcc160b02903058a7a82a065ef047affdd9/README.md#status-2026-11-08"]
-      note: "The DCP is in the daily now; HDMI via the external DCP and DisplayPort alt mode on the Type-C ports are untested (both ports otherwise work as USB hosts)."
+      note: "The DCP is in the daily now; HDMI via the external DCP and DisplayPort alt mode on the Type-C ports are untested (both ports otherwise work as USB hosts). Open work: tracker issue #20."
   nvram.read:
     - setup: j716s-aurora73
       state: works-daily
@@ -321,7 +321,7 @@ features:
     - setup: j716s-aurora73
       state: untested
       kind: native
-      note: "No write done; the first one (the next-boot target) is planned as an attended sitting."
+      note: "No write done; the first one (the next-boot target) is planned as an attended sitting. Open work: tracker issue #4."
   power.pmp:
     - setup: j716s-aurora73
       state: untested
@@ -338,13 +338,13 @@ features:
       state: attended
       kind: offline
       evidence: [results/2026-11-07-power-t1.md#not-tested, "https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/power/REPORT.md"]
-      note: "T3, the first PMC write (floors), is built and waits for a person at the machine."
+      note: "T3, the first PMC write (floors), is built and waits for a person at the machine. Open work: tracker issue #3."
   power.thermal:
     - setup: j716s-aurora73
       state: prepared
       kind: offline
       evidence: ["https://github.com/rolotrealanis98/m5pro-linux/tree/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/platform"]
-      note: "Design report only."
+      note: "Design report only. Open work: tracker issue #35."
   camera.isp-power:
     - setup: j716s-aurora73
       state: works-test
@@ -357,20 +357,20 @@ features:
       state: attended
       kind: offline
       evidence: [results/2026-11-07-camera-i1.md#results, "https://github.com/rolotrealanis98/m5pro-linux/blob/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/camera/TEST-PLAN.md"]
-      note: "I2 (ISP firmware handshake, /dev/video0) not run: the firmware segment pre-check failed on the daily and the ISP kernel patches were being built. Queued as an attended step."
+      note: "I2 (ISP firmware handshake, /dev/video0) not run: the firmware segment pre-check failed on the daily and the ISP kernel patches were being built. Queued as an attended step. Open work: tracker issue #2."
   thunderbolt:
     - setup: j716s-aurora73
       state: blocked
       kind: native
-      evidence: [results/2026-11-08-tb-t0.md#analysis]
+      evidence: [results/2026-11-08-tb-t0.md#analysis, "https://github.com/rolotrealanis98/m4-m5-linux/issues/1"]
       upstream: ["aurora-silicon/linux#946"]
-      note: "The T0 boot hung in kernel init (a deferred probe waiting forever) and the fallback could not run. Test payloads now reset a hung init (boot.loop-safety passes); a bisect ladder of DTBs (round 2) is prepared. Still attended: first the daily DTB, then the power-domain nodes, then the full T0."
+      note: "The T0 boot hung in kernel init (a deferred probe waiting forever) and the fallback could not run. Test payloads should now reset a hung init (boot.loop-safety passes for the never-opens case); a bisect ladder of DTBs (round 2) is prepared. Still attended: first the daily DTB, then the power-domain nodes, then the full T0. Open work: tracker issue #1."
   video.decode:
     - setup: j716s-aurora73
       state: prepared
       kind: offline
       evidence: ["https://github.com/rolotrealanis98/m5pro-linux/tree/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/video"]
-      note: "AVD and JPEG engine patches and DT nodes, not booted."
+      note: "AVD and JPEG engine patches and DT nodes, not booted. Open work: tracker issue #24."
   video.encode:
     - setup: j716s-aurora73
       state: not-realistic
@@ -386,7 +386,7 @@ features:
       state: prepared
       kind: offline
       evidence: ["https://github.com/rolotrealanis98/m5pro-linux/tree/f8fd6bc71b2688ca70ad7697cd5506fd2ed393da/contrib/pending/ane"]
-      note: "Kernel and m1n1 patches that bind the Neural Engine for observation only, not booted."
+      note: "Kernel and m1n1 patches that bind the Neural Engine for observation only, not booted. Open work: tracker issue #23."
   touchid:
     - setup: j716s-aurora73
       state: not-realistic

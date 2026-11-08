@@ -31,7 +31,7 @@
 <tr><td>Omarchy boot chain (m1n1, U-Boot, Limine, EFI kernel)<br><code>boot.omarchy-chain</code></td>
 <td title="stage 1 m1n1, ESP stage 2, U-Boot, Limine, EFI kernel, all installed as packages"><a href="machines/j714c.html#f-boot-omarchy-chain"><span class="st st-reported">reported</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="A/B stage 1, m1n1, U-Boot, Limine, the daily kernel as an EFI-stub image: built, not booted. Needs a cold start with a person present (only the 150 s stage-1 watchdog as fallback)."><a href="machines/j716s.html#f-boot-omarchy-chain"><span class="st st-attended">attended</span></a></td>
+<td title="A/B stage 1, m1n1, U-Boot, Limine, the daily kernel as an EFI-stub image: built, not booted. Needs a cold start with a person present (only the 150 s stage-1 watchdog as fallback). Open work: tracker issue #6."><a href="machines/j716s.html#f-boot-omarchy-chain"><span class="st st-attended">attended</span></a></td>
 </tr>
 <tr><td>All CPU cores<br><code>cpu.smp</code></td>
 <td title="all 18 cores (after the 27.3 beta 1 stub firmware)"><a href="machines/j714c.html#f-cpu-smp"><span class="st st-reported">reported</span></a></td>
@@ -71,12 +71,12 @@
 <tr><td>Trackpad palm and thumb handling<br><code>input.trackpad-palm</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="Palm and thumb handling: the palm-class change is a module parameter, untested. Needs a person typing on the machine; the touch-size numbers from the HOWTO checklist finalise the thresholds."><a href="machines/j716s.html#f-input-trackpad-palm"><span class="st st-attended">attended</span></a></td>
+<td title="Palm and thumb handling: the palm-class change is a module parameter, untested. Needs a person typing on the machine; the touch-size numbers from the HOWTO checklist finalise the thresholds. Open work: tracker issue #12."><a href="machines/j716s.html#f-input-trackpad-palm"><span class="st st-attended">attended</span></a></td>
 </tr>
 <tr><td>Battery and charger<br><code>smc.battery</code></td>
 <td title="battery and charger"><a href="machines/j714c.html#f-smc-battery"><span class="st st-reported">reported</span></a></td>
 <td title="not yet"><a href="machines/j714s.html#f-smc-battery"><span class="st st-reported">reported</span></a></td>
-<td title="Discharging and MagSafe unplug events not exercised."><a href="machines/j716s.html#f-smc-battery"><span class="st st-works-daily">works (daily)</span></a></td>
+<td title="Discharging and MagSafe unplug events not exercised. Open work: tracker issue #10."><a href="machines/j716s.html#f-smc-battery"><span class="st st-works-daily">works (daily)</span></a></td>
 </tr>
 <tr><td>Fans and sensors<br><code>smc.sensors</code></td>
 <td title="fans, temperatures, voltages, power rails"><a href="machines/j714c.html#f-smc-sensors"><span class="st st-reported">reported</span></a></td>
@@ -91,7 +91,7 @@
 <tr><td>Suspend to idle<br><code>sleep.s2idle</code></td>
 <td title="lid close suspends, lid open wakes (2026-11-05); not re-checked on the current kernel"><a href="machines/j714c.html#f-sleep-s2idle"><span class="st st-reported">reported</span></a></td>
 <td title="missing / systemctl suspend, lid wake, 13-minute sleep on the default kernel; not requalified on the DCP kernel"><a href="machines/j714s.html#f-sleep-s2idle"><span class="st st-reported">reported</span></a></td>
-<td title="Lid close sleeps and lid open wakes with Wi-Fi back (adopted-link fix). Not yet re-run on the current daily: kernel-trained N1, DCP scanout, and systemd now feeding the watchdog (RuntimeWatchdogSec=60) all came after the last sleep result."><a href="machines/j716s.html#f-sleep-s2idle"><span class="st st-works-daily">works (daily)</span></a></td>
+<td title="Lid close sleeps and lid open wakes with Wi-Fi back (adopted-link fix). Not yet re-run on the current daily: kernel-trained N1, DCP scanout, and systemd now feeding the watchdog (RuntimeWatchdogSec=60) all came after the last sleep result. Open work: tracker issue #8."><a href="machines/j716s.html#f-sleep-s2idle"><span class="st st-works-daily">works (daily)</span></a></td>
 </tr>
 <tr><td>USB host on the Type-C ports<br><code>usb.host</code></td>
 <td title="USB 2.0 host on all three ports, SuperSpeed on port 1"><a href="machines/j714c.html#f-usb-host"><span class="st st-reported">reported</span></a></td>
@@ -101,7 +101,7 @@
 <tr><td>Netfilter and WireGuard in the kernel<br><code>net.netfilter</code></td>
 <td title="ufw active through iptables-nft"><a href="machines/j714c.html#f-net-netfilter"><span class="st st-reported">reported</span></a></td>
 <td title="nftables: create, list and delete a table"><a href="machines/j714s.html#f-net-netfilter"><span class="st st-reported">reported</span></a></td>
-<td title="nftables, policy routing, WireGuard built in; no tunnel test recorded."><a href="machines/j716s.html#f-net-netfilter"><span class="st st-works-daily">works (daily)</span></a></td>
+<td title="nftables, policy routing, WireGuard built in; no tunnel test recorded. Open work: tracker issue #34."><a href="machines/j716s.html#f-net-netfilter"><span class="st st-works-daily">works (daily)</span></a></td>
 </tr>
 <tr><td>Wi-Fi<br><code>wifi-bt.wifi</code></td>
 <td title="the kernel trains the N1 port; restart with the link up comes back"><a href="machines/j714c.html#f-wifi-bt-wifi"><span class="st st-reported">reported</span></a></td>
@@ -111,7 +111,7 @@
 <tr><td>Wi-Fi 6 GHz<br><code>wifi-bt.wifi-6ghz</code></td>
 <td title="6 GHz works (iwd)"><a href="machines/j714c.html#f-wifi-bt-wifi-6ghz"><span class="st st-reported">reported</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="The firmware&#x27;s regulatory list on this unit has no 6 GHz entries (6 GHz 0)."><a href="machines/j716s.html#f-wifi-bt-wifi-6ghz"><span class="st st-untested">untested</span></a></td>
+<td title="The firmware&#x27;s regulatory list on this unit has no 6 GHz entries (6 GHz 0). Open work: tracker issue #33."><a href="machines/j716s.html#f-wifi-bt-wifi-6ghz"><span class="st st-untested">untested</span></a></td>
 </tr>
 <tr><td>Bluetooth controller<br><code>wifi-bt.bt</code></td>
 <td title="works"><a href="machines/j714c.html#f-wifi-bt-bt"><span class="st st-reported">reported</span></a></td>
@@ -121,12 +121,12 @@
 <tr><td>Bluetooth pairing<br><code>wifi-bt.bt-pairing</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="No device paired yet; needs a person with a Bluetooth device."><a href="machines/j716s.html#f-wifi-bt-bt-pairing"><span class="st st-attended">attended</span></a></td>
+<td title="No device paired yet; needs a person with a Bluetooth device. Open work: tracker issue #9."><a href="machines/j716s.html#f-wifi-bt-bt-pairing"><span class="st st-attended">attended</span></a></td>
 </tr>
 <tr><td>Wi-Fi through NetworkManager<br><code>wifi-bt.networkmanager</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="Pending. The root runs systemd-networkd with wpa_supplicant; Omarchy&#x27;s network menu expects NetworkManager, which is installed but not enabled (the widget shows offline). The switch can cut the remote session, so it is done with a person at the machine and the old units one command away."><a href="machines/j716s.html#f-wifi-bt-networkmanager"><span class="st st-attended">attended</span></a></td>
+<td title="Pending. The root runs systemd-networkd with wpa_supplicant; Omarchy&#x27;s network menu expects NetworkManager, which is installed but not enabled (the widget shows offline). The switch can cut the remote session, so it is done with a person at the machine and the old units one command away. Open work: "><a href="machines/j716s.html#f-wifi-bt-networkmanager"><span class="st st-attended">attended</span></a></td>
 </tr>
 <tr><td>Speakers<br><code>audio.speakers</code></td>
 <td title="all six speakers at full volume with speakersafetyd"><a href="machines/j714c.html#f-audio-speakers"><span class="st st-reported">reported</span></a></td>
@@ -141,7 +141,7 @@
 <tr><td>Headphone jack<br><code>audio.jack</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="Headphone Jack and Headset Mic Jack register as switches in the daily; nothing plugged in yet. Needs headphones and a headset."><a href="machines/j716s.html#f-audio-jack"><span class="st st-attended">attended</span></a></td>
+<td title="Headphone Jack and Headset Mic Jack register as switches in the daily; nothing plugged in yet. Needs headphones and a headset. Open work: tracker issue #11."><a href="machines/j716s.html#f-audio-jack"><span class="st st-attended">attended</span></a></td>
 </tr>
 <tr><td>Tuned speaker profile<br><code>audio.speaker-profile</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
@@ -191,12 +191,12 @@
 <tr><td>Panel brightness<br><code>display.brightness</code></td>
 <td title="brightness keys work"><a href="machines/j714c.html#f-display-brightness"><span class="st st-reported">reported</span></a></td>
 <td title="brightness control works"><a href="machines/j714s.html#f-display-brightness"><span class="st st-reported">reported</span></a></td>
-<td title="Backlight 300/600 and writes reach the panel on the DCP daily (the v2 brightness guard fixed the earlier readback stuck at 300). The source records the readback, not a by-eye check; confirm by eye at the next sitting."><a href="machines/j716s.html#f-display-brightness"><span class="st st-works-daily">works (daily)</span></a></td>
+<td title="Backlight 300/600 and writes reach the panel on the DCP daily (the v2 brightness guard fixed the earlier readback stuck at 300). The source records the readback, not a by-eye check; confirm by eye at the next sitting. Open work: tracker issue #13."><a href="machines/j716s.html#f-display-brightness"><span class="st st-works-daily">works (daily)</span></a></td>
 </tr>
 <tr><td>External displays<br><code>display.external</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="The DCP is in the daily now; HDMI via the external DCP and DisplayPort alt mode on the Type-C ports are untested (both ports otherwise work as USB hosts)."><a href="machines/j716s.html#f-display-external"><span class="st st-prepared">prepared</span></a></td>
+<td title="The DCP is in the daily now; HDMI via the external DCP and DisplayPort alt mode on the Type-C ports are untested (both ports otherwise work as USB hosts). Open work: tracker issue #20."><a href="machines/j716s.html#f-display-external"><span class="st st-prepared">prepared</span></a></td>
 </tr>
 <tr><td>NVRAM read<br><code>nvram.read</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
@@ -206,7 +206,7 @@
 <tr><td>NVRAM write<br><code>nvram.write</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="No write done; the first one (the next-boot target) is planned as an attended sitting."><a href="machines/j716s.html#f-nvram-write"><span class="st st-untested">untested</span></a></td>
+<td title="No write done; the first one (the next-boot target) is planned as an attended sitting. Open work: tracker issue #4."><a href="machines/j716s.html#f-nvram-write"><span class="st st-untested">untested</span></a></td>
 </tr>
 <tr><td>PMP coprocessor<br><code>power.pmp</code></td>
 <td title="the PMP firmware starts and its endpoint is ready"><a href="machines/j714c.html#f-power-pmp"><span class="st st-reported">reported</span></a></td>
@@ -221,12 +221,12 @@
 <tr><td>Power-management controller (control)<br><code>power.pmc-control</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="T3, the first PMC write (floors), is built and waits for a person at the machine."><a href="machines/j716s.html#f-power-pmc-control"><span class="st st-attended">attended</span></a></td>
+<td title="T3, the first PMC write (floors), is built and waits for a person at the machine. Open work: tracker issue #3."><a href="machines/j716s.html#f-power-pmc-control"><span class="st st-attended">attended</span></a></td>
 </tr>
 <tr><td>Thermal zones<br><code>power.thermal</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="Design report only."><a href="machines/j716s.html#f-power-thermal"><span class="st st-prepared">prepared</span></a></td>
+<td title="Design report only. Open work: tracker issue #35."><a href="machines/j716s.html#f-power-thermal"><span class="st st-prepared">prepared</span></a></td>
 </tr>
 <tr><td>Camera ISP power domains and DARTs<br><code>camera.isp-power</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
@@ -236,17 +236,17 @@
 <tr><td>Camera capture<br><code>camera.capture</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="I2 (ISP firmware handshake, /dev/video0) not run: the firmware segment pre-check failed on the daily and the ISP kernel patches were being built. Queued as an attended step."><a href="machines/j716s.html#f-camera-capture"><span class="st st-attended">attended</span></a></td>
+<td title="I2 (ISP firmware handshake, /dev/video0) not run: the firmware segment pre-check failed on the daily and the ISP kernel patches were being built. Queued as an attended step. Open work: tracker issue #2."><a href="machines/j716s.html#f-camera-capture"><span class="st st-attended">attended</span></a></td>
 </tr>
 <tr><td>Thunderbolt / USB4<br><code>thunderbolt</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="The T0 boot hung in kernel init (a deferred probe waiting forever) and the fallback could not run. Test payloads now reset a hung init (boot.loop-safety passes); a bisect ladder of DTBs (round 2) is prepared. Still attended: first the daily DTB, then the power-domain nodes, then the full T0."><a href="machines/j716s.html#f-thunderbolt"><span class="st st-blocked">blocked</span></a></td>
+<td title="The T0 boot hung in kernel init (a deferred probe waiting forever) and the fallback could not run. Test payloads should now reset a hung init (boot.loop-safety passes for the never-opens case); a bisect ladder of DTBs (round 2) is prepared. Still attended: first the daily DTB, then the power-domain "><a href="machines/j716s.html#f-thunderbolt"><span class="st st-blocked">blocked</span></a></td>
 </tr>
 <tr><td>Hardware video decode<br><code>video.decode</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="AVD and JPEG engine patches and DT nodes, not booted."><a href="machines/j716s.html#f-video-decode"><span class="st st-prepared">prepared</span></a></td>
+<td title="AVD and JPEG engine patches and DT nodes, not booted. Open work: tracker issue #24."><a href="machines/j716s.html#f-video-decode"><span class="st st-prepared">prepared</span></a></td>
 </tr>
 <tr><td>Hardware video encode<br><code>video.encode</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
@@ -261,7 +261,7 @@
 <tr><td>Neural Engine<br><code>ane</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
 <td title=""><a href="machines/j714s.html"><span class="st st-untested">untested</span></a></td>
-<td title="Kernel and m1n1 patches that bind the Neural Engine for observation only, not booted."><a href="machines/j716s.html#f-ane"><span class="st st-prepared">prepared</span></a></td>
+<td title="Kernel and m1n1 patches that bind the Neural Engine for observation only, not booted. Open work: tracker issue #23."><a href="machines/j716s.html#f-ane"><span class="st st-prepared">prepared</span></a></td>
 </tr>
 <tr><td>Touch ID<br><code>touchid</code></td>
 <td title=""><a href="machines/j714c.html"><span class="st st-untested">untested</span></a></td>
