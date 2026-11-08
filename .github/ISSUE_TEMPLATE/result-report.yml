@@ -1,0 +1,63 @@
+name: Result report
+description: Report a run on a machine (it becomes a result file in machines/<board>/results/)
+title: "Result: <board> <short description>"
+labels: ["type:result"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One run per report. Give pass, fail or not tested for each action, quote log lines literally and trimmed, and
+        list what was not tested. A driver probe is not a pass. **Scrub first:** no serials, ECID, nonces, MAC or
+        Bluetooth addresses, IP addresses, host or user names, Wi-Fi names or passphrases, UUIDs.
+  - type: input
+    id: board
+    attributes: {label: Board id, placeholder: J716s}
+    validations: {required: true}
+  - type: input
+    id: setup
+    attributes: {label: Setup id (from machine.yaml), placeholder: rolo-aurora73}
+  - type: input
+    id: date
+    attributes: {label: Date and time of the run (UTC), placeholder: "2026-11-07T23:16Z"}
+    validations: {required: true}
+  - type: input
+    id: kernel
+    attributes: {label: Kernel release (uname -r)}
+    validations: {required: true}
+  - type: input
+    id: payload
+    attributes: {label: Payload or build (recipe path, or sha256)}
+  - type: input
+    id: firmware
+    attributes: {label: "Firmware: os and system fields"}
+    validations: {required: true}
+  - type: dropdown
+    id: attended
+    attributes:
+      label: Was a person at the machine?
+      options: ["no", "yes (describe what they did below)"]
+    validations: {required: true}
+  - type: textarea
+    id: results
+    attributes:
+      label: Results
+      description: "A table: feature or action | pass, fail, not tested | detail."
+    validations: {required: true}
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log excerpts (scrubbed)
+      render: text
+  - type: textarea
+    id: not_tested
+    attributes: {label: Not tested}
+  - type: input
+    id: source
+    attributes: {label: Permalink to your status repository (optional)}
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: This result comes from a run on the named machine, and the logs above are scrubbed.
+          required: true

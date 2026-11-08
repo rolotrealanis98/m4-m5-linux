@@ -1,0 +1,48 @@
+name: New machine
+description: Add a board (an M4 or M5 Mac) to the tracker
+title: "New machine: <board>"
+labels: ["type:status"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for adding a machine. Use the board id (`J716s`, `J614s`), not the marketing name, as the key.
+        Do not paste serial numbers, ECID, MAC addresses or ADT dumps here.
+  - type: input
+    id: board
+    attributes: {label: Board id, placeholder: J714s}
+    validations: {required: true}
+  - type: input
+    id: model
+    attributes: {label: Model, placeholder: "MacBook Pro (14-inch, M5 Pro)"}
+    validations: {required: true}
+  - type: input
+    id: identifier
+    attributes: {label: Identifier, placeholder: "Mac17,9"}
+    validations: {required: true}
+  - type: input
+    id: soc
+    attributes: {label: SoC, placeholder: T6050}
+    validations: {required: true}
+  - type: input
+    id: owners
+    attributes: {label: Owners (GitHub handles of the people with the machine), placeholder: "@you"}
+    validations: {required: true}
+  - type: input
+    id: status_repo
+    attributes: {label: Status repository or notes (optional)}
+  - type: textarea
+    id: firmware
+    attributes:
+      label: Firmware
+      description: Both `/chosen` firmware fields (os and system firmware versions), and the macOS version of the stub.
+  - type: textarea
+    id: stack
+    attributes:
+      label: Stack
+      description: Kernel tree and commit, loader, userspace. Links to upstream PRs if any.
+  - type: textarea
+    id: known
+    attributes:
+      label: What has run so far
+      description: One line per feature, with a link to a log or a post. These become `kind: native` cells only with a result file.
