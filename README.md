@@ -1,13 +1,13 @@
-# M4Plus-Linux
+# M4-M5 Linux
 
 A shared tracker for Linux on Macs with the M4 and M5 chip families: which machine runs what, how sure we are, with
 which build, and where the code lives upstream. It holds status, dated result logs, tested build recipes and topic
 notes. **It holds no code and no binaries.**
 
-> **Where this repository lives.** The name M4Plus-Linux and its home were agreed on
+> **Where this repository lives.** The name M4-M5 Linux and its home were agreed on
 > [omacom/linux-aurora #293](https://github.com/omacom/linux-aurora/issues/293#issuecomment-6716546581): a new
 > repository under `omacom`, once the omacom maintainers confirm. Until then it is staged as
-> `rolotrealanis98/m4plus-linux` and will be **transferred to `omacom/m4plus-linux`** in one step (a GitHub transfer
+> `rolotrealanis98/m4-m5-linux` and will be **transferred to `omacom/m4-m5-linux`** in one step (a GitHub transfer
 > keeps history, issues and pull requests, and redirects the old URLs). If that confirmation does not come, the
 > fallback is a new neutral organisation with the same owners. Until a transfer, this project is independent of Apple,
 > Asahi Linux, omacom/Omarchy and Aurora Silicon, and speaks for none of them.

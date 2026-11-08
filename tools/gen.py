@@ -22,8 +22,8 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import common  # noqa: E402
 
 # Update after the transfer to omacom (the old URL keeps redirecting).
-REPO_URL = "https://github.com/rolotrealanis98/m4plus-linux"
-SITE_TITLE = "M4Plus-Linux"
+REPO_URL = "https://github.com/rolotrealanis98/m4-m5-linux"
+SITE_TITLE = "M4-M5 Linux"
 MARK = "<!-- {} GENERATED: {} -->"
 STATE_LABEL = {
     "works-daily": "works (daily)", "works-test": "works (test)", "attended": "attended", "prepared": "prepared",

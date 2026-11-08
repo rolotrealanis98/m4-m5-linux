@@ -1,4 +1,4 @@
-# Contributing to M4Plus-Linux
+# Contributing to M4-M5 Linux
 
 Thanks for helping. This repository tracks what runs on M4 and M5 Macs; it does not hold code. Read the
 [README](README.md) first for the states, the evidence rules, the AI policy and the governance.

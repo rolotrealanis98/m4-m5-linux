@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/rolotrealanis98/m4plus-linux/schema/prs.schema.json",
+  "$id": "https://github.com/rolotrealanis98/m4-m5-linux/schema/prs.schema.json",
   "title": "upstream/prs.yaml",
   "description": "Hand-written index of upstream pull requests that carry the code behind the tracker's cells. Live state is in upstream/status.json (generated).",
   "type": "object",

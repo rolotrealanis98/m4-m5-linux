@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/rolotrealanis98/m4plus-linux/schema/machine.schema.json",
+  "$id": "https://github.com/rolotrealanis98/m4-m5-linux/schema/machine.schema.json",
   "title": "machines/<board>/machine.yaml",
   "description": "Status source for one board. Feature ids come from schema/features.yaml; the evidence rules are enforced by tools/validate.py.",
   "type": "object",

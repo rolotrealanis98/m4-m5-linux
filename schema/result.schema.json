@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/rolotrealanis98/m4plus-linux/schema/result.schema.json",
+  "$id": "https://github.com/rolotrealanis98/m4-m5-linux/schema/result.schema.json",
   "title": "Front matter of machines/<board>/results/YYYY-MM-DD-<slug>.md",
   "type": "object",
   "required": ["date", "board", "setup", "kind", "kernel", "firmware", "attended", "features"],

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/rolotrealanis98/m4plus-linux/schema/build.schema.json",
+  "$id": "https://github.com/rolotrealanis98/m4-m5-linux/schema/build.schema.json",
   "title": "builds/<board>/<name>.yaml",
   "description": "A tested build recipe: what went into a payload and the sha256 of every ingredient and output. Never the binary.",
   "type": "object",

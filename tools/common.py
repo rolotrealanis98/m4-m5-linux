@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-"""Shared helpers for the M4Plus-Linux tools: YAML loading, a small JSON Schema checker,
+"""Shared helpers for the M4-M5 Linux tools: YAML loading, a small JSON Schema checker,
 result front matter, heading anchors, and the repository model. Standard library + PyYAML."""
 
 from __future__ import annotations
