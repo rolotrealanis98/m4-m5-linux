@@ -98,22 +98,22 @@ Hand-written index in [`upstream/prs.yaml`](upstream/prs.yaml); live state in
 <!-- BEGIN GENERATED: upstream -->
 | PR | Title | Machines | Features | State |
 |---|---|---|---|---|
-| [aurora-silicon/linux#937](https://github.com/aurora-silicon/linux/pull/937) | PCI: apple: adopt the T6050 root ports the boot loader trained | J716s, J716c | `wifi-bt.wifi` | open |
+| [aurora-silicon/linux#937](https://github.com/aurora-silicon/linux/pull/937) | PCI: apple: adopt the T6050 root ports the boot loader trained | J716s, J716c | `wifi-bt.wifi` | merged |
 | [aurora-silicon/linux#945](https://github.com/aurora-silicon/linux/pull/945) | arm64: dts: apple: add the J716c (MacBook Pro 16-inch, M5 Max) | J716c, J716s | `boot.untethered` | merged |
-| [aurora-silicon/linux#946](https://github.com/aurora-silicon/linux/pull/946) | J716c: Thunderbolt 5 and USB4 on the right USB-C port | J716c, J716s | `thunderbolt` | open |
-| [aurora-silicon/linux#1012](https://github.com/aurora-silicon/linux/pull/1012) | drm/asahi, drm/apple: M5 GPU and firmware-27 display on integration/aurora | J716s | `gpu.firmware`, `display.dcp` | open |
+| [aurora-silicon/linux#946](https://github.com/aurora-silicon/linux/pull/946) | J716c: Thunderbolt 5 and USB4 on the right USB-C port | J716c, J716s | `thunderbolt` | closed |
+| [aurora-silicon/linux#1012](https://github.com/aurora-silicon/linux/pull/1012) | drm/asahi, drm/apple: M5 GPU and firmware-27 display on integration/aurora | J716s | `gpu.firmware`, `display.dcp` | merged |
 | [aurora-silicon/linux#1082](https://github.com/aurora-silicon/linux/pull/1082) | soc: apple: rtkit: wait up to 10 s for a handshake reply | J716s, J714s | `storage.nvme` | merged |
 | [aurora-silicon/linux#1083](https://github.com/aurora-silicon/linux/pull/1083) | HID: dockchannel-hid: settle 50 ms after releasing the AFE reset | J716s | `input.trackpad` | merged |
 | [aurora-silicon/linux#1084](https://github.com/aurora-silicon/linux/pull/1084) | hwmon: (macsmc) keep a fan whose optional keys are missing | J716s | `smc.sensors` | merged |
-| [aurora-silicon/linux#1152](https://github.com/aurora-silicon/linux/pull/1152) | arm64: idle: T6050 idles in WFI even with idle=nop | J716s | `cpu.idle` | open |
-| [aurora-silicon/linux#1160](https://github.com/aurora-silicon/linux/pull/1160) | Input: macsmc-input - confirm a lid-open report during system sleep | J716s | `sleep.s2idle`, `smc.lid` | open |
+| [aurora-silicon/linux#1152](https://github.com/aurora-silicon/linux/pull/1152) | arm64: idle: T6050 idles in WFI even with idle=nop | J716s | `cpu.idle` | merged |
+| [aurora-silicon/linux#1160](https://github.com/aurora-silicon/linux/pull/1160) | Input: macsmc-input - confirm a lid-open report during system sleep | J716s | `sleep.s2idle`, `smc.lid` | merged |
 | [aurora-silicon/linux#1167](https://github.com/aurora-silicon/linux/pull/1167) | arm64: dts: apple: add the J716s (MacBook Pro 16-inch, M5 Pro) | J716s | `boot.untethered`, `storage.nvme`, `input.keyboard`, `input.trackpad`, `smc.battery`, `smc.sensors`, `usb.host` | merged |
-| [aurora-silicon/linux#1173](https://github.com/aurora-silicon/linux/pull/1173) | drm/asahi: M5: InitData for the macOS 27.2 and 27.3 firmware (G17S bring-up on J716s) | J716s | `gpu.firmware`, `gpu.vulkan`, `gpu.gl` | open |
-| [aurora-silicon/linux#1174](https://github.com/aurora-silicon/linux/pull/1174) | drm/apple: firmware 27.3 IOMFB method table and swap layout | J716s | `display.dcp` | open |
-| [aurora-silicon/linux#1182](https://github.com/aurora-silicon/linux/pull/1182) | PCI: apple: train a T6050 root port the boot loader left down (J716s N1) | J716s, J714c | `wifi-bt.wifi`, `wifi-bt.bt` | open |
-| [aurora-silicon/linux#1183](https://github.com/aurora-silicon/linux/pull/1183) | arm64: dts: apple: t6050-j716s: let the kernel train the N1 root port (on #1167) | J716s | `wifi-bt.wifi`, `wifi-bt.bt` | open |
+| [aurora-silicon/linux#1173](https://github.com/aurora-silicon/linux/pull/1173) | drm/asahi: M5: InitData for the macOS 27.2 and 27.3 firmware (G17S bring-up on J716s) | J716s | `gpu.firmware`, `gpu.vulkan`, `gpu.gl` | draft |
+| [aurora-silicon/linux#1174](https://github.com/aurora-silicon/linux/pull/1174) | drm/apple: firmware 27.3 IOMFB method table and swap layout | J716s | `display.dcp` | merged |
+| [aurora-silicon/linux#1182](https://github.com/aurora-silicon/linux/pull/1182) | PCI: apple: train a T6050 root port the boot loader left down (J716s N1) | J716s, J714c | `wifi-bt.wifi`, `wifi-bt.bt` | merged |
+| [aurora-silicon/linux#1183](https://github.com/aurora-silicon/linux/pull/1183) | arm64: dts: apple: t6050-j716s: let the kernel train the N1 root port (on #1167) | J716s | `wifi-bt.wifi`, `wifi-bt.bt` | merged |
 | [aurora-silicon/m1n1#65](https://github.com/aurora-silicon/m1n1/pull/65) | kboot: train the T6050 N1 link and fill its hand-off (J716s Wi-Fi/Bluetooth) | J716s | `wifi-bt.wifi`, `wifi-bt.bt` | open |
-| [aurora-silicon/mesa#194](https://github.com/aurora-silicon/mesa/pull/194) | asahi: native Gallium GL on the M5 Pro and M5 Max (G17S, G17C) | J716s, J714c | `gpu.gl-native` | open |
+| [aurora-silicon/mesa#194](https://github.com/aurora-silicon/mesa/pull/194) | asahi: native Gallium GL on the M5 Pro and M5 Max (G17S, G17C) | J716s, J714c | `gpu.gl-native` | merged |
 | [omacom/linux-aurora#404](https://github.com/omacom/linux-aurora/pull/404) | Add the T6050 (M5 Max) and the 14-inch MacBook Pro (J714c) | J714c | `cpu.smp`, `cpu.cpufreq`, `input.keyboard`, `input.trackpad`, `smc.battery`, `smc.sensors`, `wifi-bt.wifi` | open |
 | [omacom/linux-aurora#413](https://github.com/omacom/linux-aurora/pull/413) | Add the 16-inch MacBook Pro with the M5 Pro (J716s) | J716s | `boot.untethered` | open |
 | [omacom/m1n1#30](https://github.com/omacom/m1n1/pull/30) | T6050 (M5 Max, J714c): boot from disk through the Omarchy chain | J714c | `boot.untethered`, `boot.omarchy-chain` | open |
@@ -124,7 +124,7 @@ Hand-written index in [`upstream/prs.yaml`](upstream/prs.yaml); live state in
 | [omacom/m1n1#37](https://github.com/omacom/m1n1/pull/37) | kboot_gpu: T6050: hand the GPU to the G17 driver from the ADT (stacked on #34) | J716s | `gpu.firmware` | open |
 | [omacom/omarchy-mac-pkgs#103](https://github.com/omacom/omarchy-mac-pkgs/pull/103) | Cover the 16-inch M5 Pro (J716s) in the audio tests and the manual | J716s | `audio.speakers`, `audio.mic` | open |
 
-State from `upstream/status.json`, fetched 2026-11-08T10:44:53Z.
+State from `upstream/status.json`, fetched 2026-11-14T04:45:19Z.
 <!-- END GENERATED: upstream -->
 
 ## What lives here
